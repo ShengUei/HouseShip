@@ -1,0 +1,37 @@
+.form-div1 {
+    border: 2px solid #0B1A4A;
+    border-radius: 20px;
+    width: 600px;
+    margin: 10px auto;
+    margin-bottom: 50px;
+}
+
+.form-head2 {
+    margin: 20px auto;
+    text-align: center;
+}
+
+.form-divForm {
+    width: 500px;
+    margin: 20px auto;
+    text-align: left;
+}
+
+.form-divInput {
+    margin: 10px auto;
+    text-align: center;
+}
+
+.form-table input {
+    width: 250px;
+}
+
+.form-table td,
+.form-table th {
+    width: 250px
+}
+
+.form-btn {
+    width: 100px;
+}
+

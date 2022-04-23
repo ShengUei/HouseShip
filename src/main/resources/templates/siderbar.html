@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<div id="layoutSidenav_nav">
+    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+        <div class="sb-sidenav-menu">
+            <div class="nav">
+                <a class="nav-link home" href="index">
+                    <div class="sb-nav-link-icon">
+                        <i class="fa-brands fa-squarespace"></i>
+                    </div> 首頁
+                </a>
+                <div class="sb-sidenav-menu-heading">後台管理系統</div>
+                <a class="nav-link member" href="#">
+                    <div class="sb-nav-link-icon">
+                        <i class="fa-solid fa-user-gear"></i>
+                    </div> 會員管理
+                </a>
+                <a class="nav-link house" href="#">
+                <div class="sb-nav-link-icon">
+                    <i class="fa-solid fa-house"></i>
+                </div> 房源管理
+                </a>
+                <a class="nav-link order" href="#">
+                <div class="sb-nav-link-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div> 訂單管理
+                </a>
+<!--                <a class="nav-link coupon" href="#">-->
+<!--                <div class="sb-nav-link-icon">-->
+<!--                    <i class="fa-solid fa-coins"></i>-->
+<!--                </div> 優惠券-->
+<!--            </a> -->
+                <a class="nav-link forum" href="#">
+                <div class="sb-nav-link-icon">
+                    <i class="fas fa-book-open"></i>
+                </div> 討論版管理
+                </a>
+            </div>
+        </div>
+        <div class="sb-sidenav-footer">
+            <div class="small" th:text="'Logged in as: ${member.lastname}'"></div>
+            Project Manager
+        </div>
+    </nav>
+</div>
+</body>
+</html>
