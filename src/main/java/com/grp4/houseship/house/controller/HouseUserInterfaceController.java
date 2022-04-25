@@ -22,4 +22,5 @@ public class HouseUserInterfaceController {
         return "/ui/house/house-details";
     }
 
+
 }
