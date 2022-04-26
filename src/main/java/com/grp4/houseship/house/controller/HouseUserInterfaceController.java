@@ -1,6 +1,8 @@
 package com.grp4.houseship.house.controller;
 
 import com.grp4.houseship.house.model.HouseInfo;
+import com.grp4.houseship.house.model.HouseOffers;
+import com.grp4.houseship.house.model.HouseRules;
 import com.grp4.houseship.house.model.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
