@@ -4,12 +4,12 @@ import com.grp4.houseship.house.model.HouseInfo;
 import com.grp4.houseship.house.model.HouseOffers;
 import com.grp4.houseship.house.model.HouseRules;
 import com.grp4.houseship.house.model.HouseService;
+import com.grp4.houseship.member.model.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping(path = "/house")
@@ -30,7 +30,20 @@ public class HouseUserInterfaceController {
         HouseInfo houseInfo = new HouseInfo();
         houseInfo.setH_type(1);
         model.addAttribute("houseInfo", houseInfo);
-        return "/ui/house/add-new-house";
+        return "/ui/house/add-new-house-test";
+    }
+
+    @PostMapping(path = "/host/addnewhouse")
+    public String addNewHouse(@ModelAttribute("houseInfo") HouseInfo houseInfo,
+                              @RequestParam("city") String city,
+                              @RequestParam("address") String address,
+                              @RequestParam("photos") MultipartFile[] photos) {
+        Member member = new Member();
+        member.setAccount("admin");
+        houseInfo.setMember(member);
+        houseInfo.setH_address(city + address);
+        houseService.insert(houseInfo);
+        return "redirect:/house";
     }
 
 
