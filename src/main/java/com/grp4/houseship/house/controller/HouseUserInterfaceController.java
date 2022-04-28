@@ -30,7 +30,7 @@ public class HouseUserInterfaceController {
         HouseInfo houseInfo = new HouseInfo();
         houseInfo.setH_type(1);
         model.addAttribute("houseInfo", houseInfo);
-        return "/ui/house/add-new-house-test";
+        return "/ui/house/add-new-house-2";
     }
 
     @PostMapping(path = "/host/addnewhouse")
