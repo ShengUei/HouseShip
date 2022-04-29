@@ -1,0 +1,11 @@
+@import url(bootstrap.min.css);
+
+/* API CSS */
+@import url('https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css');
+@import url('https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css');
+
+/* template */
+@import url(style-admin.css);
+
+/* my css */
+@import url(style-admin-form.css);

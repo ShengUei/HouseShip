@@ -1,31 +1,17 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org">
-<head>
+<head >
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title th:text="${houseInfo.h_title}">house detail</title>
-
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css?family=Lora:400,700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Cabin:400,500,600,700&display=swap" rel="stylesheet">
-
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="/houseship/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="/houseship/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="/houseship/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="/houseship/css/flaticon.css" type="text/css">
-    <link rel="stylesheet" href="/houseship/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="/houseship/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="/houseship/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="/houseship/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="/houseship/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="/houseship/css/style-sona.css" type="text/css">
-
+    <title th:text="${houseInfo.h_title}">房屋資訊</title>
+    <link rel="stylesheet" href="/houseship/css/style-ui-link.css">
+    
+	<!-- Customize CSS -->
     <style>
         .list {
             margin:0 20px;
@@ -53,10 +39,10 @@
 
 </head>
 <body>
+    <header th:replace="/ui/header-section.html"></header>
     <div th:replace="/ui/page-preloder.html"></div>
     <div th:replace="/ui/offcanvas-menu-section.html"></div>
-    <header th:replace="/ui/header-section.html"></header>
-    <div th:replace="/ui/breadcrumb-section.html"></div>
+    <div th:replace="/ui/house/breadcrumb-section.html"></div>
 
     <!-- Room Details Section Begin -->
     <section class="room-details-section spad">
@@ -67,7 +53,7 @@
                         <img src="/houseship/images/house/room-details.jpg" alt="">
                         <div class="rd-text" th:object="${houseInfo}">
                             <div class="rd-title">
-                                <h3 th:text="*{h_title}">House Title</h3>
+                                <h3 th:text="*{h_title}">房屋名稱</h3>
                                 <!-- Rating Begin -->
 <!--                                <div class="rdt-right">-->
 <!--                                    <div class="rating">-->
@@ -81,45 +67,22 @@
 <!--                                </div>-->
                                 <!-- Rating End -->
                             </div>
-                            <h2 th:utext="'$' + *{#numbers.formatInteger(h_price,0)} + '<span>/每晚</span>'">159$<span>/Pernight</span></h2>
+                            <h2 th:utext="'$' + *{#numbers.formatInteger(h_price,0)} + '<span>/每晚</span>'">每晚價格</h2>
                             <table>
                                 <tbody>
                                 <tr>
                                     <td class="r-o">地址:</td>
                                     <td th:text="*{h_address}">address</td>
                                 </tr>
-<!--                                <tr>-->
-<!--                                    <td class="r-o">Size:</td>-->
-<!--                                    <td>30 ft</td>-->
-<!--                                </tr>-->
                                 <tr th:switch="*{h_type}">
                                     <td class="r-o">房型:</td>
                                     <td th:case="'1'">單人房</td>
                                     <td th:case="'2'">雙人房</td>
                                     <td th:case="'4'">四人房</td>
                                 </tr>
-<!--                                <tr>-->
-<!--                                    <td class="r-o">Bed:</td>-->
-<!--                                    <td>King Beds</td>-->
-<!--                                </tr>-->
-<!--                                <tr>-->
-<!--                                    <td class="r-o">Services:</td>-->
-<!--                                    <td>Wifi, Television, Bathroom,...</td>-->
-<!--                                </tr>-->
                                 </tbody>
                             </table>
-                            <p class="f-para" th:text="*{h_about}">Motorhome or Trailer that is the question for you. Here are some of the
-                                advantages and disadvantages of both, so you will be confident when purchasing an RV.
-                                When comparing Rvs, a motorhome or a travel trailer, should you buy a motorhome or fifth
-                                wheeler? The advantages and disadvantages of both are studied so that you can make your
-                                choice wisely when purchasing an RV. Possessing a motorhome or fifth wheel is an
-                                achievement of a lifetime. It can be similar to sojourning with your residence as you
-                                search the various sites of our great land, America.</p>
-<!--                            <p>The two commonly known recreational vehicle classes are the motorized and towable.-->
-<!--                                Towable rvs are the travel trailers and the fifth wheel. The rv travel trailer or fifth-->
-<!--                                wheel has the attraction of getting towed by a pickup or a car, thus giving the-->
-<!--                                adaptability of possessing transportation for you when you are parked at your campsite.-->
-<!--                            </p>-->
+                            <p class="f-para" th:text="*{h_about}">房間介紹</p>
                             <hr>
                             <h5>有提供的設備</h5>
                             <br>
@@ -304,16 +267,7 @@
     <!-- Room Details Section End -->
 
     <footer th:replace="/ui/footer-section.html"></footer>
-    <div th:replace="/ui/search-model.html"></div>
-
-    <!-- Js Plugins -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="/houseship/js/bootstrap.min.js"></script>
-    <script src="/houseship/js/jquery.magnific-popup.min.js"></script>
-    <script src="/houseship/js/jquery.nice-select.min.js"></script>
-    <script src="/houseship/js/jquery-ui.min.js"></script>
-    <script src="/houseship/js/jquery.slicknav.js"></script>
-    <script src="/houseship/js/owl.carousel.min.js"></script>
-    <script src="/houseship/js/main.js"></script>
+    
+    <div th:replace="/ui/js.html"></div>
 </body>
 </html>

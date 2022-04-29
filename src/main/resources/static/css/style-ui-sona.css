@@ -392,6 +392,9 @@ ul, ol {
 .menu-item .logo a {
 	display: inline-block;
 }
+.menu-item .logo img {
+	width: 150px;
+}
 .menu-item .nav-menu {
 	text-align: right;
 }
@@ -440,6 +443,9 @@ ul, ol {
 	-o-transition: all 0.3s;
 	transition: all 0.3s;
 }
+.menu-item .nav-menu .mainmenu li i {
+	font-size: 20px;
+}
 .menu-item .nav-menu .mainmenu li .dropdown {
 	position: absolute;
 	left: 0;
@@ -481,7 +487,7 @@ ul, ol {
 	padding: 27px 0px;
 }
 .menu-item .nav-menu .nav-right i {
-	font-size: 16px;
+	font-size: 20px;
 	color: #19191a;
 	cursor: pointer;
 }
@@ -539,6 +545,17 @@ ul, ol {
 	margin-bottom: 10px;
 }
 .booking-form form .check-date input {
+	width: 100%;
+	height: 50px;
+	border: 1px solid #ebebeb;
+	border-radius: 2px;
+	font-size: 16px;
+	color: #19191a;
+	text-transform: uppercase;
+	font-weight: 500;
+	padding-left: 20px;
+}
+.booking-form form .check-date select {
 	width: 100%;
 	height: 50px;
 	border: 1px solid #ebebeb;
@@ -647,7 +664,7 @@ ul, ol {
 -----------------------*/
 
 .about-text {
-	text-align: center;
+	text-align: left;
 	padding: 0 35px;
 }
 .about-text p {
@@ -664,7 +681,9 @@ ul, ol {
 	color: #19191a;
 }
 .about-pic img {
-	min-width: 100%;
+	/* min-width: 100%; */
+	height: 250px;
+	object-fit: cover;
 }
 /*---------------------
   Service Section

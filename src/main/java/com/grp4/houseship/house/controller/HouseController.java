@@ -21,13 +21,13 @@ public class HouseController {
     @GetMapping
     public String searchAllHouse(Model model) {
         model.addAttribute("houseInfoList", houseServiece.searchAll());
-        return "house/HouseInfo";
+        return "/admin/house/HouseInfo";
     }
     
     @GetMapping (path = "/housedetail/{houseid}")
     public String searchHouseDetail(@PathVariable("houseid") int houseid, Model model) {
         model.addAttribute("houseInfo", houseServiece.searchById(houseid));
-        return "house/HouseDetail";
+        return "/admin/house/HouseDetail";
     }
 
     @GetMapping(path = "/addnewhouse")
@@ -36,7 +36,7 @@ public class HouseController {
         houseInfo.setH_price(1);
         houseInfo.setH_type(1);
         model.addAttribute("houseInfo", houseInfo);
-        return "house/CreateHouseInfo";
+        return "/admin/house/CreateHouseInfo";
     }
 
     @PostMapping(path = "/addnewhouse")
@@ -52,7 +52,7 @@ public class HouseController {
     public String updateHouseConfirm(@PathVariable("houseid") int houseid, Model model) {
         HouseInfo houseInfo = houseServiece.searchById(houseid);
         model.addAttribute("houseInfo", houseInfo);
-        return "house/UpdateHouseInfo";
+        return "/admin/house/UpdateHouseInfo";
     }
 
     @PostMapping(path = "/updatehouse/{houseid}")
@@ -68,7 +68,7 @@ public class HouseController {
     @GetMapping(path = "/deletehouse/{houseid}")
     public String deleteHouseConfirm(@PathVariable("houseid") int houseid, Model model) {
         model.addAttribute("houseInfo", houseServiece.searchById(houseid));
-        return "house/DeleteHouseInfo";
+        return "/admin/house/DeleteHouseInfo";
     }
 
     @PostMapping(path = "/deletehouse/{houseid}")

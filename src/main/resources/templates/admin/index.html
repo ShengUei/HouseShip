@@ -9,24 +9,13 @@
     <meta http-equiv="Expires" content="0" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>HouseShip Dashboard</title>
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-
-    <!-- API CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css"
-          href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" /> <!-- daterangepicker css -->
-
-    <!-- my CSS -->
-    <link type="text/css" href="css/styles.css" rel="stylesheet" />
-    <link rel="stylesheet" href="css/mystyle.css">
+    <link rel="stylesheet" href="/houseship/css/style-admin-link.css">
 
 </head>
 <body class="sb-nav-fixed">
-    <header th:replace="header.html"></header>
+    <header th:replace="/admin/header.html"></header>
     <div id="layoutSidenav">
-    <nav th:replace="sidebar.html"></nav>
+    <nav th:replace="/admin/sidebar.html"></nav>
     <div id="layoutSidenav_content">
         <!--   main start(由此放入各自的內容)   -->
         <main>
@@ -156,31 +145,10 @@
             </div>
         </main>
         <!--   main end     -->
-        <footer th:replace="footer.html"></footer>
-    </div>
+        <footer th:replace="/admin/footer.html"></footer>
     </div>
 </div>
-    <!-- jquery & js-->
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://kit.fontawesome.com/6a69f60fc3.js" crossorigin="anonymous"></script>
-
-    <!-- chart.js -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
-            crossorigin="anonymous"></script>
-
-    <!-- datatables -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"
-            crossorigin="anonymous"></script>
-
-    <!-- DateRangePicker -->
-    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script> -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-
-    <!-- my script -->
-    <script type="text/javascript" src="js/datatables-simple-demo.js"></script>
-    <script type="text/javascript" src="js/mydatepicker.js"></script>
-    <script type="text/javascript" src="js/scripts.js"></script>
+<!-- Js Plugins -->
+<div th:replace="/admin/js.html"></div>
 </body>
 </html>

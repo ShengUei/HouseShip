@@ -1,8 +1,6 @@
 package com.grp4.houseship.house.controller;
 
 import com.grp4.houseship.house.model.HouseInfo;
-import com.grp4.houseship.house.model.HouseOffers;
-import com.grp4.houseship.house.model.HouseRules;
 import com.grp4.houseship.house.model.HouseService;
 import com.grp4.houseship.member.model.Member;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +15,11 @@ public class HouseUserInterfaceController {
 
     @Autowired
     private HouseService houseService;
+    
+    @GetMapping(path = "/search")
+    public String search() {
+        return "/ui/house/searchResults";
+    }
 
     @GetMapping(path = "/housedetails/{houseid}")
     public String houseDetails(@PathVariable("houseid") int houseid, Model model) {
@@ -30,7 +33,7 @@ public class HouseUserInterfaceController {
         HouseInfo houseInfo = new HouseInfo();
         houseInfo.setH_type(1);
         model.addAttribute("houseInfo", houseInfo);
-        return "/ui/house/add-new-house-2";
+        return "/ui/house/add-new-house";
     }
 
     @PostMapping(path = "/host/addnewhouse")

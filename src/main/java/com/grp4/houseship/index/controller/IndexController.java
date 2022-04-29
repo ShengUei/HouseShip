@@ -25,10 +25,10 @@ public class IndexController {
     @Autowired
     private ForumService forumservice;
     
-    @GetMapping(path = {"/"})
-    public String signIn() {
-    	return "signIn";
-    }
+//    @GetMapping(path = {"/"})
+//    public String signIn() {
+//    	return "signIn";
+//    }
 
     @GetMapping(path = {"/home", "/welcomePage"})
     public String home(Model model) {
@@ -36,6 +36,12 @@ public class IndexController {
         model.addAttribute("houseNumOfData", houseService.getDataCount());
         model.addAttribute("orderNumOfData", orderService.getDataCount());
         model.addAttribute("forumNumOfData", forumservice.getDataCount());
-        return "index";
+        return "/admin/index";
     }
+    
+    @GetMapping(path = "/")
+    public String index() {
+        return "/ui/index";
+    }
+
 }
