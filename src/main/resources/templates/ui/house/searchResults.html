@@ -88,14 +88,14 @@
                         </div>
                         <!-- Select items start -->
                         <div class="select-job-items2">
-                            <select name="select">
+                            <select id="select-type" name="house-type">
                                 <option value="">所有房型</option>
-                                <option value="">單人房</option>
-                                <option value="">雙人房</option>
-                                <option value="">三人房</option>
-                                <option value="">四人房</option>
-                                <option value="">整層住宅</option>
-                                <option value="">獨棟房屋</option>
+                                <option value="1">單人房</option>
+                                <option value="2">雙人房</option>
+<!--                                <option value="3">三人房</option>-->
+                                <option value="4">四人房</option>
+<!--                                <option value="">整層住宅</option>-->
+<!--                                <option value="">獨棟房屋</option>-->
                             </select>
                         </div>
                         <!--  Select items End-->
@@ -105,37 +105,53 @@
                                 <h4>設施及服務</h4>
                             </div>
                             <label class="container">WiFi
-                                <input type="checkbox">
+                                <input id="wifi" type="checkbox" value="true">
                                 <span class="checkmark"></span>
                             </label>
-                            <label class="container">空調
-                                <input type="checkbox">
+                            <label class="container">電視
+                                <input id="tv" type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="container">冰箱
+                                <input id="refrigerator" type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="container">冷氣
+                                <input id="aircon" type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="container">微波爐
+                                <input id="microwave" type="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="container">廚房
+                                <input id="kitchen" type="checkbox">
                                 <span class="checkmark"></span>
                             </label>
                             <label class="container">洗衣機
-                                <input type="checkbox">
+                                <input id="washer" type="checkbox">
                                 <span class="checkmark"></span>
                             </label>
-                            <label class="container">獨立衛浴
-                                <input type="checkbox">
-                                <span class="checkmark"></span>
-                            </label>
+<!--                            <label class="container">獨立衛浴-->
+<!--                                <input type="checkbox">-->
+<!--                                <span class="checkmark"></span>-->
+<!--                            </label>-->
                             <label class="container">禁菸客房
-                                <input type="checkbox">
+                                <input id="smoking" type="checkbox" value="false">
                                 <span class="checkmark"></span>
                             </label>
-                            <label class="container">親子空間
-                                <input type="checkbox">
-                                <span class="checkmark"></span>
-                            </label>
+<!--                            <label class="container">親子空間-->
+<!--                                <input type="checkbox">-->
+<!--                                <span class="checkmark"></span>-->
+<!--                            </label>-->
                             <label class="container">寵物友善
-                                <input type="checkbox">
+                                <input id="pet" type="checkbox" value="true">
                                 <span class="checkmark"></span>
                             </label>
-                            <label class="container">停車場
-                                <input type="checkbox">
-                                <span class="checkmark"></span>
-                            </label>
+<!--                            <label class="container">停車場-->
+<!--                                <input type="checkbox">-->
+<!--                                <span class="checkmark"></span>-->
+<!--                            </label>-->
                         </div>
                         <!-- select-Categories End -->
                     </div>
@@ -172,7 +188,7 @@
                     </div>
                     <div class="single-listing">
                         <div class="small-section-tittle2">
-                            <button type="submit" class="btn">進階查詢</button>
+                            <button type="submit" class="btn" onclick="advancedSearch()">進階查詢</button>
                         </div>
                     </div>
                 </div>

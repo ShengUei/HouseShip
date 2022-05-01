@@ -1,8 +1,7 @@
+const searchResultsContainer = $('#search-results');
+const countResultSpan = $('#count-result-span');
 
 function searchResult () {
-    const searchResultsContainer = $('#search-results');
-    const countResultSpan = $('#count-result-span');
-
     $.ajax({
         method: 'GET',
         url: '/houseship/house/api/search-result',
@@ -25,6 +24,54 @@ function searchResult () {
 }
 
 searchResult();
+
+function advancedSearch () {
+    let isSmoking = true;
+    if ($('#smoking').is(':checked')) {
+        isSmoking = false;
+    }
+
+    let houseInfo = {
+        h_type: $('#select-type').value,
+        // h_price: price,
+        houseOffers: {
+            wifi: $('#wifi').is(':checked'),
+            tv: $('#tv').is(':checked'),
+            refrigerator: $('#refrigerator').is(':checked'),
+            aircon: $('#aircon').is(':checked'),
+            microwave: $('#microwave').is(':checked'),
+            kitchen: $('#kitchen').is(':checked'),
+            washer: $('#washer').is(':checked')
+        },
+        houseRules: {
+            smoking: isSmoking,
+            pet: $('#pet').is(':checked'),
+        }
+
+    }
+
+    const jsonData = JSON.stringify(houseInfo);
+
+    $.ajax({
+        method: 'GET',
+        url: '/houseship/house/api/advanced-search-result',
+        async: 'true',
+        dataType: "json",
+        data: jsonData,
+        contentType: 'application/json; charset=utf-8',
+
+        success:function(jsonData){
+            countResultSpan.append('查詢結果: 共' + jsonData.length + '筆');
+            render(jsonData, searchResultsContainer)
+        },
+
+        error:function(){
+            searchResultsContainer.append("<div class='single-items mb-30'>查無結果</div>");
+        },
+
+    });
+
+}
 
 function render(data, target) {
     $.each(data, (index, value) => {
@@ -66,10 +113,8 @@ function render(data, target) {
             "<div class='result-items'>" +
             "<div class='house-img'>" +
             "<a href='/houseship/house/housedetails/" + value.houseNo + "'>" +
-            "<img " +
-            "src='/houseship/images/house/room-details.jpg'" +
-            " alt='house image'>" +
-            "</a></div>" +
+            "<img src='/houseship/images/house/" + value.housePhotos[0].photoPath + "' alt='house image'></a>" +
+            "</div>" +
             "<div class='house-tittle house-tittle2' style='width: 300px'>" +
             "<a href='/houseship/house/housedetails/" + value.houseNo + "'>" +
             "<h4>" +

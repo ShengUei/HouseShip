@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.grp4.houseship.member.model.Member;
 
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "houseinfo")
@@ -54,8 +55,9 @@ public class HouseInfo implements Serializable {
 	@JoinColumn(name = "RULESNO", referencedColumnName = "RULESNO")
 	private HouseRules houseRules;
 
-//	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy ="houseInfo")
-//	private Set<HousePhotos> housePhotos;
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "HOUSENO", referencedColumnName = "HOUSENO")
+	private Set<HousePhotos> housePhotos;
 	
 	public HouseInfo() {
 	}
@@ -156,12 +158,12 @@ public class HouseInfo implements Serializable {
 		this.houseRules = houseRules;
 	}
 
-//	public Set<HousePhotos> getHousePhotos() {
-//		return housePhotos;
-//	}
-//
-//	public void setHousePhotos(Set<HousePhotos> housePhotos) {
-//		this.housePhotos = housePhotos;
-//	}
+	public Set<HousePhotos> getHousePhotos() {
+		return housePhotos;
+	}
+
+	public void setHousePhotos(Set<HousePhotos> housePhotos) {
+		this.housePhotos = housePhotos;
+	}
 
 }

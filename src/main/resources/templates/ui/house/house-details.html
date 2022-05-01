@@ -49,8 +49,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
-                    <div class="room-details-item">
-                        <img src="/houseship/images/house/room-details.jpg" alt="">
+                    <div class="room-details-item" th:each="photo : ${houseInfo.housePhotos}">
+                        <img src="/houseship/images/house/room-details.jpg" th:src="'/houseship/images/house/' + ${photo.photoPath}" alt="house image">
                         <div class="rd-text" th:object="${houseInfo}">
                             <div class="rd-title">
                                 <h3 th:text="*{h_title}">房屋名稱</h3>

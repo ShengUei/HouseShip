@@ -29,7 +29,7 @@ public class HouseUserInterfaceController {
 
     @GetMapping(path = "/api/search-result")
     @ResponseBody
-    public ResponseEntity<List<HouseInfo>> searchAllHouse() {
+    public ResponseEntity<List<HouseInfo>> searchAllHouses() {
         List<HouseInfo> houseList = houseService.searchAll();
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -37,6 +37,12 @@ public class HouseUserInterfaceController {
             return new ResponseEntity<> (HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<> (houseList, responseHeaders, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/api/advanced-search-result")
+    @ResponseBody
+    public ResponseEntity<List<HouseInfo>> advancedSearchAllHouses(@RequestBody HouseInfo houseInfo) {
+        return new ResponseEntity<> (HttpStatus.OK);
     }
 
     @GetMapping(path = "/housedetails/{houseid}")
