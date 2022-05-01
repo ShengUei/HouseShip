@@ -2,6 +2,7 @@ package com.grp4.houseship.house.model;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.grp4.houseship.member.model.Member;
 
 import java.io.Serializable;
@@ -42,6 +43,7 @@ public class HouseInfo implements Serializable {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ACCOUNT", referencedColumnName = "ACCOUNT")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Member member;
 
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

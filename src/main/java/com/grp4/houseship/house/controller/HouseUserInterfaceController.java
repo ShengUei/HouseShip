@@ -4,10 +4,16 @@ import com.grp4.houseship.house.model.HouseInfo;
 import com.grp4.houseship.house.model.HouseService;
 import com.grp4.houseship.member.model.Member;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(path = "/house")
@@ -19,6 +25,18 @@ public class HouseUserInterfaceController {
     @GetMapping(path = "/search")
     public String search() {
         return "/ui/house/searchResults";
+    }
+
+    @GetMapping(path = "/api/search-result")
+    @ResponseBody
+    public ResponseEntity<List<HouseInfo>> searchAllHouse() {
+        List<HouseInfo> houseList = houseService.searchAll();
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+        if(houseList.isEmpty()) {
+            return new ResponseEntity<> (HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<> (houseList, responseHeaders, HttpStatus.OK);
     }
 
     @GetMapping(path = "/housedetails/{houseid}")
