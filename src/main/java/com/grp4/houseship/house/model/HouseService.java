@@ -54,5 +54,13 @@ public class HouseService {
 	public Long getDataCount() {
 		return houseRepository.count();
 	}
+
+	public List<HouseInfo> findByPriceGreaterThan(double price) {
+		return houseRepository.findByH_priceGreaterThan(price);
+	}
+
+	public List<HouseInfo> findByPriceBetween(double min, double max) {
+		return houseRepository.findByH_priceBetween(min, max);
+	}
 	
 }

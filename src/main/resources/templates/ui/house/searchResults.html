@@ -89,7 +89,7 @@
                         <!-- Select items start -->
                         <div class="select-job-items2">
                             <select id="select-type" name="house-type">
-                                <option value="">所有房型</option>
+                                <option value="0">所有房型</option>
                                 <option value="1">單人房</option>
                                 <option value="2">雙人房</option>
 <!--                                <option value="3">三人房</option>-->
@@ -100,7 +100,7 @@
                         </div>
                         <!--  Select items End-->
                         <!-- select-Categories start -->
-                        <div class="select-Categories pt-80 pb-50">
+                        <div id="select-Categories" class="select-Categories pt-80 pb-50">
                             <div class="small-section-tittle2">
                                 <h4>設施及服務</h4>
                             </div>
@@ -109,27 +109,27 @@
                                 <span class="checkmark"></span>
                             </label>
                             <label class="container">電視
-                                <input id="tv" type="checkbox">
+                                <input id="tv" type="checkbox" value="true">
                                 <span class="checkmark"></span>
                             </label>
                             <label class="container">冰箱
-                                <input id="refrigerator" type="checkbox">
+                                <input id="refrigerator" type="checkbox" value="true">
                                 <span class="checkmark"></span>
                             </label>
                             <label class="container">冷氣
-                                <input id="aircon" type="checkbox">
+                                <input id="aircon" type="checkbox" value="true">
                                 <span class="checkmark"></span>
                             </label>
                             <label class="container">微波爐
-                                <input id="microwave" type="checkbox">
+                                <input id="microwave" type="checkbox" value="true">
                                 <span class="checkmark"></span>
                             </label>
                             <label class="container">廚房
-                                <input id="kitchen" type="checkbox">
+                                <input id="kitchen" type="checkbox" value="true">
                                 <span class="checkmark"></span>
                             </label>
                             <label class="container">洗衣機
-                                <input id="washer" type="checkbox">
+                                <input id="washer" type="checkbox" value="true">
                                 <span class="checkmark"></span>
                             </label>
 <!--                            <label class="container">獨立衛浴-->
@@ -210,7 +210,7 @@
                 </div>
                 <!-- Featured_Result_start -->
                 <section class="featured-area">
-                    <div id="search-results" class="container">
+                    <div class="container">
                         <!-- Count of Result list Start -->
                         <div class="row">
                             <div class="col-lg-12">
@@ -292,6 +292,7 @@
 <!--                            </div>-->
 <!--                        </div>-->
                         <!-- single-content End-->
+                        <div id="search-results"></div>
                     </div>
                 </section>
                 <!-- Featured_Result_end -->
@@ -322,7 +323,6 @@
 
 <!-- Footer Section Begin -->
 <footer th:replace="/ui/footer-section.html"></footer>
-
 
 <!-- Js Plugins -->
 <div th:replace="/ui/js.html"></div>

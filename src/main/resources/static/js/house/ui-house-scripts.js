@@ -16,6 +16,7 @@ function searchResult () {
         },
 
         error:function(){
+            countResultSpan.append('查詢結果: 共0筆');
             searchResultsContainer.append("<div class='single-items mb-30'>查無結果</div>");
         },
 
@@ -26,46 +27,50 @@ function searchResult () {
 searchResult();
 
 function advancedSearch () {
-    let isSmoking = true;
-    if ($('#smoking').is(':checked')) {
-        isSmoking = false;
-    }
+    const minPrice = $('#amountFrom').val();
+    const maxPrice = $('#amountTo').val();
 
-    let houseInfo = {
-        h_type: $('#select-type').value,
-        // h_price: price,
-        houseOffers: {
-            wifi: $('#wifi').is(':checked'),
-            tv: $('#tv').is(':checked'),
-            refrigerator: $('#refrigerator').is(':checked'),
-            aircon: $('#aircon').is(':checked'),
-            microwave: $('#microwave').is(':checked'),
-            kitchen: $('#kitchen').is(':checked'),
-            washer: $('#washer').is(':checked')
-        },
-        houseRules: {
-            smoking: isSmoking,
-            pet: $('#pet').is(':checked'),
+    const offers = new Map();
+    const rules = new Map();
+    const checked = $('#select-Categories').find('input:checked');
+
+    $(checked).each((index, value) => {
+        if(value.id === 'smoking' || value.id === 'pet') {
+            rules[value.id] = value.value;
+        } else {
+            offers[value.id] = value.value;
         }
+    });
 
+    let inputData = {
+        houseType: $('#select-type').val(),
+        priceZone: [minPrice, maxPrice],
+        greaterPrice: $('#price3000').is(':checked'),
+        houseOffers: offers,
+        houseRules: rules,
     }
 
-    const jsonData = JSON.stringify(houseInfo);
+    const jsonData = JSON.stringify(inputData);
 
     $.ajax({
-        method: 'GET',
+        method: 'POST',
         url: '/houseship/house/api/advanced-search-result',
         async: 'true',
         dataType: "json",
         data: jsonData,
         contentType: 'application/json; charset=utf-8',
 
-        success:function(jsonData){
-            countResultSpan.append('查詢結果: 共' + jsonData.length + '筆');
-            render(jsonData, searchResultsContainer)
+        success:function(response){
+            countResultSpan.html('');
+            searchResultsContainer.html('');
+            countResultSpan.append('查詢結果: 共' + response.length + '筆');
+            render(response, searchResultsContainer)
         },
 
         error:function(){
+            countResultSpan.html('');
+            searchResultsContainer.html('');
+            countResultSpan.append('查詢結果: 共0筆');
             searchResultsContainer.append("<div class='single-items mb-30'>查無結果</div>");
         },
 
@@ -99,6 +104,12 @@ function render(data, target) {
         }
         if(offers.washer === true) {
             offersList += ("<li>洗衣機</li>");
+        }
+        if(value.houseRules.smoking === false) {
+            offersList += ("<li>禁菸客房</li>");
+        }
+        if(value.houseRules.pet === true) {
+            offersList += ("<li>寵物友善</li>");
         }
 
         if (value.h_type === 1) {
