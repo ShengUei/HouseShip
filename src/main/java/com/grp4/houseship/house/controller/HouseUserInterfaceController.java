@@ -135,7 +135,8 @@ public class HouseUserInterfaceController {
     @GetMapping(path = "/host/addnewhouse")
     public String addNewhouse(Model model) {
         HouseInfo houseInfo = new HouseInfo();
-        houseInfo.setH_type(100);
+        houseInfo.setH_type(1);
+        houseInfo.setH_price(100);
         model.addAttribute("houseInfo", houseInfo);
         return "/ui/house/add-new-house";
     }
