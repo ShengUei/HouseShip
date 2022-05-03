@@ -13,11 +13,133 @@
     <link rel="stylesheet" href="/houseship/css/price_rangs.css">
     <link rel="stylesheet" href="/houseship/css/style-ui-search.css">
 
+    <style>
+        #customer-preloder {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 999999;
+            background: #ffffff;
+        }
+        #customer-loader {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -13px;
+            margin-left: -13px;
+            border-radius: 60px;
+            animation: customer-loader 0.8s linear infinite;
+            -webkit-animation: customer-loader 0.8s linear infinite;
+        }
+        @keyframes customer-loader {
+            0% {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+                border: 4px solid #f44336;
+                border-left-color: transparent;
+            }
+            50% {
+                -webkit-transform: rotate(180deg);
+                transform: rotate(180deg);
+                border: 4px solid #673ab7;
+                border-left-color: transparent;
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+                border: 4px solid #f44336;
+                border-left-color: transparent;
+            }
+        }
+        @-webkit-keyframes customer-loader {
+            0% {
+                -webkit-transform: rotate(0deg);
+                border: 4px solid #f44336;
+                border-left-color: transparent;
+            }
+            50% {
+                -webkit-transform: rotate(180deg);
+                border: 4px solid #673ab7;
+                border-left-color: transparent;
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+                border: 4px solid #f44336;
+                border-left-color: transparent;
+            }
+        }
+        #search-results-preloder {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 999999;
+            background: #ffffff;
+        }
+        #search-results-loader {
+            width: 40px;
+            height: 40px;
+            position: relative;
+            top: 50%;
+            left: 50%;
+            margin-top: -13px;
+            margin-left: -13px;
+            border-radius: 60px;
+            animation: search-results-loader 0.8s linear infinite;
+            -webkit-animation: search-results-loader 0.8s linear infinite;
+        }
+        @keyframes search-results-loader {
+            0% {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+                border: 4px solid #f44336;
+                border-left-color: transparent;
+            }
+            50% {
+                -webkit-transform: rotate(180deg);
+                transform: rotate(180deg);
+                border: 4px solid #673ab7;
+                border-left-color: transparent;
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+                border: 4px solid #f44336;
+                border-left-color: transparent;
+            }
+        }
+        @-webkit-keyframes search-results-loader {
+            0% {
+                -webkit-transform: rotate(0deg);
+                border: 4px solid #f44336;
+                border-left-color: transparent;
+            }
+            50% {
+                -webkit-transform: rotate(180deg);
+                border: 4px solid #673ab7;
+                border-left-color: transparent;
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+                border: 4px solid #f44336;
+                border-left-color: transparent;
+            }
+        }
+    </style>
+
 </head>
 
 <body>
 <!-- Page Preloder -->
-<div th:replace="/ui/page-preloder.html"></div>
+<!--<div th:replace="/ui/page-preloder.html"></div>-->
+<div id="customer-preloder">
+    <div id="customer-loader"></div>
+</div>
 
 <!-- Offcanvas Menu Section Begin -->
 <div th:replace="/ui/offcanvas-menu-section.html"></div>
@@ -219,10 +341,10 @@
                                     <!-- Select Result items start -->
                                     <div class="select-items">
                                         <span>排序: </span>
-                                        <select name="select">
-                                            <option value="">默認</option>
-                                            <option value="">價格低到高</option>
-                                            <option value="">價格高到低</option>
+                                        <select id="select-price" name="select">
+                                            <option id="select-price-default" value="default">默認</option>
+                                            <option value="asc">價格低到高</option>
+                                            <option value="desc">價格高到低</option>
                                         </select>
                                     </div>
                                     <!--  Select Result items End-->
@@ -292,7 +414,11 @@
 <!--                            </div>-->
 <!--                        </div>-->
                         <!-- single-content End-->
+                        <div id="search-results-preloder" style="display: none">
+                            <div id="search-results-loader" style="display: none"></div>
+                        </div>
                         <div id="search-results"></div>
+
                     </div>
                 </section>
                 <!-- Featured_Result_end -->

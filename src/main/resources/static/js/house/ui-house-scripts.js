@@ -1,6 +1,8 @@
 const searchResultsContainer = $('#search-results');
 const countResultSpan = $('#count-result-span');
 
+searchResult();
+
 function searchResult () {
     $.ajax({
         method: 'GET',
@@ -12,7 +14,7 @@ function searchResult () {
 
         success:function(jsonData){
             countResultSpan.append('查詢結果: 共' + jsonData.length + '筆');
-            render(jsonData, searchResultsContainer)
+            render(jsonData, searchResultsContainer);
         },
 
         error:function(){
@@ -20,13 +22,30 @@ function searchResult () {
             searchResultsContainer.append("<div class='single-items mb-30'>查無結果</div>");
         },
 
+        complete: function(){
+            $("#customer-loader").fadeOut();
+            $("#customer-preloder").delay(200).fadeOut("slow");
+        }
     });
 
 }
 
-searchResult();
-
 function advancedSearch () {
+    $($('.nice-select')[1]).find('span').text('默認');
+    $($('.nice-select')[1]).find('li').each((index, value) => {
+        if(index === 0) {
+            value.className = 'option selected';
+        } else {
+            value.className = 'option';
+        }
+    })
+
+    countResultSpan.html('');
+    searchResultsContainer.html('');
+
+    $('#search-results-preloder').show();
+    $('#search-results-loader').show();
+
     const minPrice = $('#amountFrom').val();
     const maxPrice = $('#amountTo').val();
 
@@ -61,18 +80,19 @@ function advancedSearch () {
         contentType: 'application/json; charset=utf-8',
 
         success:function(response){
-            countResultSpan.html('');
-            searchResultsContainer.html('');
             countResultSpan.append('查詢結果: 共' + response.length + '筆');
             render(response, searchResultsContainer)
         },
 
         error:function(){
-            countResultSpan.html('');
-            searchResultsContainer.html('');
             countResultSpan.append('查詢結果: 共0筆');
             searchResultsContainer.append("<div class='single-items mb-30'>查無結果</div>");
         },
+
+        complete: function(){
+            $("#search-results-loader").fadeOut();
+            $("#search-results-preloder").delay(200).fadeOut("slow");
+        }
 
     });
 
@@ -148,5 +168,24 @@ function render(data, target) {
 
         target.append(houseContent);
     })
+}
+
+$('#select-price').on('change', sortByPrice);
+
+function sortByPrice() {
+    const target = $('#search-results');
+    const condition = $('#select-price').val();
+    target.find('.single-items').sort((a,b) => {
+        const aPrice = $(a).find('.items-link > span').text().split(' ')[0];
+        const bPrice = $(b).find('.items-link > span').text().split(' ')[0];
+        if(condition === 'asc') {
+            return aPrice - bPrice;
+        } else if (condition === 'desc') {
+            return bPrice - aPrice;
+        } else {
+            return 0;
+        }
+    }).appendTo(target);
+
 }
 
