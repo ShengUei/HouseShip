@@ -72,6 +72,7 @@
                 border-left-color: transparent;
             }
         }
+
         #search-results-preloder {
             position: relative;
             width: 100%;
@@ -130,7 +131,15 @@
                 border-left-color: transparent;
             }
         }
+
+        #map {
+            height: 100%;
+        }
     </style>
+
+    <!-- google map -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="/houseship/js/house/google-map.js" type="module"></script>
 
 </head>
 
@@ -428,7 +437,7 @@
             <!-- Map content -->
             <div class="col-xl-7 col-lg-7 col-md-7" >
                 <div class="row">
-
+                    <div id="map"></div>
                 </div>
             </div>
             <!-- Map content End-->
@@ -445,6 +454,7 @@
         </div>
     </div> <!-- Container End-->
 </div>
+
 <!-- Job List Area End -->
 
 <!-- Footer Section Begin -->
@@ -463,8 +473,12 @@
         $("#searchContent_close").hide();
     });
 </script>
-
 <script src="/houseship/js/house/ui-house-scripts.js" type="application/javascript"></script>
+
+<!-- google map -->
+<script async
+        src="#">
+</script>
 
 </body>
 
