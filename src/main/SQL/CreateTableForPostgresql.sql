@@ -17,7 +17,7 @@ CREATE TABLE houseinfo (
   h_title varchar(100),
   h_address varchar(100),
   h_type int,
-  h_about varchar(100),
+  h_about varchar(300),
   h_price decimal,
   offersNo int NOT NULL,
   rulesNo int NOT NULL
@@ -44,7 +44,7 @@ CREATE TABLE houseRules (
 
 CREATE TABLE housePhotos (
   photoNo int PRIMARY KEY NOT NULL GENERATED ALWAYS AS IDENTITY,
-  houseNo int NOT NULL,
+  houseNo int,
   photoPath varchar(255)
 );
 

@@ -1,9 +1,8 @@
 package com.grp4.houseship.house.controller;
 
-import com.grp4.houseship.house.model.AdvancedSearchModel;
-import com.grp4.houseship.house.model.HouseInfo;
-import com.grp4.houseship.house.model.HouseService;
+import com.grp4.houseship.house.model.*;
 import com.grp4.houseship.member.model.Member;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -11,9 +10,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.*;
 
 @Controller
@@ -133,26 +138,63 @@ public class HouseUserInterfaceController {
     }
 
     @GetMapping(path = "/host/addnewhouse")
-    public String addNewhouse(Model model) {
+    public String addNewHousePage(Model model) {
         HouseInfo houseInfo = new HouseInfo();
         houseInfo.setH_type(1);
         houseInfo.setH_price(100);
+        HouseRules houseRules = new HouseRules();
+        try {
+            houseRules.setCheck_in(new SimpleDateFormat("HH:mm").parse("15:00"));
+            houseRules.setCheck_out(new SimpleDateFormat("HH:mm").parse("11:00"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        houseInfo.setHouseRules(houseRules);
         model.addAttribute("houseInfo", houseInfo);
         return "/ui/house/add-new-house";
     }
 
     @PostMapping(path = "/host/addnewhouse")
-    public String addNewHouse(@ModelAttribute("houseInfo") HouseInfo houseInfo,
-                              @RequestParam("city") String city,
-                              @RequestParam("address") String address,
-                              @RequestParam("photos") MultipartFile[] photos) {
+    public String addNewHouse(Model model,
+                            @ModelAttribute("houseInfo") HouseInfo houseInfo,
+                            @RequestParam("photos") MultipartFile[] photos) {
         Member member = new Member();
         member.setAccount("admin");
         houseInfo.setMember(member);
-        houseInfo.setH_address(city + address);
-        houseService.insert(houseInfo);
-        return "redirect:/house";
-    }
 
+        if(photos != null && photos.length > 0 && photos.length < 5) {
+            List<HousePhotos> photosList = new ArrayList<>();
+            String fileName, pathname;
+            for(MultipartFile photo : photos){
+                HousePhotos housePhotos = new HousePhotos();
+                if(photo.getSize() <= 500000) {
+                    fileName = String.format("%s.%s", Instant.now().toEpochMilli(), photo.getContentType().split("/")[1]);
+                    try {
+                        pathname = ResourceUtils.getURL("classpath:").getPath() + "static/images/house/" + fileName;
+                        File file = new File(pathname);
+                        photo.transferTo(file);
+                        housePhotos.setPhotoPath(fileName);
+                        photosList.add(housePhotos);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    model.addAttribute("errMsg", "照片大小必須小於5MB");
+                    return "/ui/house/add-new-house";
+                }
+            }
+            houseInfo.setHousePhotos(photosList);
+        } else {
+            model.addAttribute("errMsg", "照片最多只能上傳5張");
+            return "/ui/house/add-new-house";
+        }
+
+        boolean insertStatue = houseService.insert(houseInfo);
+        if(insertStatue) {
+            return "redirect:/house/search";
+        }
+        model.addAttribute("errMsg", "上傳失敗");
+        return "/ui/house/add-new-house";
+    }
 
 }

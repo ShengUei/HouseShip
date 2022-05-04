@@ -142,7 +142,7 @@ function render(data, target) {
 
         let houseContent = "<div class='single-items mb-30'>" +
             "<div class='result-items'>" +
-            "<div class='house-img'>" +
+            "<div class='house-img' style='width: 350px'>" +
             "<a href='/houseship/house/housedetails/" + value.houseNo + "'>" +
             "<img src='/houseship/images/house/" + value.housePhotos[0].photoPath + "' alt='house image'></a>" +
             "</div>" +

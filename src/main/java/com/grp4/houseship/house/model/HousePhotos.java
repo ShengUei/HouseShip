@@ -15,7 +15,8 @@ public class HousePhotos implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int photoNo;
 
-	@Column(name = "HOUSENO")
+//	@Column(name = "HOUSENO")
+	@Transient
 	private int houseNo;
 	
 	@Column(name = "PHOTOPATH")
