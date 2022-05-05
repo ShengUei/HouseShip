@@ -163,7 +163,7 @@ function render(data, target) {
             "</div>" +
             "</div>" +
             "<div class='items-link items-link2 f-right'><span>" +
-            value.h_price +
+            value.h_price.toLocaleString() +
             " TWD/晚</span><a href='/houseship/house/housedetails/" + value.houseNo + "'>前往查看</a></div></div>";
 
         target.append(houseContent);

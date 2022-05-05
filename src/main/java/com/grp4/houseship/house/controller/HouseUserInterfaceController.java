@@ -162,6 +162,7 @@ public class HouseUserInterfaceController {
                             @ModelAttribute("houseInfo") HouseInfo houseInfo,
                             @RequestParam("photos") MultipartFile[] photos) {
         Member member = new Member();
+        member.setUser_id(1);
         member.setAccount("admin");
         houseInfo.setMember(member);
 
