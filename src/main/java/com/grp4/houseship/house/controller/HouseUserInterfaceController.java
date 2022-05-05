@@ -2,6 +2,7 @@ package com.grp4.houseship.house.controller;
 
 import com.grp4.houseship.house.model.*;
 import com.grp4.houseship.member.model.Member;
+import com.grp4.houseship.order.model.OrderDetail;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -134,6 +135,8 @@ public class HouseUserInterfaceController {
     public String houseDetails(@PathVariable("houseid") int houseid, Model model) {
         HouseInfo houseInfo = houseService.searchById(houseid);
         model.addAttribute("houseInfo", houseInfo);
+        OrderDetail orderDetail = new OrderDetail(houseInfo);
+        model.addAttribute("orderDetail", orderDetail);
         return "/ui/house/house-details";
     }
 

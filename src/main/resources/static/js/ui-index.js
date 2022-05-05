@@ -25,5 +25,13 @@ $(function () {
   $("#inputCity").autocomplete({
     source: DestinationTags
   });
+
+  var sidebar = new StickySidebar('#sidebar', { // 要固定的側邊欄
+    containerSelector: '#sidebarMainContent', // 側邊欄外面的區塊
+    innerWrapperSelector: '.sidebar__inner',
+    topSpacing: 20, // 距離頂部 20px，可理解成 padding-top:20px
+    bottomSpacing: 20 // 距離底部 20px，可理解成 padding-bottom:20px
+  });
+
 });
 

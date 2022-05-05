@@ -3,7 +3,7 @@
 @import url("https://fonts.googleapis.com/css?family=Cabin:400,500,600,700&display=swap");
 
 /* Css Styles */
-/*@import url(bootstrap.min_v4-4.css);*/
+@import url(bootstrap.min.css);
 @import url(font-awesome.min.css);
 @import url(elegant-icons.css);
 @import url(flaticon.css);
