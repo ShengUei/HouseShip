@@ -30,7 +30,7 @@ public class IndexController {
 //    	return "signIn";
 //    }
 
-    @GetMapping(path = {"/home", "/welcomePage"})
+    @GetMapping(path = {"/admin/home", "/welcomePage"})
     public String home(Model model) {
         model.addAttribute("memberNumOfData", memberService.getDataCount());
         model.addAttribute("houseNumOfData", houseService.getDataCount());

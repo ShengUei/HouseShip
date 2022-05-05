@@ -1,10 +1,13 @@
 package com.grp4.houseship.order.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.grp4.houseship.house.model.HouseInfo;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name = "orderdetail")
@@ -45,6 +48,11 @@ public class OrderDetail {
     //其他備註
     @Column(name = "NOTE")
     private String note;
+
+    //宣告OneToOne關係
+    @OneToOne(cascade = {CascadeType.PERSIST ,CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "GUESTID")
+    private Guest guest;
 
     //連結Order表
     @OneToOne(mappedBy = "orderDetail")
@@ -127,5 +135,13 @@ public class OrderDetail {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public Guest getGuest() {
+        return guest;
+    }
+
+    public void setGuest(Guest guest) {
+        this.guest = guest;
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -20,12 +21,19 @@ public class OrderService {
     }
 
     //新增
-    public boolean save(Order newOrder){
-        if (newOrder.getOrderDetail() != null){
-            System.out.println("有訂單明細");
-            ordersRepo.save(newOrder);
-            return true;
-        }return false;
+    public Order save(Order newOrder){
+        return ordersRepo.save(newOrder);
+    }
+
+    public Order findById(int orderId){
+        Optional<Order> optional = ordersRepo.findById(orderId);
+        if (optional.isPresent()){
+            return optional.get();
+        }return null;
+    }
+
+    public Order update(Order order){
+        return ordersRepo.save(order);
     }
 
 }

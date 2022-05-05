@@ -3,7 +3,7 @@ package com.grp4.houseship.coupon.model;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-//import javax.validation.constraints.Max;
+import javax.validation.constraints.Max;
 import java.util.Date;
 
 @Entity
@@ -25,7 +25,7 @@ public class Coupon {
     @Column(name = "STATUS")
     private CouponStatus status;
 
-//    @Max(value = 1, message = "折扣乘數應小於1")
+    @Max(value = 1, message = "折扣乘數應小於1")
     @Column(name = "DISCOUNT")
     private double discount;
 

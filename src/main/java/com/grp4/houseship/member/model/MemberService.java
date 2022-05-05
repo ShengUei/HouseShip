@@ -5,9 +5,6 @@ package com.grp4.houseship.member.model;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +15,6 @@ public class MemberService {
 	
 	@Autowired
 	private MemberRepository memberRepository;
-	
-	public Long getDataCount() {
-		return memberRepository.count();
-	}
 	 
 	public List<Member> findAll(){
 		return memberRepository.findAll();
@@ -31,7 +24,7 @@ public class MemberService {
 		//直接用findById就能找到欄位名為account的值,應該是透過Bean的設定@Id @Column(name="account")有關
 		//至於不是@Id的屬性是否還能找到就不知道了
 		//至少老師在已經設id為主鍵的情況下,在repository又重寫了一個findByName()?
-		Optional<Member> member = memberRepository.findById(account);
+		Optional<Member> member = memberRepository.findByAccount(account);
 		if(member.isPresent()) {
 			return member.get();
 		}
@@ -43,6 +36,7 @@ public class MemberService {
 		Member resultBean = findByAccount(member.getAccount());
 		if(resultBean==null) {
 			memberRepository.save(member);
+			
 			return true;
 		}
 		return false;
@@ -52,6 +46,9 @@ public class MemberService {
 	public Boolean update(Member newMemberInfo) {
 		
 		Member resultBean = findByAccount(newMemberInfo.getAccount());
+		System.out.println(resultBean.getUser_id());
+		System.out.println(newMemberInfo.getUser_id());
+		
 		if(resultBean!=null) {
 			memberRepository.save(newMemberInfo);
 			return true;
@@ -67,6 +64,10 @@ public class MemberService {
 			return true;
 		}
 		return false;
+	}
+	
+	public Long getDataCount() {
+		return memberRepository.count();
 	}
 
 }

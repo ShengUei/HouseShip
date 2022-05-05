@@ -162,11 +162,12 @@ function getBookingNight(startDate, endDate) {
 }
 
 function showPayment() {
-    let bookPrice = parseInt($("#h_bookPrice").text());
+    let bookPrice = parseInt($("#h_bookPrice_num").val());
     let checkInDate = new Date( $("#checkin_send_booking").val());
     let checkOutDate = new Date( $("#checkout_send_booking").val());
     let bookNight = getBookingNight(checkInDate, checkOutDate);
     let totalPay = bookPrice * bookNight;
+    console.log(totalPay);
     $("#payTotalSend").val(totalPay);
     $("#bookingNight").text(bookNight);
     $("#payTotal").text(totalPay.toLocaleString('zh-TW', {
@@ -182,3 +183,21 @@ if ($("#checkin_send_booking").val() != "") {
     showPayment();
 }
 
+
+/*------------------
+       Time Picker
+   --------------------*/
+var defaultCheckinTime = $("#defaultCheckinTime").val();
+$(".checkInTime").timepicker({
+    // minDate: 0,
+    // dateFormat: 'dd MM, yy'
+    timeFormat: "HH:mm", // 時間隔式
+    interval: 30, //時間間隔
+    minTime: defaultCheckinTime, //最小時間
+    maxTime: "23:00pm", //最大時間
+    defaultTime: defaultCheckinTime, //預設起始時間
+    startTime: defaultCheckinTime, // 開始時間
+    dynamic: true, //是否顯示項目，使第一個項目按時間順序緊接在所選時間之後
+    dropdown: true, //是否顯示時間條目的下拉列表
+    scrollbar: true //是否顯示捲軸
+});

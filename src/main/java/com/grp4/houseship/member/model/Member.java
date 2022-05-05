@@ -1,10 +1,21 @@
 package com.grp4.houseship.member.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
@@ -14,43 +25,56 @@ import org.springframework.stereotype.Component;
 @Entity @Table(name="member")
 public class Member implements Serializable {
 	
+
+
+
+
 	private static final long serialVersionUID = 1L;  //Bean要可序列化
 	//為什麼序列化要有private,static??
 	
-	@Id @Column(name="account")
-	//@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id @Column(name="USER_ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int user_id;
+	@Column(name="ACCOUNT",unique=true)
 	private String account;
-	@Column(name="hashed_pwd")
+	@Column(name="HASHED_PWD")
 	private String hashed_pwd;
-	@Column(name="salt")
-	private String salt;
-	@Column(name="lastname")
+	@Column(name="LASTNAME")
 	private String lastname;
-	@Column(name="firstname")
+	@Column(name="FIRSTNAME")
 	private String firstname;
-	@Column(name="birthday")
+	@Column(name="BIRTHDAY")
 	private String birthday;
-	@Column(name="email")
+	@Column(name="EMAIL")
 	private String email;
-	@Column(name="m_address")
+	@Column(name="M_ADDRESS")
 	private String m_address;
-	@Column(name="phone")
+	@Column(name="PHONE")
 	private String phone;
-	@Column(name="mempic")
+	@Column(name="MEMPIC")
+	
+	//getRoles()得到的會是role table裡一列一列的資料物件,如果該member有三個角色,則會取得三個資料物件
 	private String mempic;
+	@ManyToMany(cascade = {CascadeType.REFRESH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH}, fetch = FetchType.EAGER)
+	@JoinTable(
+			name = "member_roles",
+			joinColumns = @JoinColumn(name = "user_id" ),
+			inverseJoinColumns = @JoinColumn(name = "role_id")
+	)
+	private Set<Role> roles = new HashSet<>();
 	
 	
 	public Member() {  
 		
 	}
 	
-	public Member(String account, String hashed_pwd, String salt, String lastname, String firstname,
+	
+	public Member(int user_id, String account, String hashed_pwd, String salt, String lastname, String firstname,
 			String birthday, String email, String m_address, String phone, String mempic) {
 	
-		
+		this.user_id=user_id;
 		this.account = account;
 		this.hashed_pwd = hashed_pwd;
-		this.salt = salt;
 		this.lastname = lastname;
 		this.firstname = firstname;
 		this.birthday = birthday;
@@ -59,7 +83,16 @@ public class Member implements Serializable {
 		this.phone = phone;
 		this.mempic = mempic;
 	}
-
+	
+	public int getUser_id() {
+		return user_id;
+	}
+	
+	
+	public void setUser_id(int user_id) {
+		this.user_id = user_id;
+	}
+	
 	public String getAccount() {
 		return account;
 	}
@@ -82,17 +115,6 @@ public class Member implements Serializable {
 		this.hashed_pwd = hashed_pwd;
 	}
 
-	
-
-	public void setSalt(String salt) {
-		this.salt = salt;
-	}
-
-	
-	
-	public String getSalt() {
-		return salt;
-	}
 
 
 
@@ -178,4 +200,11 @@ public class Member implements Serializable {
 		this.mempic = mempic;
 	}
 
+	public Set<Role> getRoles() {
+		return roles;
+	}
+	
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
 }

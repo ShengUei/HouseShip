@@ -2,6 +2,7 @@ package com.grp4.houseship.order.model;
 
 public enum OrderStatus {
     //已付款
+    UnCheck("未付款"),
     Check("已付款"),
     //取消
     Cancel("已取消"),
