@@ -15,11 +15,17 @@ public class HouseService {
 	private HouseRepository houseRepository;
 
 	public List<HouseInfo> searchAll() {
-		return houseRepository.findAll();
+//		return houseRepository.findAll();
+		return houseRepository.findByStatusIsTrueOrderByCreatedDateDesc();
+	}
+
+	public List<HouseInfo> searchAllByCity(String city) {
+		return houseRepository.findByCityAndStatusIsTrueOrderByCreatedDateDesc(city);
 	}
 
 	public HouseInfo searchById(int id) {
-		Optional<HouseInfo> optional = houseRepository.findById(id);
+//		Optional<HouseInfo> optional = houseRepository.findById(id);
+		Optional<HouseInfo> optional = houseRepository.findByHouseNoAndStatusIsTrue(id);
 		if(optional.isPresent()) {
 			return optional.get();
 		}
@@ -37,6 +43,31 @@ public class HouseService {
 	public boolean update(int id, HouseInfo houseInfo) {
 		Optional<HouseInfo> optional = houseRepository.findById(id);
 		if(optional.isPresent()) {
+			houseRepository.save(houseInfo);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean enable(int id) {
+		Optional<HouseInfo> optional = houseRepository.findById(id);
+		if(optional.isPresent()) {
+			HouseInfo houseInfo = optional.get();
+			if (!houseInfo.isStatus()) {
+				houseInfo.setStatus(false);
+				houseRepository.save(houseInfo);
+				return true;
+			}
+			return false;
+		}
+		return false;
+	}
+
+	public boolean cancel(int id) {
+		Optional<HouseInfo> optional = houseRepository.findById(id);
+		if(optional.isPresent()) {
+			HouseInfo houseInfo = optional.get();
+			houseInfo.setStatus(false);
 			houseRepository.save(houseInfo);
 			return true;
 		}

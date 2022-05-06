@@ -110,12 +110,11 @@
                                     </div>
                                     <h5>房屋地址 :</h5>
                                     <div class="col-md-3">
-                                        <input required type="text" class="form-control" id="city" name="city" placeholder="請在此輸入縣市"/>
+                                        <input required th:field="*{city}" type="text" class="form-control" id="city" name="city" placeholder="請在此輸入縣市"/>
                                     </div>
                                     <div class="col-md-8">
-                                        <input required type="text" class="form-control" id="address" name="address" placeholder="請在此輸入地址"/>
+                                        <input required th:field="*{h_address}" type="text" class="form-control" id="address" name="h_address" placeholder="請在此輸入地址"/>
                                     </div>
-                                    <input th:field="*{h_address}" hidden type="text" id="hidden_address" name="h_address"/>
                                 </div>
                                 <br>
                                 <h5>房型 :</h5>
@@ -148,7 +147,7 @@
                                 <h5>房屋介紹 :</h5>
                                 <br>
                                 <div>
-                                    <textarea required class="form-control" style="resize: none; max-width: 100%" id="about" name="about" cols="110" rows="10" maxlength="300" placeholder="請在此輸入房屋介紹"></textarea>
+                                    <textarea required maxlength="300" class="form-control" style="resize: none; max-width: 100%" id="about" name="about" cols="110" rows="10" maxlength="300" placeholder="請在此輸入房屋介紹"></textarea>
                                     <textarea th:field="*{h_about}" hidden id="hidden_about" name="h_about"></textarea>
                                 </div>
                                 <hr style="max-width: 1000px">
@@ -417,17 +416,6 @@
     </script>
 
     <script>
-        let city = '';
-        let address = '';
-        $('#city').on('change', () => {
-            city = $('#city').val();
-            $('#hidden_address').val(city + address);
-        });
-        $('#address').on('change', () => {
-            address = $('#address').val();
-            $('#hidden_address').val(city + address);
-        });
-
         $('#about').on('change', () => {
             let about = '';
             let str = $('#about').val().split('\n');

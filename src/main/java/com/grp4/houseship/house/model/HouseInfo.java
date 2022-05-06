@@ -4,11 +4,16 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.grp4.houseship.member.model.Member;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "houseinfo")
 public class HouseInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -20,9 +25,22 @@ public class HouseInfo implements Serializable {
 	
 	@Transient
 	private String account;
+
+	@CreatedDate
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "CREATEDDate")
+	private Date createdDate;
+
+	@LastModifiedDate
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "LASTMODIFIEDDATE")
+	private Date lastModifiedDate;
 	
 	@Column(name = "H_TITLE")
 	private String h_title;
+
+	@Column(name = "H_CITY")
+	private String city;
 	
 	@Column(name = "H_ADDRESS")
 	private String h_address;
@@ -35,6 +53,9 @@ public class HouseInfo implements Serializable {
 	
 	@Column(name = "H_PRICE")
 	private double h_price;
+
+	@Column(name = "STATUS")
+	private boolean status;
 	
 	@Transient
 	private int offersNo;
@@ -116,6 +137,38 @@ public class HouseInfo implements Serializable {
 
 	public void setH_price(double h_price) {
 		this.h_price = h_price;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Date getLastModifiedDate() {
+		return lastModifiedDate;
+	}
+
+	public void setLastModifiedDate(Date lastModifiedDate) {
+		this.lastModifiedDate = lastModifiedDate;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 
 	public int getOffersNo() {

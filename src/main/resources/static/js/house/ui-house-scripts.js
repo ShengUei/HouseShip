@@ -154,7 +154,7 @@ function render(data, target) {
             "<div class='description'><ul><li>" +
             houseType +
             "</li><li><i class='icon_pin_alt'></i>" +
-            value.h_address +
+            value.city + value.h_address +
             "</li></ul>" +
             "<ul id='house-offers' >" +
             offersList +
@@ -176,8 +176,10 @@ function sortByPrice() {
     const target = $('#search-results');
     const condition = $('#select-price').val();
     target.find('.single-items').sort((a,b) => {
-        const aPrice = $(a).find('.items-link > span').text().split(' ')[0];
-        const bPrice = $(b).find('.items-link > span').text().split(' ')[0];
+        const aPrice = $(a).find('.items-link > span').text().replace(',','').split(' ')[0];
+        const bPrice = $(b).find('.items-link > span').text().replace(',','').split(' ')[0];
+        console.log("aPrice" + aPrice);
+        console.log("bPrice" + bPrice);
         if(condition === 'asc') {
             return aPrice - bPrice;
         } else if (condition === 'desc') {

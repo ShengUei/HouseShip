@@ -46,11 +46,23 @@ public class HouseUserInterfaceController {
         return new ResponseEntity<> (houseList, responseHeaders, HttpStatus.OK);
     }
 
+    @GetMapping(path = "/api/search-result-byCity")
+    @ResponseBody
+    public ResponseEntity<List<HouseInfo>> searchAllHousesByCity(@RequestBody HouseInfo houseInfo) {
+        List<HouseInfo> houseList = houseService.searchAllByCity(houseInfo.getCity());
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+        if(houseList.isEmpty()) {
+            return new ResponseEntity<> (HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<> (houseList, responseHeaders, HttpStatus.OK);
+    }
+
     @PostMapping(path = "/api/advanced-search-result")
     @ResponseBody
     public ResponseEntity<List<HouseInfo>> advancedSearchAllHouses(@RequestBody AdvancedSearchModel advancedSearchModel) {
         List<HouseInfo> houseList;
-        if(advancedSearchModel.isGreaterPrice() == true) {
+        if(advancedSearchModel.isGreaterPrice()) {
             houseList = houseService.findByPriceGreaterThan(3000);
         }else {
             Double[] priceZone = advancedSearchModel.getPriceZone();
@@ -134,9 +146,13 @@ public class HouseUserInterfaceController {
     @GetMapping(path = "/housedetails/{houseid}")
     public String houseDetails(@PathVariable("houseid") int houseid, Model model) {
         HouseInfo houseInfo = houseService.searchById(houseid);
-        model.addAttribute("houseInfo", houseInfo);
-        OrderDetail orderDetail = new OrderDetail(houseInfo);
-        model.addAttribute("orderDetail", orderDetail);
+        if(houseInfo != null) {
+            model.addAttribute("houseInfo", houseInfo);
+            OrderDetail orderDetail = new OrderDetail(houseInfo);
+            model.addAttribute("orderDetail", orderDetail);
+        } else {
+            model.addAttribute("errMsg", "查無資料");
+        }
         return "/ui/house/house-details";
     }
 
@@ -165,6 +181,7 @@ public class HouseUserInterfaceController {
         member.setUser_id(1);
         member.setAccount("admin");
         houseInfo.setMember(member);
+        houseInfo.setStatus(true);
 
         if(photos != null && photos.length > 0 && photos.length < 5) {
             List<HousePhotos> photosList = new ArrayList<>();

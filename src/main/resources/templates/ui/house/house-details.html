@@ -8,7 +8,7 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title th:text="${houseInfo.h_title}">房屋資訊</title>
+    <title th:if="${houseInfo != null}" th:text="${houseInfo.h_title}">房屋資訊</title>
 
     <link rel="stylesheet" href="/houseship/css/style-ui-link-for-house.css">
     <link rel="stylesheet" href="/houseship/css/style-ui-search.css">
@@ -68,7 +68,12 @@
 
     <!-- Room Details Section Begin -->
     <section class="room-details-section spad">
-        <div class="container">
+        <div class="container" th:if="${errMsg != null}">
+            <div class="row">
+                <div th:text="${errMsg}" style="text-align: center"></div>
+            </div>
+        </div>
+        <div class="container" th:if="${houseInfo != null}">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="room-details-item">
@@ -114,7 +119,7 @@
                                 <tbody>
                                 <tr>
                                     <td class="r-o">地址:</td>
-                                    <td th:text="*{h_address}">address</td>
+                                    <td th:text="*{city + h_address}">address</td>
                                 </tr>
                                 <tr th:switch="*{h_type}">
                                     <td class="r-o">房型:</td>
