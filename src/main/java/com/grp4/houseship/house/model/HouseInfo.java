@@ -65,7 +65,7 @@ public class HouseInfo implements Serializable {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ACCOUNT", referencedColumnName = "ACCOUNT")
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Member member;
 
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

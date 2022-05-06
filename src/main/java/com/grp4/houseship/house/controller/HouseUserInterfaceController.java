@@ -3,7 +3,6 @@ package com.grp4.houseship.house.controller;
 import com.grp4.houseship.house.model.*;
 import com.grp4.houseship.member.model.Member;
 import com.grp4.houseship.order.model.OrderDetail;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -15,6 +14,7 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
@@ -34,10 +34,23 @@ public class HouseUserInterfaceController {
         return "/ui/house/searchResults";
     }
 
+    @GetMapping(path = "/search/{city}")
+    public String searchByCity(@PathVariable("city") String city, HttpSession session) {
+        session.setAttribute("locationCity", city);
+        return "/ui/house/searchResults";
+    }
+
     @GetMapping(path = "/api/search-result")
     @ResponseBody
-    public ResponseEntity<List<HouseInfo>> searchAllHouses() {
-        List<HouseInfo> houseList = houseService.searchAll();
+    public ResponseEntity<List<HouseInfo>> searchAllHouses(HttpSession session) {
+        List<HouseInfo> houseList;
+        String locationCity = (String) session.getAttribute("locationCity");
+        if(!locationCity.isEmpty()) {
+            houseList = houseService.searchAllByCity(locationCity);
+        } else {
+            houseList = houseService.searchAll();
+        }
+        session.removeAttribute("locationCity");
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setContentType(MediaType.APPLICATION_JSON);
         if(houseList.isEmpty()) {
@@ -46,17 +59,17 @@ public class HouseUserInterfaceController {
         return new ResponseEntity<> (houseList, responseHeaders, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/api/search-result-byCity")
-    @ResponseBody
-    public ResponseEntity<List<HouseInfo>> searchAllHousesByCity(@RequestBody HouseInfo houseInfo) {
-        List<HouseInfo> houseList = houseService.searchAllByCity(houseInfo.getCity());
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setContentType(MediaType.APPLICATION_JSON);
-        if(houseList.isEmpty()) {
-            return new ResponseEntity<> (HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<> (houseList, responseHeaders, HttpStatus.OK);
-    }
+//    @GetMapping(path = "/api/search-result-byCity")
+//    @ResponseBody
+//    public ResponseEntity<List<HouseInfo>> searchAllHousesByCity(@RequestBody HouseInfo houseInfo) {
+//        List<HouseInfo> houseList = houseService.searchAllByCity(houseInfo.getCity());
+//        HttpHeaders responseHeaders = new HttpHeaders();
+//        responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+//        if(houseList.isEmpty()) {
+//            return new ResponseEntity<> (HttpStatus.NOT_FOUND);
+//        }
+//        return new ResponseEntity<> (houseList, responseHeaders, HttpStatus.OK);
+//    }
 
     @PostMapping(path = "/api/advanced-search-result")
     @ResponseBody
