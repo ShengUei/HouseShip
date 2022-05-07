@@ -1,5 +1,6 @@
 package com.grp4.houseship.house.model;
 
+import com.grp4.houseship.member.model.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,6 +46,10 @@ public class HouseService {
 				" join housePhotos p on i.houseNo = p.houseNo" +
 				" where ";
 		return entityManager.createNativeQuery(sqlStr + str, HouseInfo.class).getResultList();
+	}
+
+	public List<HouseInfo> searchByAccount(Member member) {
+		return houseRepository.findByMemberAndStatusIsTrueOrderByCreatedDateDesc(member);
 	}
 
 	public boolean insert(HouseInfo houseInfo) {

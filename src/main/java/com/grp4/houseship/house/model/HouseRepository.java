@@ -1,5 +1,6 @@
 package com.grp4.houseship.house.model;
 
+import com.grp4.houseship.member.model.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -13,6 +14,8 @@ public interface HouseRepository extends JpaRepository<HouseInfo, Integer> {
     List<HouseInfo> findByStatusIsTrueOrderByCreatedDateDesc();
 
     List<HouseInfo> findByCityAndStatusIsTrueOrderByCreatedDateDesc(String city);
+
+    List<HouseInfo> findByMemberAndStatusIsTrueOrderByCreatedDateDesc(Member member);
 
     @Query("from HouseInfo where h_price > :price and status = true order by createdDate desc")
     List<HouseInfo> findByH_priceGreaterThan(double price);

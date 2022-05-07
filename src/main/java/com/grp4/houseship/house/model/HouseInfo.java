@@ -28,7 +28,7 @@ public class HouseInfo implements Serializable {
 
 	@CreatedDate
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "CREATEDDate")
+	@Column(name = "CREATEDDATE")
 	private Date createdDate;
 
 	@LastModifiedDate

@@ -59,18 +59,6 @@ public class HouseUserInterfaceController {
         return new ResponseEntity<> (houseList, responseHeaders, HttpStatus.OK);
     }
 
-//    @GetMapping(path = "/api/search-result-byCity")
-//    @ResponseBody
-//    public ResponseEntity<List<HouseInfo>> searchAllHousesByCity(@RequestBody HouseInfo houseInfo) {
-//        List<HouseInfo> houseList = houseService.searchAllByCity(houseInfo.getCity());
-//        HttpHeaders responseHeaders = new HttpHeaders();
-//        responseHeaders.setContentType(MediaType.APPLICATION_JSON);
-//        if(houseList.isEmpty()) {
-//            return new ResponseEntity<> (HttpStatus.NOT_FOUND);
-//        }
-//        return new ResponseEntity<> (houseList, responseHeaders, HttpStatus.OK);
-//    }
-
     @PostMapping(path = "/api/advanced-search-result")
     @ResponseBody
     public ResponseEntity<List<HouseInfo>> advancedSearchAllHouses(@RequestBody AdvancedSearchModel advancedSearchModel) {
@@ -137,6 +125,15 @@ public class HouseUserInterfaceController {
             model.addAttribute("errMsg", "查無資料");
         }
         return "/ui/house/house-details";
+    }
+
+    @GetMapping(path = "/host/ownedhouse")
+    public String ownedHouse(HttpSession session, Model model) {
+        Member member = new Member();
+        member.setAccount("admin");
+
+        model.addAttribute("ownedList", houseService.searchByAccount(member));
+        return "/ui/house/ownedhouse";
     }
 
     @GetMapping(path = "/host/addnewhouse")
