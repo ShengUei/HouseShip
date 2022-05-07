@@ -75,78 +75,48 @@ public class HouseUserInterfaceController {
     @ResponseBody
     public ResponseEntity<List<HouseInfo>> advancedSearchAllHouses(@RequestBody AdvancedSearchModel advancedSearchModel) {
         List<HouseInfo> houseList;
+        StringBuilder sb = new StringBuilder();
+
         if(advancedSearchModel.isGreaterPrice()) {
-            houseList = houseService.findByPriceGreaterThan(3000);
+            sb.append("i.h_price > 3000");
         }else {
             Double[] priceZone = advancedSearchModel.getPriceZone();
-            houseList = houseService.findByPriceBetween(priceZone[0], priceZone[1]);
+            sb.append("i.h_price BETWEEN ").append(priceZone[0]).append(" AND ").append(priceZone[1]);
         }
 
-        Iterator<HouseInfo> iterator = houseList.iterator();
-
-        while (iterator.hasNext()) {
-            HouseInfo next = iterator.next();
-            if (advancedSearchModel.getHouseType() != 0) {
-                if(next.getH_type() != advancedSearchModel.getHouseType()) {
-                    iterator.remove();
-                    continue;
-                }
-            }
-            if(advancedSearchModel.getHouseOffers().containsKey("wifi")) {
-                if(!next.getHouseOffers().isWifi()) {
-                    iterator.remove();
-                    continue;
-                }
-            }
-            if(advancedSearchModel.getHouseOffers().containsKey("tv")) {
-                if(!next.getHouseOffers().isTv()) {
-                    iterator.remove();
-                    continue;
-                }
-            }
-            if(advancedSearchModel.getHouseOffers().containsKey("refrigerator")) {
-                if(!next.getHouseOffers().isRefrigerator()) {
-                    iterator.remove();
-                    continue;
-                }
-            }
-            if(advancedSearchModel.getHouseOffers().containsKey("aircon")) {
-                if(!next.getHouseOffers().isAircon()) {
-                    iterator.remove();
-                    continue;
-                }
-            }
-            if(advancedSearchModel.getHouseOffers().containsKey("microwave")) {
-                if(!next.getHouseOffers().isMicrowave()) {
-                    iterator.remove();
-                    continue;
-                }
-            }
-            if(advancedSearchModel.getHouseOffers().containsKey("kitchen")) {
-                if(!next.getHouseOffers().isKitchen()) {
-                    iterator.remove();
-                    continue;
-                }
-            }
-            if(advancedSearchModel.getHouseOffers().containsKey("washer")) {
-                if(!next.getHouseOffers().isWasher()) {
-                    iterator.remove();
-                    continue;
-                }
-            }
-            if(advancedSearchModel.getHouseRules().containsKey("smoking")) {
-                if(next.getHouseRules().isSmoking()) {
-                    iterator.remove();
-                    continue;
-                }
-            }
-            if(advancedSearchModel.getHouseRules().containsKey("pet")) {
-                if(!next.getHouseRules().isPet()) {
-                    iterator.remove();
-                    continue;
-                }
-            }
+        if (advancedSearchModel.getHouseType() != 0) {
+            sb.append(" AND i.h_type = ").append(advancedSearchModel.getHouseType());
         }
+        if(advancedSearchModel.getHouseOffers().containsKey("wifi")) {
+            sb.append(" AND o.wifi = 1");
+        }
+        if(advancedSearchModel.getHouseOffers().containsKey("tv")) {
+            sb.append(" AND o.tv = 1");
+        }
+        if(advancedSearchModel.getHouseOffers().containsKey("refrigerator")) {
+            sb.append(" AND o.refrigerator = 1");
+        }
+        if(advancedSearchModel.getHouseOffers().containsKey("aircon")) {
+            sb.append(" AND o.aircon = 1");
+        }
+        if(advancedSearchModel.getHouseOffers().containsKey("microwave")) {
+            sb.append(" AND o.microwave = 1");
+        }
+        if(advancedSearchModel.getHouseOffers().containsKey("kitchen")) {
+            sb.append(" AND o.microwave = 1");
+        }
+        if(advancedSearchModel.getHouseOffers().containsKey("washer")) {
+            sb.append(" AND o.microwave = 1");
+        }
+
+        if(advancedSearchModel.getHouseRules().containsKey("smoking")) {
+            sb.append(" AND r.smoking = 0");
+        }
+        if(advancedSearchModel.getHouseRules().containsKey("pet")) {
+            sb.append(" AND r.pet = 1");
+        }
+
+        houseList = houseService.advanceSearch(sb.toString());
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setContentType(MediaType.APPLICATION_JSON);

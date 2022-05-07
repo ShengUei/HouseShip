@@ -4,6 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +17,9 @@ public class HouseService {
 
 	@Autowired
 	private HouseRepository houseRepository;
+
+	@PersistenceContext
+	private EntityManager entityManager;
 
 	public List<HouseInfo> searchAll() {
 //		return houseRepository.findAll();
@@ -30,6 +37,14 @@ public class HouseService {
 			return optional.get();
 		}
 		return optional.orElse(null);
+	}
+
+	public List<HouseInfo> advanceSearch(String str) {
+		String sqlStr = "select * from houseinfo i join houseOffers o on i.offersNo = o.offersNo" +
+				" join houseRules r on i.rulesNo = r.rulesNo" +
+				" join housePhotos p on i.houseNo = p.houseNo" +
+				" where ";
+		return entityManager.createNativeQuery(sqlStr + str, HouseInfo.class).getResultList();
 	}
 
 	public boolean insert(HouseInfo houseInfo) {
