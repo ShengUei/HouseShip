@@ -163,6 +163,73 @@ public class HouseUserInterfaceController {
         houseInfo.setMember(member);
         houseInfo.setStatus(true);
 
+        List<HousePhotos> photosList = savePhoto(model, photos);
+
+        if(photosList == null) {
+            return "/ui/house/add-new-house";
+        }
+
+        houseInfo.setHousePhotos(photosList);
+
+        boolean insertStatue = houseService.insert(houseInfo);
+        if(insertStatue) {
+            return "redirect:/house/host/ownedhouse";
+        }
+        model.addAttribute("errMsg", "新增失敗");
+        return "/ui/house/add-new-house";
+    }
+
+    @GetMapping(path = "/host/updatehouse/{houseid}")
+    public String updateHousePage(@PathVariable("houseid") int houseid, Model model, HttpSession session) {
+        HouseInfo houseInfo = houseService.searchById(houseid);
+        session.setAttribute("tempPhotoList", houseInfo.getHousePhotos());
+        model.addAttribute("houseInfo", houseInfo);
+        return "/ui/house/update-house";
+    }
+
+    @PostMapping(path = "/host/updatehouse")
+    public String updateHouse(Model model,
+                              HttpSession session,
+                              @ModelAttribute("houseInfo") HouseInfo houseInfo,
+                              @RequestParam("photos") MultipartFile[] photos) {
+        List<HousePhotos> photosList;
+        Member member = new Member();
+        member.setUser_id(1);
+        member.setAccount("admin");
+        houseInfo.setMember(member);
+        houseInfo.setStatus(true);
+
+        if (houseInfo.getHousePhotos() == null) {
+            photosList = (List<HousePhotos>) session.getAttribute("tempPhotoList");
+        } else {
+            photosList = savePhoto(model, photos);
+            if(photosList == null) {
+                return "/ui/house/update-house";
+            }
+        }
+        houseInfo.setHousePhotos(photosList);
+
+        boolean insertStatue = houseService.insert(houseInfo);
+        if(insertStatue) {
+            return "redirect:/house/host/ownedhouse";
+        }
+        model.addAttribute("errMsg", "修改失敗");
+        return "/ui/house/update-house";
+    }
+
+    @PostMapping(path = "/host/cancelhouse/{houseid}")
+    @ResponseBody
+    public ResponseEntity<String> cancelHouse(@PathVariable("houseid") int houseid) {
+        boolean cancelStatue = houseService.cancel(houseid);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+        if (cancelStatue) {
+            return new ResponseEntity<>("刪除成功", responseHeaders, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("刪除失敗", responseHeaders, HttpStatus.BAD_REQUEST);
+    }
+
+    private List<HousePhotos> savePhoto(Model model, MultipartFile[] photos) {
         if(photos != null && photos.length > 0 && photos.length < 5) {
             List<HousePhotos> photosList = new ArrayList<>();
             String fileName, pathname;
@@ -181,21 +248,14 @@ public class HouseUserInterfaceController {
                     }
                 } else {
                     model.addAttribute("errMsg", "照片大小必須小於5MB");
-                    return "/ui/house/add-new-house";
+                    return null;
                 }
             }
-            houseInfo.setHousePhotos(photosList);
+            return photosList;
         } else {
             model.addAttribute("errMsg", "照片最多只能上傳5張");
-            return "/ui/house/add-new-house";
+            return null;
         }
-
-        boolean insertStatue = houseService.insert(houseInfo);
-        if(insertStatue) {
-            return "redirect:/house/search";
-        }
-        model.addAttribute("errMsg", "上傳失敗");
-        return "/ui/house/add-new-house";
     }
 
 }

@@ -29,7 +29,7 @@
         <div class="row" id="sidebarMainContent">
             <div class="col-lg-12">
                 <div>
-                    <a href="#" th:href="@{/house/addnewhouse}"
+                    <a href="#" th:href="@{/house/host/addnewhouse}"
                        style="margin-left: 1px; display: inline"><input
                             class="btn-primary" type="submit" name="new" value="新增"></a>
                     <table id="datatablesSimple">
@@ -59,13 +59,15 @@
                                 <img src="/houseship/images/house/room-details.jpg" th:src="'/houseship/images/house/' + *{house.housePhotos[0].photoPath}" alt="house image">
                             </td>
                             <td class="text-center">
-                                <a href="#" th:href="@{/house/housedetail/{houseNo}(houseNo=*{house.houseNo})}" class="btn btn-primary" role="button">詳細</a>
+                                <a href="#" th:href="@{/house/housedetails/{houseNo}(houseNo=*{house.houseNo})}" class="btn btn-primary" role="button">詳細</a>
                             </td>
                             <td class="text-center">
-                                <a href="#" th:href="@{/house/updatehouse/{houseNo}(houseNo=*{house.houseNo})}" class="btn btn-warning" role="button">修改</a>
+                                <a href="#" th:href="@{/house/host/updatehouse/{houseNo}(houseNo=*{house.houseNo})}" class="btn btn-warning" role="button">修改</a>
                             </td>
                             <td class="text-center">
-                                <a href="#" th:href="@{/house/deletehouse/{houseNo}(houseNo=*{house.houseNo})}" class="btn btn-danger" role="button">刪除</a>
+<!--                                <a href="#" th:href="@{/house/host/cancelhouse/{houseNo}(houseNo=*{house.houseNo})}" class="btn btn-danger" role="button">刪除</a>-->
+<!--                                <a href="#" id="cancel-house" class="btn btn-danger" role="button">刪除</a>-->
+                                <button type="button" id="cancel-house" class="btn btn-danger">刪除</button>
                             </td>
                         </tr>
                         </tbody>
@@ -90,6 +92,23 @@
 
 <!-- my script -->
 <script type="text/javascript" src="/houseship/js/datatables-simple-demo.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<script>
+    Swal.fire({
+        title: 'Do you want to save the changes?',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Save',
+        denyButtonText: `Don't save`,
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            Swal.fire('Saved!', '', 'success')
+        } else if (result.isDenied) {
+            Swal.fire('Changes are not saved', '', 'info')
+        }
+    })
+</script>
 </body>
 </html>
