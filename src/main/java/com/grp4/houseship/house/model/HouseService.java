@@ -43,7 +43,7 @@ public class HouseService {
 	public List<HouseInfo> advanceSearch(String str) {
 		String sqlStr = "select * from houseinfo i join houseOffers o on i.offersNo = o.offersNo" +
 				" join houseRules r on i.rulesNo = r.rulesNo" +
-				" join housePhotos p on i.houseNo = p.houseNo" +
+				" join (select houseNo ,min(photoPath) photoPath from housePhotos group by houseNo) p on i.houseNo = p.houseNo" +
 				" where ";
 		return entityManager.createNativeQuery(sqlStr + str, HouseInfo.class).getResultList();
 	}

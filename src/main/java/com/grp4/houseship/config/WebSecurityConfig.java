@@ -85,6 +85,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.rememberMe().tokenValiditySeconds(86400).key("rememberMe-key")
 		.and()
 		.csrf().disable()
+		.headers().frameOptions().sameOrigin()
+		.and()
 		//signIn.html的action必須是"/houseship/signinPage",spring security好像才能順利驗證
 		.formLogin().loginPage("/signinPage")
 		//.defaultSuccessUrl("/welcomePage") 用下面的handler代替了

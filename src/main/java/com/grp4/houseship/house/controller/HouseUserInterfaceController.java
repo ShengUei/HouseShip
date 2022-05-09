@@ -14,9 +14,11 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.net.http.HttpResponse;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -45,7 +47,7 @@ public class HouseUserInterfaceController {
     public ResponseEntity<List<HouseInfo>> searchAllHouses(HttpSession session) {
         List<HouseInfo> houseList;
         String locationCity = (String) session.getAttribute("locationCity");
-        if(!locationCity.isEmpty()) {
+        if(locationCity != null) {
             houseList = houseService.searchAllByCity(locationCity);
         } else {
             houseList = houseService.searchAll();
@@ -239,6 +241,11 @@ public class HouseUserInterfaceController {
             return new ResponseEntity<>("{\"message\": \"上架成功\"}", responseHeaders, HttpStatus.OK);
         }
         return new ResponseEntity<>("{\"message\": \"上架失敗\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping(path = "/map")
+    public String showMap() {
+        return "/ui/house/map";
     }
 
     private List<HousePhotos> savePhoto(Model model, MultipartFile[] photos) {

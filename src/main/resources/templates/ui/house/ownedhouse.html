@@ -45,7 +45,7 @@
 <!--                            <th>封面照片</th>-->
                             <th>功能</th>
                             <th>功能</th>
-                            <th>功能</th>
+                            <th >功能</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -55,7 +55,7 @@
                             <td th:unless="*{house.status == true}">下架中</td>
                             <td th:text="*{#dates.format(house.createdDate, 'yyyy/MM/dd')}">刊登時間</td>
                             <td th:text="*{#dates.format(house.lastModifiedDate, 'yyyy/MM/dd')}">最後編輯時間</td>
-                            <td th:text="*{house.h_title}">房屋名稱</td>
+                            <td style="max-width: 250px" th:text="*{house.h_title}">房屋名稱</td>
 <!--                            <td th:text="*{house.houseOffers.offersNo}">服務編號</td>-->
 <!--                            <td th:text="*{house.houseRules.rulesNo}">規章編號</td>-->
 <!--                            <td>-->
@@ -68,8 +68,6 @@
                                 <a href="#" th:href="@{/house/host/updatehouse/{houseNo}(houseNo=*{house.houseNo})}" class="btn btn-warning" role="button">修改</a>
                             </td>
                             <td class="text-center">
-<!--                                <a href="#" th:href="@{/house/host/cancelhouse/{houseNo}(houseNo=*{house.houseNo})}" class="btn btn-danger" role="button">刪除</a>-->
-<!--                                <a href="#" id="cancel-house" class="btn btn-danger" role="button">刪除</a>-->
                                 <button th:if="*{house.status == true}" id="disable-house" onclick="disableHouse()" type="button" class="btn btn-danger">下架房屋</button>
                                 <button th:unless="*{house.status == true}" id="enable-house" onclick="enableHouse()" type="button" class="btn btn-success">重新上架</button>
                             </td>
@@ -98,49 +96,7 @@
 <script type="text/javascript" src="/houseship/js/datatables-simple-demo.js"></script>
 
 <!-- Customized JS -->
-<script>
-    function disableHouse() {
-        let result = confirm('確認是否要下架房屋');
-        if(result === true) {
-            const houseNo = $('#house-id').text();
-            $.ajax({
-                method: 'POST',
-                url: '/houseship/house/host/cancelhouse/' + houseNo,
-                async: 'true',
-                dataType: "json",
-
-                success:function(res){
-                    alert(res.message)
-                    window.location.reload();
-                },
-                error:function(err){
-                    alert(err.message)
-                }
-            });
-        }
-    }
-
-    function enableHouse() {
-        let result = confirm('確認是否要重新上架房屋');
-        if(result === true) {
-            const houseNo = $('#house-id').text();
-            $.ajax({
-                method: 'POST',
-                url: '/houseship/house/host/enablehouse/' + houseNo,
-                async: 'true',
-                dataType: "json",
-
-                success:function(res){
-                    alert(res.message)
-                    window.location.reload();
-                },
-                error:function(err){
-                    alert(err.message)
-                }
-            });
-        }
-    }
-</script>
+<script type="application/javascript" src="/houseship/js/house/enable-disable-house.js"></script>
 
 </body>
 </html>
