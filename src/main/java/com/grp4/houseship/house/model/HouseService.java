@@ -49,7 +49,7 @@ public class HouseService {
 	}
 
 	public List<HouseInfo> searchByAccount(Member member) {
-		return houseRepository.findByMemberAndStatusIsTrueOrderByCreatedDateDesc(member);
+		return houseRepository.findByMemberOrderByCreatedDateDesc(member);
 	}
 
 	public boolean insert(HouseInfo houseInfo) {
@@ -74,7 +74,7 @@ public class HouseService {
 		if(optional.isPresent()) {
 			HouseInfo houseInfo = optional.get();
 			if (!houseInfo.isStatus()) {
-				houseInfo.setStatus(false);
+				houseInfo.setStatus(true);
 				houseRepository.save(houseInfo);
 				return true;
 			}

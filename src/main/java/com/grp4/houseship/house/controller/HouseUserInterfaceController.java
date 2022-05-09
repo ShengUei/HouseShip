@@ -224,9 +224,21 @@ public class HouseUserInterfaceController {
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setContentType(MediaType.APPLICATION_JSON);
         if (cancelStatue) {
-            return new ResponseEntity<>("刪除成功", responseHeaders, HttpStatus.OK);
+            return new ResponseEntity<>("{\"message\": \"下架成功\"}", responseHeaders, HttpStatus.OK);
         }
-        return new ResponseEntity<>("刪除失敗", responseHeaders, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("{\"message\": \"下架失敗\"}", responseHeaders, HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping(path = "/host/enablehouse/{houseid}")
+    @ResponseBody
+    public ResponseEntity<String> enableHouse(@PathVariable("houseid") int houseid) {
+        boolean enableStatue = houseService.enable(houseid);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+        if (enableStatue) {
+            return new ResponseEntity<>("{\"message\": \"上架成功\"}", responseHeaders, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("{\"message\": \"上架失敗\"}", responseHeaders, HttpStatus.BAD_REQUEST);
     }
 
     private List<HousePhotos> savePhoto(Model model, MultipartFile[] photos) {

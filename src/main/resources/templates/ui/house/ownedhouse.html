@@ -36,12 +36,13 @@
                         <thead>
                         <tr>
                             <th>房屋編號</th>
+                            <th>目前狀態</th>
                             <th>刊登時間</th>
                             <th>最後編輯時間</th>
                             <th>房屋名稱</th>
-                            <th>服務編號</th>
-                            <th>規章編號</th>
-                            <th>封面照片</th>
+<!--                            <th>服務編號</th>-->
+<!--                            <th>規章編號</th>-->
+<!--                            <th>封面照片</th>-->
                             <th>功能</th>
                             <th>功能</th>
                             <th>功能</th>
@@ -49,15 +50,17 @@
                         </thead>
                         <tbody>
                         <tr th:each="house : ${ownedList}">
-                            <td th:text="*{house.houseNo}">房屋編號</td>
+                            <td id="house-id" th:text="*{house.houseNo}">房屋編號</td>
+                            <td th:if="*{house.status == true}">上架中</td>
+                            <td th:unless="*{house.status == true}">下架中</td>
                             <td th:text="*{#dates.format(house.createdDate, 'yyyy/MM/dd')}">刊登時間</td>
                             <td th:text="*{#dates.format(house.lastModifiedDate, 'yyyy/MM/dd')}">最後編輯時間</td>
                             <td th:text="*{house.h_title}">房屋名稱</td>
-                            <td th:text="*{house.houseOffers.offersNo}">服務編號</td>
-                            <td th:text="*{house.houseRules.rulesNo}">規章編號</td>
-                            <td>
-                                <img src="/houseship/images/house/room-details.jpg" th:src="'/houseship/images/house/' + *{house.housePhotos[0].photoPath}" alt="house image">
-                            </td>
+<!--                            <td th:text="*{house.houseOffers.offersNo}">服務編號</td>-->
+<!--                            <td th:text="*{house.houseRules.rulesNo}">規章編號</td>-->
+<!--                            <td>-->
+<!--                                <img src="/houseship/images/house/room-details.jpg" th:src="'/houseship/images/house/' + *{house.housePhotos[0].photoPath}" alt="house image">-->
+<!--                            </td>-->
                             <td class="text-center">
                                 <a href="#" th:href="@{/house/housedetails/{houseNo}(houseNo=*{house.houseNo})}" class="btn btn-primary" role="button">詳細</a>
                             </td>
@@ -67,7 +70,8 @@
                             <td class="text-center">
 <!--                                <a href="#" th:href="@{/house/host/cancelhouse/{houseNo}(houseNo=*{house.houseNo})}" class="btn btn-danger" role="button">刪除</a>-->
 <!--                                <a href="#" id="cancel-house" class="btn btn-danger" role="button">刪除</a>-->
-                                <button type="button" id="cancel-house" class="btn btn-danger">刪除</button>
+                                <button th:if="*{house.status == true}" id="disable-house" onclick="disableHouse()" type="button" class="btn btn-danger">下架房屋</button>
+                                <button th:unless="*{house.status == true}" id="enable-house" onclick="enableHouse()" type="button" class="btn btn-success">重新上架</button>
                             </td>
                         </tr>
                         </tbody>
@@ -92,23 +96,51 @@
 
 <!-- my script -->
 <script type="text/javascript" src="/houseship/js/datatables-simple-demo.js"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<!-- Customized JS -->
 <script>
-    Swal.fire({
-        title: 'Do you want to save the changes?',
-        showDenyButton: true,
-        showCancelButton: true,
-        confirmButtonText: 'Save',
-        denyButtonText: `Don't save`,
-    }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-            Swal.fire('Saved!', '', 'success')
-        } else if (result.isDenied) {
-            Swal.fire('Changes are not saved', '', 'info')
+    function disableHouse() {
+        let result = confirm('確認是否要下架房屋');
+        if(result === true) {
+            const houseNo = $('#house-id').text();
+            $.ajax({
+                method: 'POST',
+                url: '/houseship/house/host/cancelhouse/' + houseNo,
+                async: 'true',
+                dataType: "json",
+
+                success:function(res){
+                    alert(res.message)
+                    window.location.reload();
+                },
+                error:function(err){
+                    alert(err.message)
+                }
+            });
         }
-    })
+    }
+
+    function enableHouse() {
+        let result = confirm('確認是否要重新上架房屋');
+        if(result === true) {
+            const houseNo = $('#house-id').text();
+            $.ajax({
+                method: 'POST',
+                url: '/houseship/house/host/enablehouse/' + houseNo,
+                async: 'true',
+                dataType: "json",
+
+                success:function(res){
+                    alert(res.message)
+                    window.location.reload();
+                },
+                error:function(err){
+                    alert(err.message)
+                }
+            });
+        }
+    }
 </script>
+
 </body>
 </html>

@@ -15,7 +15,7 @@ public interface HouseRepository extends JpaRepository<HouseInfo, Integer> {
 
     List<HouseInfo> findByCityAndStatusIsTrueOrderByCreatedDateDesc(String city);
 
-    List<HouseInfo> findByMemberAndStatusIsTrueOrderByCreatedDateDesc(Member member);
+    List<HouseInfo> findByMemberOrderByCreatedDateDesc(Member member);
 
     @Query("from HouseInfo where h_price > :price and status = true order by createdDate desc")
     List<HouseInfo> findByH_priceGreaterThan(double price);
