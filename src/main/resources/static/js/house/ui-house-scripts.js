@@ -25,6 +25,7 @@ function searchResult () {
         complete: function(){
             $("#customer-loader").fadeOut();
             $("#customer-preloder").delay(200).fadeOut("slow");
+            $("#map-iframe").append('<iframe width="100%" height="920px" style="border:0" src="/houseship/house/map"></iframe>');
         }
     });
 
@@ -92,6 +93,7 @@ function advancedSearch () {
         complete: function(){
             $("#search-results-loader").fadeOut();
             $("#search-results-preloder").delay(200).fadeOut("slow");
+            $("#map-iframe").append('<iframe width="100%" height="920px" style="border:0" src="/houseship/house/map"></iframe>');
         }
 
     });

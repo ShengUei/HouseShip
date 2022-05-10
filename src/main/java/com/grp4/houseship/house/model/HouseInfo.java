@@ -44,6 +44,12 @@ public class HouseInfo implements Serializable {
 	
 	@Column(name = "H_ADDRESS")
 	private String h_address;
+
+	@Column(name = "LAT")
+	private Double lat;
+
+	@Column(name = "LNG")
+	private Double lng;
 	
 	@Column(name = "H_TYPE")
 	private int h_type;
@@ -113,6 +119,22 @@ public class HouseInfo implements Serializable {
 
 	public void setH_address(String h_address) {
 		this.h_address = h_address;
+	}
+
+	public Double getLat() {
+		return lat;
+	}
+
+	public void setLat(Double lat) {
+		this.lat = lat;
+	}
+
+	public Double getLng() {
+		return lng;
+	}
+
+	public void setLng(Double lng) {
+		this.lng = lng;
 	}
 
 	public int getH_type() {

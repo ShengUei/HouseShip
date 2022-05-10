@@ -1,5 +1,10 @@
 package com.grp4.houseship.house.controller;
 
+import com.google.maps.GeoApiContext;
+import com.google.maps.GeocodingApi;
+import com.google.maps.errors.ApiException;
+import com.google.maps.model.GeocodingResult;
+import com.google.maps.model.Geometry;
 import com.grp4.houseship.house.model.*;
 import com.grp4.houseship.member.model.Member;
 import com.grp4.houseship.order.model.OrderDetail;
@@ -52,6 +57,9 @@ public class HouseUserInterfaceController {
         } else {
             houseList = houseService.searchAll();
         }
+
+        session.setAttribute("houseList", houseList);
+
         session.removeAttribute("locationCity");
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -248,6 +256,14 @@ public class HouseUserInterfaceController {
         return "/ui/house/map";
     }
 
+    @GetMapping(path = "/map/latlng")
+    @ResponseBody
+    public List<HouseInfo> showLatAndLng(HttpSession session) {
+        List<HouseInfo> houseList = (List<HouseInfo>) session.getAttribute("houseList");
+        session.removeAttribute("houseList");
+        return houseList;
+    }
+
     private List<HousePhotos> savePhoto(Model model, MultipartFile[] photos) {
         if(photos != null && photos.length > 0 && photos.length < 5) {
             List<HousePhotos> photosList = new ArrayList<>();
@@ -275,6 +291,33 @@ public class HouseUserInterfaceController {
             model.addAttribute("errMsg", "照片最多只能上傳5張");
             return null;
         }
+    }
+
+    @GetMapping(path = "/map/test")
+    @ResponseBody
+    public Geometry addressToLatLng(String address) {
+        address = "台灣桃園市中壢區新生路二段421號";
+        GeoApiContext context = new GeoApiContext.Builder()
+                .apiKey("AIzaSyAfx3SJ3744XiZVKLLoLTrAK2_ymXJ8R4E")
+                .build();
+        try {
+            GeocodingResult[] results =  GeocodingApi.geocode(context,
+                    address).await();
+//            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//            System.out.println(gson.toJson(results[0].addressComponents));
+            System.out.println(results[0].geometry.location);
+            System.out.println("lat: " + results[0].geometry.location.lat);
+            System.out.println("lng: " + results[0].geometry.location.lng);
+
+            return results[0].geometry;
+        } catch (IOException | InterruptedException | ApiException e) {
+            e.printStackTrace();
+        } finally {
+// Invoke .shutdown() after your application is done making requests
+            context.shutdown();
+            return null;
+        }
+
     }
 
 }
