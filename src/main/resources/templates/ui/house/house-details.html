@@ -80,7 +80,7 @@
                         <div id="carouselExampleInterval" class="carousel slide" data-bs-interval="false" data-bs-ride="carousel">
                             <div class="carousel-inner">
                                 <div th:each="photo : ${houseInfo.housePhotos}" class="carousel-item">
-                                    <img class="d-block w-100" src="/houseship/images/house/room-details.jpg" th:src="'/houseship/images/house/' + ${photo.photoPath}" alt="house image">
+                                    <img class="d-block w-100" src="/houseship/images/house/room-details.jpg" th:src="'/houseship/api/images/' + ${photo.photoPath}" alt="house image">
                                 </div>
                             </div>
                             <button th:if="${houseInfo.housePhotos.size() > 1}" id="carousel-control-prev" class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">

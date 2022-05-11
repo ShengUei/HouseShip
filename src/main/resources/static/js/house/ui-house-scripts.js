@@ -6,7 +6,7 @@ searchResult();
 function searchResult () {
     $.ajax({
         method: 'GET',
-        url: '/houseship/house/api/search-result',
+        url: '/houseship/api/house/search-result',
         async: 'true',
         dataType: "json",
         // data: jsonData,
@@ -25,7 +25,7 @@ function searchResult () {
         complete: function(){
             $("#customer-loader").fadeOut();
             $("#customer-preloder").delay(200).fadeOut("slow");
-            $("#map-iframe").append('<iframe width="100%" height="920px" style="border:0" src="/houseship/house/map"></iframe>');
+            $("#map-iframe").append('<iframe width="100%" height="920px" style="border:0" src="/houseship/api/map"></iframe>');
         }
     });
 
@@ -43,6 +43,7 @@ function advancedSearch () {
 
     countResultSpan.html('');
     searchResultsContainer.html('');
+    $("#map-iframe").html('');
 
     $('#search-results-preloder').show();
     $('#search-results-loader').show();
@@ -74,7 +75,7 @@ function advancedSearch () {
 
     $.ajax({
         method: 'POST',
-        url: '/houseship/house/api/advanced-search-result',
+        url: '/houseship/api/house/advanced-search-result',
         async: 'true',
         dataType: "json",
         data: jsonData,
@@ -93,7 +94,7 @@ function advancedSearch () {
         complete: function(){
             $("#search-results-loader").fadeOut();
             $("#search-results-preloder").delay(200).fadeOut("slow");
-            $("#map-iframe").append('<iframe width="100%" height="920px" style="border:0" src="/houseship/house/map"></iframe>');
+            $("#map-iframe").append('<iframe width="100%" height="920px" style="border:0" src="/houseship/api/map"></iframe>');
         }
 
     });
@@ -145,11 +146,11 @@ function render(data, target) {
         let houseContent = "<div class='single-items mb-30'>" +
             "<div class='result-items'>" +
             "<div class='house-img' style='width: 350px'>" +
-            "<a href='/houseship/house/housedetails/" + value.houseNo + "'>" +
-            "<img src='/houseship/images/house/" + value.housePhotos[0].photoPath + "' alt='house image'></a>" +
+            "<a href='/houseship/housedetails/" + value.houseNo + "'>" +
+            "<img src='/houseship/api/images/" + value.housePhotos[0].photoPath + "' alt='house image'></a>" +
             "</div>" +
             "<div class='house-tittle house-tittle2' style='width: 300px'>" +
-            "<a href='/houseship/house/housedetails/" + value.houseNo + "'>" +
+            "<a href='/houseship/housedetails/" + value.houseNo + "'>" +
             "<h4>" +
             value.h_title +
             "</h4></a>" +
@@ -166,7 +167,7 @@ function render(data, target) {
             "</div>" +
             "<div class='items-link items-link2 f-right'><span>" +
             value.h_price.toLocaleString() +
-            " TWD/晚</span><a href='/houseship/house/housedetails/" + value.houseNo + "'>前往查看</a></div></div>";
+            " TWD/晚</span><a href='/houseship/housedetails/" + value.houseNo + "'>前往查看</a></div></div>";
 
         target.append(houseContent);
     })

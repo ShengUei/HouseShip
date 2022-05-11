@@ -68,11 +68,11 @@
                 <div class="col-lg-12">
                     <div class="room-details-item">
                         <h5 th:if="${errMsg != null}" th:text="${errMsg}" style="color: red;">錯誤訊息</h5>
-                        <form class="needs-validation" novalidate enctype="multipart/form-data" style="max-width: 1000px" action="#" method="post" th:action="@{/house/host/updatehouse}" th:object="${houseInfo}">
+                        <form class="needs-validation" novalidate enctype="multipart/form-data" style="max-width: 1000px" action="#" method="post" th:action="@{/host/updatehouse}" th:object="${houseInfo}">
                             <div id="carouselExampleInterval" class="carousel slide" data-bs-interval="false" data-bs-ride="carousel">
                                 <div class="carousel-inner">
                                     <div th:each="photo : *{housePhotos}" class="carousel-item">
-                                        <img class="d-block w-100" src="/houseship/images/house/room-details.jpg" th:src="'/houseship/images/house/' + ${photo.photoPath}" alt="house image">
+                                        <img class="d-block w-100" src="/houseship/images/house/room-details.jpg" th:src="'/houseship/api/images/' + ${photo.photoPath}" alt="house image">
                                     </div>
                                 </div>
                                 <button th:if="*{housePhotos.size() > 1}" id="carousel-control-prev" class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">

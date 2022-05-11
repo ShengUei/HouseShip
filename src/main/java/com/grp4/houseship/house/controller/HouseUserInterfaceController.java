@@ -8,6 +8,7 @@ import com.google.maps.model.Geometry;
 import com.grp4.houseship.house.model.*;
 import com.grp4.houseship.member.model.Member;
 import com.grp4.houseship.order.model.OrderDetail;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -15,22 +16,18 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.net.http.HttpResponse;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.*;
 
 @Controller
-@RequestMapping(path = "/house")
 public class HouseUserInterfaceController {
 
     @Autowired
@@ -47,7 +44,7 @@ public class HouseUserInterfaceController {
         return "/ui/house/searchResults";
     }
 
-    @GetMapping(path = "/api/search-result")
+    @GetMapping(path = "/api/house/search-result")
     @ResponseBody
     public ResponseEntity<List<HouseInfo>> searchAllHouses(HttpSession session) {
         List<HouseInfo> houseList;
@@ -61,6 +58,7 @@ public class HouseUserInterfaceController {
         session.setAttribute("houseList", houseList);
 
         session.removeAttribute("locationCity");
+
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setContentType(MediaType.APPLICATION_JSON);
         if(houseList.isEmpty()) {
@@ -69,9 +67,10 @@ public class HouseUserInterfaceController {
         return new ResponseEntity<> (houseList, responseHeaders, HttpStatus.OK);
     }
 
-    @PostMapping(path = "/api/advanced-search-result")
+    @PostMapping(path = "/api/house/advanced-search-result")
     @ResponseBody
-    public ResponseEntity<List<HouseInfo>> advancedSearchAllHouses(@RequestBody AdvancedSearchModel advancedSearchModel) {
+    public ResponseEntity<List<HouseInfo>> advancedSearchAllHouses(@RequestBody AdvancedSearchModel advancedSearchModel
+                                                                    , HttpSession session) {
         List<HouseInfo> houseList;
         StringBuilder sb = new StringBuilder();
 
@@ -116,6 +115,8 @@ public class HouseUserInterfaceController {
 
         houseList = houseService.advanceSearch(sb.toString());
 
+        session.setAttribute("houseList", houseList);
+
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setContentType(MediaType.APPLICATION_JSON);
         if(houseList.isEmpty()) {
@@ -125,10 +126,11 @@ public class HouseUserInterfaceController {
     }
 
     @GetMapping(path = "/housedetails/{houseid}")
-    public String houseDetails(@PathVariable("houseid") int houseid, Model model) {
+    public String houseDetails(@PathVariable("houseid") int houseid, Model model, HttpSession session) {
         HouseInfo houseInfo = houseService.searchById(houseid);
         if(houseInfo != null) {
             model.addAttribute("houseInfo", houseInfo);
+            session.setAttribute("houseInfo", houseInfo);
             OrderDetail orderDetail = new OrderDetail(houseInfo);
             model.addAttribute("orderDetail", orderDetail);
         } else {
@@ -172,6 +174,10 @@ public class HouseUserInterfaceController {
         member.setAccount("admin");
         houseInfo.setMember(member);
         houseInfo.setStatus(true);
+
+        Geometry geometry = addressToLatLng(houseInfo.getCity() + houseInfo.getH_address());
+        houseInfo.setLat(geometry.location.lat);
+        houseInfo.setLng(geometry.location.lng);
 
         List<HousePhotos> photosList = savePhoto(model, photos);
 
@@ -251,17 +257,40 @@ public class HouseUserInterfaceController {
         return new ResponseEntity<>("{\"message\": \"上架失敗\"}", responseHeaders, HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping(path = "/map")
+    @GetMapping(path = "/api/map")
     public String showMap() {
         return "/ui/house/map";
     }
 
-    @GetMapping(path = "/map/latlng")
+    @GetMapping(path = "/api/map/latlng")
     @ResponseBody
-    public List<HouseInfo> showLatAndLng(HttpSession session) {
-        List<HouseInfo> houseList = (List<HouseInfo>) session.getAttribute("houseList");
-        session.removeAttribute("houseList");
+    public List<HouseInfo> searchLatAndLng(HttpSession session) {
+        List<HouseInfo> houseList;
+        HouseInfo houseInfo = (HouseInfo) session.getAttribute("houseInfo");
+        if(houseInfo != null) {
+            houseList = new ArrayList<>();
+            houseList.add(houseInfo);
+            session.removeAttribute("houseInfo");
+        } else {
+            houseList = (List<HouseInfo>) session.getAttribute("houseList");
+            session.removeAttribute("houseList");
+        }
         return houseList;
+    }
+
+    @GetMapping(path = "/api/images/{directory}/{fileName}")
+    @ResponseBody
+    public ResponseEntity<byte[]> getImage(@PathVariable("directory")String directory, @PathVariable("fileName") String fileName) {
+        String pathname = "C:\\Users\\" + System.getProperty("user.name") + "\\Desktop\\images\\" + directory + "\\" + fileName;
+        try {
+            byte[] byteArray = FileUtils.readFileToByteArray(new File(pathname));
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_PNG);
+            return new ResponseEntity<>(byteArray, headers, HttpStatus.OK);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     private List<HousePhotos> savePhoto(Model model, MultipartFile[] photos) {
@@ -271,9 +300,9 @@ public class HouseUserInterfaceController {
             for(MultipartFile photo : photos){
                 HousePhotos housePhotos = new HousePhotos();
                 if(photo.getSize() <= 500000) {
-                    fileName = String.format("%s.%s", Instant.now().toEpochMilli(), photo.getContentType().split("/")[1]);
+                    fileName = String.format("%s/%s.%s", "house", Instant.now().toEpochMilli(), photo.getContentType().split("/")[1]);
                     try {
-                        pathname = ResourceUtils.getURL("classpath:").getPath() + "static/images/house/" + fileName;
+                        pathname = "C:\\Users\\" + System.getProperty("user.name") + "\\Desktop\\images\\house\\" + fileName;
                         File file = new File(pathname);
                         photo.transferTo(file);
                         housePhotos.setPhotoPath(fileName);
@@ -293,29 +322,18 @@ public class HouseUserInterfaceController {
         }
     }
 
-    @GetMapping(path = "/map/test")
-    @ResponseBody
-    public Geometry addressToLatLng(String address) {
-        address = "台灣桃園市中壢區新生路二段421號";
+    private Geometry addressToLatLng(String address) {
         GeoApiContext context = new GeoApiContext.Builder()
                 .apiKey("AIzaSyAfx3SJ3744XiZVKLLoLTrAK2_ymXJ8R4E")
                 .build();
         try {
-            GeocodingResult[] results =  GeocodingApi.geocode(context,
-                    address).await();
-//            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-//            System.out.println(gson.toJson(results[0].addressComponents));
-            System.out.println(results[0].geometry.location);
-            System.out.println("lat: " + results[0].geometry.location.lat);
-            System.out.println("lng: " + results[0].geometry.location.lng);
-
+            GeocodingResult[] results =  GeocodingApi.geocode(context, address).await();
             return results[0].geometry;
         } catch (IOException | InterruptedException | ApiException e) {
             e.printStackTrace();
-        } finally {
-// Invoke .shutdown() after your application is done making requests
-            context.shutdown();
             return null;
+        } finally {
+            context.shutdown();
         }
 
     }

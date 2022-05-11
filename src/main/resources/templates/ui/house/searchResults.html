@@ -132,6 +132,19 @@
             }
         }
 
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        #search-results::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        #search-results {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+            max-height: 772px;
+        }
+
+
     </style>
 
 </head>
@@ -285,7 +298,7 @@
             <!-- Search content End-->
 
             <!-- Result content -->
-            <div class="col-xl-5 col-lg-5 col-md-5">
+            <div id="result-content"  class="col-xl-5 col-lg-5 col-md-5">
                 <div class="row">
                     <div class="col-12">
                         <div class="small-section-tittle2 mb-45">
@@ -383,7 +396,7 @@
                         <div id="search-results-preloder" style="display: none">
                             <div id="search-results-loader" style="display: none"></div>
                         </div>
-                        <div id="search-results"></div>
+                        <div id="search-results" class="overflow-auto"></div>
 
                     </div>
                 </section>

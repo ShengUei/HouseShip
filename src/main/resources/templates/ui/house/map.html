@@ -15,10 +15,17 @@
             padding: 0;
         }
         .mapLabel{
-            background-color: white;
-            color: black;
-            font-size: 28px;
-            border-radius: 3px;
+            display: block;
+            font-size: 38px;
+            font-weight: bold;
+            background-color: rgb(255, 255, 255);
+            border-radius: 38px;
+            box-shadow: rgb(0 0 0 / 4%) 0px 0px 0px 1px, rgb(0 0 0 / 18%) 0px 2px 4px;
+            color: rgb(34, 34, 34);
+            height: 38px;
+            text-align: center;
+            line-height: 38px;
+            padding: 0px 8px;
         }
     </style>
 </head>
@@ -32,37 +39,47 @@
 
 <script>
 
-    let map;
-
     function initMap() {
+        let map;
 
         $.ajax({
             method: 'GET',
-            url: '/houseship/house/map/latlng',
+            url: '/houseship/api/map/latlng',
             async: 'true',
             dataType: "json",
             // data: jsonData,
             // contentType: 'application/json; charset=utf-8',
 
             success:function(jsonData){
-                console.log('success');
-
-                let marker;
 
                 $(jsonData).each((index, value) => {
-                    if(index === 1) {
+                    if(index === 0) {
+                        console.log('new map')
                         const center = new google.maps.LatLng(value.lat, value.lng);
                         map = new google.maps.Map(document.getElementById("map"), {
-                            zoom: 17,
+                            zoom: 16,
                             center: center,
                         });
                     }
 
+                    const styles = {
+                        default: [],
+                        hide: [
+                            {
+                                featureType: "poi",
+                                stylers: [{ visibility: "off" }],
+                            }
+                        ],
+                    };
+
+                    map.setOptions({ styles: styles["hide"] });
+
                     let latLng = new google.maps.LatLng(value.lat, value.lng);
-                    marker = new google.maps.Marker({
+                    let marker = new google.maps.Marker({
                         position: latLng,
                         map: map,
-                        label:  {
+                        icon: ' ',
+                        label: {
                             text: `$${value.h_price} TWD`,
                             className: "mapLabel"
                         },
@@ -76,14 +93,17 @@
                         infowindow.open({
                             anchor: marker,
                             map,
-                            shouldFocus: false,
+                            shouldFocus: true,
                         });
                     });
                 })
+
+                console.log('map load success');
+
             },
 
             error:function(){
-                console.log('error');
+                console.log('map load error');
             }
         });
     }

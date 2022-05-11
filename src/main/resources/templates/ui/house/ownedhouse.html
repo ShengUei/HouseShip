@@ -110,7 +110,7 @@
                 <div class="container mainContainer">
                     <!-- 主要內容放這 begin -->
                     <div>
-                        <a href="#" th:href="@{/house/host/addnewhouse}"
+                        <a href="#" th:href="@{/host/addnewhouse}"
                            style="margin-left: 1px; display: inline"><input
                                 class="btn-primary" type="submit" name="new" value="新增"></a>
                         <table id="datatablesSimple">
@@ -143,10 +143,10 @@
                                 <!--                                <img src="/houseship/images/house/room-details.jpg" th:src="'/houseship/images/house/' + *{house.housePhotos[0].photoPath}" alt="house image">-->
                                 <!--                            </td>-->
                                 <td class="text-center">
-                                    <a href="#" th:href="@{/house/housedetails/{houseNo}(houseNo=*{house.houseNo})}" class="btn btn-primary" role="button">詳細</a>
+                                    <a href="#" th:href="@{/housedetails/{houseNo}(houseNo=*{house.houseNo})}" class="btn btn-primary" role="button">詳細</a>
                                 </td>
                                 <td class="text-center">
-                                    <a href="#" th:href="@{/house/host/updatehouse/{houseNo}(houseNo=*{house.houseNo})}" class="btn btn-warning" role="button">修改</a>
+                                    <a href="#" th:href="@{/host/updatehouse/{houseNo}(houseNo=*{house.houseNo})}" class="btn btn-warning" role="button">修改</a>
                                 </td>
                                 <td class="text-center">
                                     <button th:if="*{house.status == true}" id="disable-house" onclick="disableHouse()" type="button" class="btn btn-danger">下架房屋</button>
