@@ -2,6 +2,8 @@ package com.grp4.houseship.house.model;
 
 import com.grp4.houseship.member.model.Member;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,8 +25,15 @@ public class HouseService {
 	private EntityManager entityManager;
 
 	public List<HouseInfo> searchAll() {
-//		return houseRepository.findAll();
-		return houseRepository.findByStatusIsTrueOrderByCreatedDateDesc();
+		return houseRepository.findAll();
+	}
+
+	public List<HouseInfo> searchAll(Pageable pageable) {
+		return houseRepository.findByStatusIsTrueOrderByCreatedDateDesc(pageable);
+	}
+
+	public Page<HouseInfo> getTotalPagesForSearchAll(Pageable pageable) {
+		return houseRepository.findTotalPagesByStatusIsTrueOrderByCreatedDateDesc(pageable);
 	}
 
 	public List<HouseInfo> searchAllByCity(String city) {
@@ -32,7 +41,6 @@ public class HouseService {
 	}
 
 	public HouseInfo searchById(int id) {
-//		Optional<HouseInfo> optional = houseRepository.findById(id);
 		Optional<HouseInfo> optional = houseRepository.findByHouseNoAndStatusIsTrue(id);
 		if(optional.isPresent()) {
 			return optional.get();

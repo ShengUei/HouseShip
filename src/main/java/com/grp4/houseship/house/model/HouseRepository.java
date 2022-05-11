@@ -1,6 +1,8 @@
 package com.grp4.houseship.house.model;
 
 import com.grp4.houseship.member.model.Member;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -11,7 +13,11 @@ public interface HouseRepository extends JpaRepository<HouseInfo, Integer> {
 
     Optional<HouseInfo> findByHouseNoAndStatusIsTrue(int id);
 
-    List<HouseInfo> findByStatusIsTrueOrderByCreatedDateDesc();
+//    List<HouseInfo> findByStatusIsTrueOrderByCreatedDateDesc();
+
+    List<HouseInfo> findByStatusIsTrueOrderByCreatedDateDesc(Pageable pageable);
+
+    Page<HouseInfo> findTotalPagesByStatusIsTrueOrderByCreatedDateDesc(Pageable pageable);
 
     List<HouseInfo> findByCityAndStatusIsTrueOrderByCreatedDateDesc(String city);
 

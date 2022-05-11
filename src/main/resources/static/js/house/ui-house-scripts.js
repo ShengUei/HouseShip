@@ -1,12 +1,15 @@
 const searchResultsContainer = $('#search-results');
 const countResultSpan = $('#count-result-span');
 
-searchResult();
+searchResult(0);
 
-function searchResult () {
+function searchResult (page) {
+    let url = '/houseship/api/house/search-result/' + page;
+    console.log("url" + url);
+
     $.ajax({
         method: 'GET',
-        url: '/houseship/api/house/search-result',
+        url: url,
         async: 'true',
         dataType: "json",
         // data: jsonData,
@@ -15,6 +18,7 @@ function searchResult () {
         success:function(jsonData){
             countResultSpan.append('查詢結果: 共' + jsonData.length + '筆');
             render(jsonData, searchResultsContainer);
+            totalPages();
         },
 
         error:function(){
@@ -99,6 +103,35 @@ function advancedSearch () {
 
     });
 
+}
+
+function totalPages() {
+    $.ajax({
+        method: 'GET',
+        url: '/houseship/api/house/totalpages',
+        async: 'true',
+        dataType: "json",
+
+        success:function(jsonData){
+            for(let i = 0; i < jsonData; i++) {
+                let index = i + 1;
+                $("#room-pagination").append('<a href="#" id="page-' + index + '">'+ index + '</a>');
+                let str = '#page-' + index;
+                $(str).on('click', pageButton);
+            }
+            $("#room-pagination").append('<a href="#">Next <i class="fa fa-long-arrow-right"></i></a>');
+        },
+
+        error:function(){
+        }
+
+    });
+}
+
+function pageButton(e) {
+    e.preventDefault();
+    console.log('index: ' + $(this).text());
+    searchResult($(this).text());
 }
 
 function render(data, target) {

@@ -10,6 +10,8 @@ import com.grp4.houseship.member.model.Member;
 import com.grp4.houseship.order.model.OrderDetail;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -44,15 +46,22 @@ public class HouseUserInterfaceController {
         return "/ui/house/searchResults";
     }
 
-    @GetMapping(path = "/api/house/search-result")
+    @GetMapping(path = "/api/house/search-result/{page}")
     @ResponseBody
-    public ResponseEntity<List<HouseInfo>> searchAllHouses(HttpSession session) {
+    public ResponseEntity<List<HouseInfo>> searchAllHouses(HttpSession session, @PathVariable("page") Integer page) {
         List<HouseInfo> houseList;
+        Pageable pageable;
         String locationCity = (String) session.getAttribute("locationCity");
+        System.out.println("page: " + page);
         if(locationCity != null) {
             houseList = houseService.searchAllByCity(locationCity);
         } else {
-            houseList = houseService.searchAll();
+//            houseList = houseService.searchAll();
+
+            pageable = PageRequest.of(page, 1);
+
+            houseList = houseService.searchAll(pageable);
+            session.setAttribute("totalPages", houseService.getTotalPagesForSearchAll(pageable).getTotalPages());
         }
 
         session.setAttribute("houseList", houseList);
@@ -65,6 +74,16 @@ public class HouseUserInterfaceController {
             return new ResponseEntity<> (HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<> (houseList, responseHeaders, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/api/house/totalpages")
+    @ResponseBody
+    public ResponseEntity<Integer> getTotalPages(HttpSession session) {
+        Integer totalPages = (Integer) session.getAttribute("totalPages");
+        if(totalPages == null) {
+            return new ResponseEntity<>(totalPages, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(totalPages, HttpStatus.OK);
     }
 
     @PostMapping(path = "/api/house/advanced-search-result")
@@ -300,9 +319,9 @@ public class HouseUserInterfaceController {
             for(MultipartFile photo : photos){
                 HousePhotos housePhotos = new HousePhotos();
                 if(photo.getSize() <= 500000) {
-                    fileName = String.format("%s/%s.%s", "house", Instant.now().toEpochMilli(), photo.getContentType().split("/")[1]);
+                    fileName = String.format("%s\\%s.%s", "house", Instant.now().toEpochMilli(), photo.getContentType().split("/")[1]);
                     try {
-                        pathname = "C:\\Users\\" + System.getProperty("user.name") + "\\Desktop\\images\\house\\" + fileName;
+                        pathname = "C:\\Users\\" + System.getProperty("user.name") + "\\Desktop\\images\\" + fileName;
                         File file = new File(pathname);
                         photo.transferTo(file);
                         housePhotos.setPhotoPath(fileName);
