@@ -41,8 +41,10 @@
             	<!-- 頭像區塊區塊 -->
                 <div class="col-lg-4">
                 	<!-- 底下的js會把user上船的圖片透過id=output載到這 -->
-                    <img id="output" alt="暫時沒有圖片 " th:src="'/houseship/images/member/'+@{${picPath}}" width="200px" height="250px"   >
+                	
+                    <img id="output" alt="暫時沒有圖片 " th:src="'/houseship/api/images/'+${picPath}" width="200px" height="250px"   >
 <!--                     th:src="@{images/photo.png}" -->
+
                 </div>
                 <!-- form區塊 -->
                 <div class="col-lg-7 offset-lg-1">

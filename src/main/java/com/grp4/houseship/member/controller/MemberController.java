@@ -1,9 +1,10 @@
 package com.grp4.houseship.member.controller;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -13,9 +14,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
+
 
 import com.grp4.houseship.member.model.Member;
 import com.grp4.houseship.member.model.MemberService;
@@ -65,6 +65,13 @@ public class MemberController {
 			//加密存進dB
         	String bcEncode1 = new BCryptPasswordEncoder().encode(member.getHashed_pwd());
 			member.setHashed_pwd(bcEncode1);
+			//enabled帳號
+			member.setEnabled(true);
+			//給定角色
+			Set<Role> roles = new HashSet<Role>();
+			roles.add(roleService.findById(3));
+			roles.add(roleService.findById(2));
+			member.setRoles(roles);
 			boolean statu = memberService.insert(member);
 			
 			if(statu==true) {	
@@ -113,6 +120,24 @@ public class MemberController {
 		@PreAuthorize("hasRole('ROLE_ADMIN')")
 	    public String deleteMember(@PathVariable("memberaccount") String account,@ModelAttribute("member") Member member ) {
 	        member.setEnabled(false);
+	        member.setUser_id(memberService.findByAccount(member.getAccount()).getUser_id());
+	        
+	        memberService.update(member);
+	        return "redirect:/admin/member";
+	    }
+	    
+	    @GetMapping(path = "/restoremember.controller/{memberaccount}")
+		@PreAuthorize("hasRole('ROLE_ADMIN')")
+	    public String restoreAccount(@PathVariable("memberaccount") String account, Model model) {
+	        model.addAttribute("member", memberService.findByAccount(account));
+	        model.addAttribute("account", account);
+	        return "/admin/member/restoreAccount";
+	    }
+	   
+	    @PostMapping(path = "/restoremember.controller/{memberaccount}")
+		@PreAuthorize("hasRole('ROLE_ADMIN')")
+	    public String restoreAccount(@PathVariable("memberaccount") String account,@ModelAttribute("member") Member member ) {
+	        member.setEnabled(true);
 	        member.setUser_id(memberService.findByAccount(member.getAccount()).getUser_id());
 	        
 	        memberService.update(member);

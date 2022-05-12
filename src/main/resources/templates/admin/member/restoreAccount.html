@@ -8,7 +8,7 @@
         <meta http-equiv="Pragma" content="no-cache" />
         <meta http-equiv="Expires" content="0" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-		<title>停用會員帳號</title>
+		<title>重啟會員帳號</title>
 		<link type="text/css" href="/houseship/css/style-admin-link.css" rel="stylesheet" />
 		<style type="text/css">
 			.div1{
@@ -42,9 +42,9 @@
 	 <header th:replace="/admin/header.html"></header>
 	<div class="div1">
 	
-	<h2 class="head2">停用會員帳號</h2>
+	<h2 class="head2">重啟會員帳號</h2>
 	
-	<form action="#" th:action="@{/admin/member/deletemember.controller/{memberaccount}(memberaccount=${account})}" method="post" th:object="${member}">
+	<form action="#" th:action="@{/admin/member/restoremember.controller/{memberaccount}(memberaccount=${account})}" method="post" th:object="${member}">
 
 	
 	<div class="divForm">

@@ -65,22 +65,24 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 				//有staff或admin角色就導到後台首頁
 				for(Role role : roles) {
 					if(role.toString().equals("ROLE_ADMIN")) {
-						redirectURL += "/home";
+						redirectURL += "/admin/home";
 						response.sendRedirect(redirectURL);
 						break;
 					}else if(role.toString().equals("ROLE_STAFF")) {
-						redirectURL += "/home";
+						redirectURL += "/admin/home";
 						response.sendRedirect(redirectURL);	
 						break;
 						//super.onAuthenticationSuccess(request, response, authentication);
 					//沒有staff或admin角色就導到一般首頁
 					}else if(role.toString().equals("ROLE_USER")){
 							if(flag) {
-								redirectURL += "/home";
+								redirectURL += "/admin/home";
 								response.sendRedirect(redirectURL);	
+								break;
+							}else {
+								redirectURL += "/home";
+								response.sendRedirect(redirectURL);
 							}
-							redirectURL += "/";
-							response.sendRedirect(redirectURL);
 							
 					}else {
 						System.out.println("沒有角色還能成功登入會員那就是bug,之後再看怎麼處理");

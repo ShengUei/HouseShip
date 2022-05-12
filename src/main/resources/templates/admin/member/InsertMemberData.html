@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>新增會員</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<link type="text/css" href="/houseship/css/style-admin-link.css" rel="stylesheet" />
+
 <style type="text/css">
 	.div1{
 		border:2px solid #0B1A4A;
@@ -34,20 +34,22 @@
 </style>
 </head>
 <body>
+ <header th:replace="/admin/header.html"></header>
 	<div class="div1">
 	<h2 class="head2">新增會員</h2>
 	<div class="divForm">
 	<form action="/houseship/admin/member/insertmember.controller" method="post">
-		帳號<input class="form-control" type="text" name="account" required placeholder="必填"><br>
-		密碼<input class="form-control" type="text" name="hashed_pwd" required placeholder="必填"><br>
-		姓<input class="form-control" type="text" name="firstname"  value="" required placeholder="必填"><br>
-		名<input class="form-control" type="text" name="lastname" value=" " required placeholder="必填"><br><br>
-		生日<input class="form-control" type="date" name="birthday" value=" " required placeholder="必填"><br><br>
-		e-mail<input class="form-control" type="text" name="email" value=" " required placeholder="必填"><br><br>
-		聯絡地址<input class="form-control" type="text" name="m_address" value=" " placeholder="選填"><br><br>
-		聯絡電話<input class="form-control" type="text" name="phone" value=" " required placeholder="必填"><br><br>
-		頭像<input class="form-control" type="text" name="mempic" value=" " placeholder="選填"><br><br>
+		帳號<input class="form-control" type="text" name="account" id="account" required placeholder="必填"><br>
+		密碼<input class="form-control" type="text" name="hashed_pwd" id="password" required placeholder="必填"><br>
+		姓<input class="form-control" type="text" name="firstname" id="firstname"  ><br>
+		名<input class="form-control" type="text" name="lastname" id="lastname"  ><br><br>
+		生日<input class="form-control" type="text" name="birthday" id="birthday"   ><br><br>
+		e-mail<input class="form-control" type="text" name="email" id="email"  required placeholder="必填"><br><br>
+		聯絡地址<input class="form-control" type="text" name="m_address" id="address"  placeholder="選填"><br><br>
+		聯絡電話<input class="form-control" type="text" name="phone" id="phone" ><br><br>
+		頭像<input class="form-control" type="text" name="mempic" id="mempic"  ><br><br>
 		<div class="divInput">
+			<button type="button" id="oneKeyInput" class=" btn btn-primary rounded submit px-3">一鍵輸入</button>
 			<input type="submit" class="btn btn-primary" name="insert" value="送出">
 		</div>
 	</form>
@@ -56,6 +58,24 @@
 	<div class="divInput">
 			<a href="/houseship/admin/member"><input type="submit" class="btn btn-secondary" value="取消"></a>
 	</div>
+	 <footer th:replace="/admin/footer.html"></footer>
+	<div th:replace="/admin/js.html"></div>
+	
+	<script type="text/javascript">
+	
+	    $(document).on('click','#oneKeyInput',function(){
+	    	document.getElementById('account').value='test567';
+	  	  	document.getElementById('password').value='567test';
+	  	  	document.getElementById('firstname').value='盧';
+	  	  	document.getElementById('lastname').value='佑恩';
+	  	 	document.getElementById('birthday').value='2002-01-02';
+	  	  	document.getElementById('email').value='test789@gmail.com';
+	  	  	document.getElementById('address').value='高雄市';
+	  	  	document.getElementById('phone').value='0912321345';
+	  	  	document.getElementById('mempic').value='none';
+	  	  
+  		});
+    </script>
 	
 </body>
 </html>

@@ -41,6 +41,7 @@
 		</style>
 </head>
 <body>
+ <header th:replace="/admin/header.html"></header>
 	<!-- 	從這邊開始改 -->
 <div class="div1">
 	<h2 class="head2">修改會員資料</h2>
@@ -136,6 +137,7 @@
 	<div class="divInput">
 			<a href="/houseship/admin/member"><input type="submit" class="btn btn-secondary" value="返回"></a>
 	</div>
+	<footer th:replace="/admin/footer.html"></footer>
 	
 	<div th:replace="/admin/js.html"></div>
 	<script type="text/javascript">

@@ -116,9 +116,9 @@
 						tr.push('<td>' + result[i].phone + '</td>');
 						tr.push('<td>' + result[i].mempic + '</td>');
 						// 記得補上下面兩行的路徑
-						tr.push('<td class="text-center"><a class="btn btn-primary"  href="/houseship/admin/member/updatemember.controller/'+ result[i].account +'" role="button">詳細</a></td>');
 						tr.push('<td class="text-center"><a class="btn btn-warning" href="/houseship/admin/member/updatemember.controller/'+ result[i].account +'" role="button"> 修改</a></td>');
 						tr.push('<td class="text-center"><a class="btn btn-danger"  href="/houseship/admin/member/deletemember.controller/'+ result[i].account +'" role="button">停權</a></td>');
+						tr.push('<td class="text-center"><a class="btn btn-primary"  href="/houseship/admin/member/restoremember.controller/'+ result[i].account +'" role="button">復權</a></td>');
 						tr.push('</tr>');
 					}
 					
