@@ -123,16 +123,8 @@ $(function () {
         $("#checkin_send_booking").val(picker.startDate.format('YYYY-MM-DD'));
         $("#inputCheckOut_booking").val(picker.endDate.format('YYYY 年 M 月 DD 日'));
         $("#checkout_send_booking").val(picker.endDate.format('YYYY-MM-DD'));
-        let bookPrice = parseInt($("#h_bookPrice_num").val());
-        let bookNight = getBookingNight(picker.startDate._d, picker.endDate._d);
-        let totalPay = bookPrice * bookNight;
-        $("#bookingNight").text(bookNight);
-        $("#payTotal").text(totalPay.toLocaleString('zh-TW', {
-            style: "currency",
-            currency: "TWD",
-            maximumFractionDigits: 0
-        }));
-        $(".showAfterPick").show();
+        // let bookNight = getBookingNight(picker.startDate._d, picker.endDate._d);
+        showPayment();
     });
 
     bookingDateRangePicker.on('cancel.daterangepicker', function (event, picker) {
@@ -146,13 +138,12 @@ $("#inputCheckOut_booking").click(function () {
 })
 
 
-// $(window).load(function () {
+
 $(".autoWrite").click(function () {
     $("#inputCheckIn").val(`${today.getMonth() + 1} 月 ${today.getDate()} 日 (星期${daysOfWeek[today.getDay()]})`);
     $("#checkin_send").val(`${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`)
     $("#inputCheckOut").val(`${tomorrow.getMonth() + 1} 月 ${tomorrow.getDate()} 日 (星期${daysOfWeek[tomorrow.getDay()]})`);
     $("#checkout_send").val(`${tomorrow.getFullYear()}-${tomorrow.getMonth() + 1}-${tomorrow.getDate()}`)
-    // console.log($("#checkout_send").val());
 })
 
 function getBookingNight(startDate, endDate) {
@@ -166,10 +157,20 @@ function showPayment() {
     let checkInDate = new Date( $("#checkin_send_booking").val());
     let checkOutDate = new Date( $("#checkout_send_booking").val());
     let bookNight = getBookingNight(checkInDate, checkOutDate);
-    let totalPay = bookPrice * bookNight;
-    console.log(totalPay);
+    let total = bookPrice * bookNight;
+    let discount_multiplier = 1;
+    if ($("#discount_m").val()){
+        discount_multiplier = $("#discount_m").val();
+    }
+    let discountAmount = total - (total * discount_multiplier);
+    let totalPay = total - discountAmount;
     $("#payTotalSend").val(totalPay);
     $("#bookingNight").text(bookNight);
+    $("#discount").text(discountAmount.toLocaleString('zh-TW',{
+        style: "currency",
+        currency: "TWD",
+        maximumFractionDigits: 0
+    }));
     $("#payTotal").text(totalPay.toLocaleString('zh-TW', {
         style: "currency",
         currency: "TWD",
@@ -179,7 +180,6 @@ function showPayment() {
 }
 
 if ($("#checkin_send_booking").val() != "") {
-    // console.log($("#checkin_send_booking").val());
     showPayment();
 }
 

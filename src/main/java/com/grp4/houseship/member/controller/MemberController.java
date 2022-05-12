@@ -3,6 +3,8 @@ package com.grp4.houseship.member.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,6 +50,7 @@ public class MemberController {
 	}
 	
 	@GetMapping(path = "/insertmember.controller")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
     public String addNewHouseForm(Member member, Model model) {
         
 		
@@ -55,6 +58,7 @@ public class MemberController {
     }
 	
 	@PostMapping(path = "/insertmember.controller")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
     public String addNewHouse(Member member, Model model) {
 		//如果資料庫沒有該帳號
         if(memberService.findByAccount(member.getAccount())==null) {
@@ -76,28 +80,29 @@ public class MemberController {
     }
 		
 		@GetMapping (path = "/updatemember.controller/{memberaccount}")
+		@PreAuthorize("hasRole('ROLE_ADMIN')")
 	    public String updateMemberConfirm(@PathVariable("memberaccount") String account, Model model) {
 	        //叫出每一列的role物件
 	        List<Role> roleList = roleService.findAll();
 	        model.addAttribute("roleList", roleList);
 	        model.addAttribute("member", memberService.findByAccount(account));
 	        model.addAttribute("account", account);
-	        System.out.println("here here here here here here here here here ");
 	        return "/admin/member/UpdateMemberData";
 	    }
 		//維持原本form:form寫法
 	    @PostMapping(path = "/updatemember.controller/{memberaccount}")
+		@PreAuthorize("hasRole('ROLE_ADMIN')")
 	    public String updateMember(@PathVariable("memberaccount") String account,@ModelAttribute("member") Member member) {
 	        System.out.println("============Go to Update=============");
 	        System.out.println(member.getAccount()+" "+member.getUser_id()+" "+member.getBirthday());
 	        //update匯進來的物件沒有user_id(表單沒這欄),所以要透過account去資料庫撈user_id
 	        member.setUser_id(memberService.findByAccount(member.getAccount()).getUser_id());
 	        Boolean status = memberService.update(member);
-	        System.out.println(status);
 	        return "redirect:/admin/member";
 	    }
 	   
 	    @GetMapping(path = "/deletemember.controller/{memberaccount}")
+		@PreAuthorize("hasRole('ROLE_ADMIN')")
 	    public String deleteMemberConfirm(@PathVariable("memberaccount") String account, Model model) {
 	        model.addAttribute("member", memberService.findByAccount(account));
 	        model.addAttribute("account", account);
@@ -105,8 +110,12 @@ public class MemberController {
 	    }
 	   
 	    @PostMapping(path = "/deletemember.controller/{memberaccount}")
+		@PreAuthorize("hasRole('ROLE_ADMIN')")
 	    public String deleteMember(@PathVariable("memberaccount") String account,@ModelAttribute("member") Member member ) {
-	        memberService.delete(account);
+	        member.setEnabled(false);
+	        member.setUser_id(memberService.findByAccount(member.getAccount()).getUser_id());
+	        
+	        memberService.update(member);
 	        return "redirect:/admin/member";
 	    }
 	

@@ -86,7 +86,7 @@
 		</tr>
 		<tr>
 			<td><label for="birthday">生日:</label></td>
-			<td><input type="date" id="birthday" size="30" th:field="*{birthday}"/></td>
+			<td><input type="text" id="birthday" size="30" th:field="*{birthday}"/></td>
 <!--<td>生日</td>-->
 <!--<td><input type="date"  name="birthday" value="${member.getBirthday()}"></td>-->
 		</tr>
@@ -118,10 +118,11 @@
 		<tr>
 			<td><label for="roles">權限:</label></td>
 			 <!-- role是每一列的資料物件 -->
-			<td>
+			<td id="auth_td">
 				<th:block th:each="role:${roleList}">
-					<input type="checkbox" th:name="roles" th:field="*{roles}" th:value="${role.id}" th:text="'&nbsp'+${role.name}+'&nbsp'" style="width:20px;height:10px">
+					<input type="checkbox" th:name="roles" th:field="*{roles}"  th:text="'&nbsp'+${role.name}" th:value="${role.id}"  style="width:20px;height:10px">
 				</th:block>
+<!-- 					th:text="'&nbsp'+${role.name}" -->
 			</td>
 		</tr>  
 		</tbody>		
@@ -137,5 +138,30 @@
 	</div>
 	
 	<div th:replace="/admin/js.html"></div>
+	<script type="text/javascript">
+		//用於讓從controller過來的日期能顯示,不會只有日曆選單
+		$(function() {
+			 
+			 $('input[name="birthday"]').daterangepicker({
+			      
+			      singleDatePicker: true,
+			      locale: {
+			          format: 'YYYY-MM-DD'
+			        }
+			  });
+		});
+	</script> 
+	<script type="text/javascript">
+		//用於讓權限的內容從英文變中文
+// 		console.log($("#auth_td input:nth-child(2)").text());
+		
+// 	console.log($("#roles1").html())
+// 		$("#roles1").text("管理者")
+// 		var authContent = document.getElementById("roles2");
+// 		authContent.innerHTML="員工";
+// 		var authContent = document.getElementById("roles3");
+// 		authContent.innerHTML="使用者";
+	</script> 
+	
 </body>
 </html>

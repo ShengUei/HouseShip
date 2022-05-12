@@ -7,42 +7,58 @@
 </head>
 
 <body>
-    <!-- Header Section Begin -->
-    <header class="header-section header-normal">
-        <div class="menu-item">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <div class="logo">
-                            <a href="#">
-                                <img src="/houseship/images/logo.png" alt="">
-                            </a>
-                        </div>
+<!-- Header Section Begin -->
+<header class="header-section header-normal">
+    <div class="menu-item">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="logo">
+                        <a href="/houseship/">
+                            <img src="/houseship/images/logo.png" alt="">
+                        </a>
                     </div>
-                    <div class="col-lg-9">
-                        <div class="nav-menu">
-                            <nav class="mainmenu">
-                                <ul>
-                                    <li><a href="./index.html">住宿</a></li>
-                                    <li><a href="#">討論區</a></li>
-                                    <li><a href="#">房東專區</a></li>
-                                    <li class="nav-right">
-                                        <a href="#"><i class="fa fa-user-circle"></i></a>
-                                        <ul class="dropdown">
-                                            <li><a class="dropdown-item" href="#">帳號管理</a></li>
-                                            <li><a class="dropdown-item" href="#">我的訂單</a></li>
-                                            <li><a class="dropdown-item" href="#">登出</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="nav-menu">
+                        <nav class="mainmenu">
+                            <ul>
+                                <li><a href="./index.html">住宿</a></li>
+                                <li><a href="#">討論區</a></li>
+                                <li><a href="#">房東專區</a></li>
+                                <li class="nav-right">
+                                    <a href="#" th:if="${session.member == null}">
+                                        <img style="border-radius: 50%; object-fit: cover; width: 40px; height: 40px"
+                                             src="/houseship/images/user.png">
+                                    </a>
+                                    <a href="#" th:if="${session.member != null}">
+                                        <img style="border-radius: 50%; object-fit: cover; width: 45px; height: 45px"
+                                             src="/houseship/images/user.png" th:if="${session.member.mempic == null}">
+                                        <img style="border-radius: 50%; object-fit: cover; width: 45px; height: 45px"
+                                             src="/houseship/images/man.png" th:if="${session.member.mempic != null}">
+                                    </a>
+                                    <ul class="dropdown" th:if="${session.member == null}">
+                                        <li><a class="dropdown-item" href="/houseship/signinPage">登入</a></li>
+                                        <li><a class="dropdown-item"
+                                               href="/houseship/ui/member/register.controller">註冊</a></li>
+                                    </ul>
+                                    <ul class="dropdown" th:if="${session.member != null}">
+                                        <li><a class="dropdown-item" href="/houseship/account">會員中心</a></li>
+                                        <hr class="mb-0">
+                                        <li><a class="dropdown-item" href="#">帳號管理</a></li>
+                                        <li><a class="dropdown-item" href="/houseship/order/myorder/1">我的訂單</a></li>
+                                        <li><a class="dropdown-item" href="#">登出</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>
         </div>
-    </header>
-    <!-- Header End -->
+    </div>
+</header>
+<!-- Header End -->
 </body>
 
 </html>

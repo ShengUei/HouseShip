@@ -1,3 +1,4 @@
+
 .orderList img {
     object-fit: cover;
     width: 100px;
@@ -17,7 +18,7 @@
     background-color: transparent;
 }
 
-.orderList .card .card-header .card-header-action{
+.orderList .card .card-header .card-header-action {
     margin-left: auto;
 }
 
@@ -29,25 +30,30 @@
     margin-top: 1px;
     padding: 2px;
 }
-.orderList .descp{
+
+.orderList .descp {
     color: #5c636a;
 }
-.orderList .card-body a{
+
+.orderList .card-body a {
     color: #dfa974;
     font-size: 16px;
     font-weight: bold;
 }
-.orderList .card-body .action{
+
+.orderList .card-body .action {
     margin-right: auto;
     margin-left: auto;
-    width: 210px;
+    width: 305px;
 }
-.orderList .card-body .action a{
+
+.orderList .card-body .action a {
     text-decoration: underline;
     display: inline-block;
-    width: 100px;
+    width: 150px;
     color: #747575;
 }
-.orderList .card-body .action a:hover{
+
+.orderList .card-body .action a:hover {
     color: #dfa974;
 }

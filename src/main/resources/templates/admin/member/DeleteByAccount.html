@@ -8,7 +8,7 @@
         <meta http-equiv="Pragma" content="no-cache" />
         <meta http-equiv="Expires" content="0" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-		<title>刪除會員資料</title>
+		<title>停用會員帳號</title>
 		<link type="text/css" href="/houseship/css/style-admin-link.css" rel="stylesheet" />
 		<style type="text/css">
 			.div1{
@@ -42,7 +42,7 @@
 
 	<div class="div1">
 	
-	<h2 class="head2">刪除會員資料</h2>
+	<h2 class="head2">停用會員帳號</h2>
 	
 	<form action="#" th:action="@{/admin/member/deletemember.controller/{memberaccount}(memberaccount=${account})}" method="post" th:object="${member}">
 
@@ -52,7 +52,7 @@
 		<thead>
 		<tr>
 			<th>欄位名稱</th>
-			<th>刪除資料</th>
+			<th>會員資料</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -65,24 +65,24 @@
 			<td><input id="hashed_pwd" size="30" readonly th:field="*{hashed_pwd}"/></td>
 		</tr>
 			<td><label for="firstname">姓:</label></td>
-			<td><input id="firstname" size="30"  th:field="*{firstname}"/></td>
+			<td><input id="firstname" size="30"  readonly th:field="*{firstname}"/></td>
 		</tr>
 		<tr>
 			<td><label for="lastname">名:</label></td>
-			<td><input id="lastname" size="30" th:field="*{lastname}"/></td>
+			<td><input id="lastname" size="30" readonly th:field="*{lastname}"/></td>
 		</tr>
 		<tr>
 			<td><label for="birthday">生日:</label></td>
-			<td><input type="date" id="birthday" size="30" th:field="*{birthday}"/></td>
+			<td><input type="text" id="birthday" readonly size="30" th:field="*{birthday}"/></td>
 		</tr>
 
 		<tr>
 			<td><label for="email">e-mail</label></td>
-			<td><input id="email" size="30" th:field="*{email}"/></td>
+			<td><input id="email" size="30"  th:field="*{email}"/></td>
 		</tr>
 		<tr>
 			<td><label for="m_address">地址:</label></td>
-			<td><input id="address" size="30" th:field="*{m_address}"/></td>
+			<td><input id="address" size="30" readonly th:field="*{m_address}"/></td>
 		</tr>
 		<tr>
 			<td><label for="phone">聯絡電話:</label></td>
@@ -90,12 +90,12 @@
 		</tr>
 		<tr>
 			<td><label for="mempic">頭像:</label></td>
-			<td><input id="mempic" size="30" th:field="*{mempic}"/></td>
+			<td><input id="mempic" size="30" readonly th:field="*{mempic}"/></td>
 		</tr>	
 		</tbody>		
 	</table>
 	<div class="divInput">
-			<input type="submit" name="delete_confirm" class="btn btn-primary" value="刪除">
+			<input type="submit" name="delete_confirm" class="btn btn-primary" value="停權">
 	</div>
 	</div>
 	</form>
@@ -105,5 +105,20 @@
 	</div>
 	
 	<div th:replace="/admin/js.html"></div>
+	<script>
+		$(function() {
+			 
+			 $('input[name="birthday"]').daterangepicker({
+			      
+			      singleDatePicker: true,
+			      locale: {
+			          format: 'YYYY-MM-DD'
+			        }
+			  });
+		});
+
+
+</script> 
+	
 </body>
 </html>

@@ -1,14 +1,14 @@
 package com.grp4.houseship.member.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,6 +18,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 
@@ -25,9 +26,6 @@ import org.springframework.stereotype.Component;
 @Entity @Table(name="member")
 public class Member implements Serializable {
 	
-
-
-
 
 	private static final long serialVersionUID = 1L;  //Bean要可序列化
 	//為什麼序列化要有private,static??
@@ -44,6 +42,7 @@ public class Member implements Serializable {
 	@Column(name="FIRSTNAME")
 	private String firstname;
 	@Column(name="BIRTHDAY")
+	@DateTimeFormat (pattern="dd-MMM-YYYY")
 	private String birthday;
 	@Column(name="EMAIL")
 	private String email;
@@ -52,9 +51,16 @@ public class Member implements Serializable {
 	@Column(name="PHONE")
 	private String phone;
 	@Column(name="MEMPIC")
+	private String mempic;
+	@Column(name="VERIFICATION_CODE" , length = 64)
+	private String verificationCode;
+	@Column(name="ENABLED")
+	private boolean enabled;
+	@Column(name="RESET_PASSWORD_TOKEN")
+	private String resetPasswordToken;
+	
 	
 	//getRoles()得到的會是role table裡一列一列的資料物件,如果該member有三個角色,則會取得三個資料物件
-	private String mempic;
 	@ManyToMany(cascade = {CascadeType.REFRESH,CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH}, fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "member_roles",
@@ -62,6 +68,11 @@ public class Member implements Serializable {
 			inverseJoinColumns = @JoinColumn(name = "role_id")
 	)
 	private Set<Role> roles = new HashSet<>();
+	
+	//用於第三方登入,Enum用來限制屬性值只能為啂些特定值
+	@Enumerated(EnumType.STRING)
+	@Column(name = "auth_type")
+	private AuthenticationType authType;
 	
 	
 	public Member() {  
@@ -206,5 +217,41 @@ public class Member implements Serializable {
 	
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+	
+	public String getVerificationCode() {
+		return verificationCode;
+	}
+	
+	
+	public void setVerificationCode(String verificationCode) {
+		this.verificationCode = verificationCode;
+	}
+	
+	
+	public boolean isEnabled() {
+		return this.enabled;
+	}
+	
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+	
+	public String getResetPasswordToken() {
+		return resetPasswordToken;
+	}
+	
+	
+	public void setResetPasswordToken(String resetPasswordToken) {
+		this.resetPasswordToken = resetPasswordToken;
+	}
+	
+	public AuthenticationType getAuthType() {
+		return authType;
+	}
+	
+	
+	public void setAuthType(AuthenticationType authType) {
+		this.authType = authType;
 	}
 }

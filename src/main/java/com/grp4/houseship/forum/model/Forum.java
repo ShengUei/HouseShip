@@ -15,10 +15,11 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.grp4.houseship.member.model.Member;
-//import com.sun.istack.NotNull;
 
 @Entity
 @Table(name = "forum")
@@ -32,26 +33,45 @@ public class Forum implements Serializable {
 	private int fid;
 
 	@Transient
-//	@Column(name = "ACCOUNT")
 	private String account;
 
-//	@Temporal(TemporalType.TIMESTAMP)
-//	@NotNull
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name = "POSTTIME")
 	private LocalDateTime postTime;
-//	@NotNull
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@Column(name = "UPDATETIME")
+	private LocalDateTime updateTime;
+	
+	@Column(name = "IMAGE")
+	private String image;
+
 	@Column(name = "THEME")
 	private String theme;
-//	@NotNull
+	
+	@Column(name = "CATEGORY")
+	private String category;
+
 	@Column(name = "TITLE")
 	private String title;
-//	@NotNull
+
 	@Column(name = "CONTENT")
 	private String content;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "ACCOUNT")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ACCOUNT", referencedColumnName = "ACCOUNT")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+
 	private Member member;
+
+	@Transient
+	@Column(name = "click")
+	private int click;
+	@Column(name = "GRADE")
+	private String grade;
+
+	@Column(name = "REVIEW")
+	private String review;
 
 	public Forum() {
 	}
@@ -62,8 +82,9 @@ public class Forum implements Serializable {
 		this.content = content;
 	}
 
-	public Forum(Member member, String theme, String title, String content) {
+	public Forum(Member member, String image, String theme, String title, String content) {
 		this.member = member;
+		this.image = image;
 		this.theme = theme;
 		this.title = title;
 		this.content = content;
@@ -74,6 +95,11 @@ public class Forum implements Serializable {
 		this.postTime = LocalDateTime.now();
 
 	}
+//	@PrePersist
+//	public void prePersistUpdate() {
+//		this.updateTime = LocalDateTime.now();
+//		
+//	}
 
 	public int getFid() {
 		return fid;
@@ -81,6 +107,14 @@ public class Forum implements Serializable {
 
 	public void setFid(int fid) {
 		this.fid = fid;
+	}
+
+	public String getAccount() {
+		return member.getAccount();
+	}
+
+	public void setAccount(String account) {
+		this.account = account;
 	}
 
 	public LocalDateTime getPostTime() {
@@ -91,12 +125,36 @@ public class Forum implements Serializable {
 		this.postTime = postTime;
 	}
 
+	public LocalDateTime getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(LocalDateTime updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
 	public String getTheme() {
 		return theme;
 	}
 
 	public void setTheme(String theme) {
 		this.theme = theme;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 	public String getTitle() {
@@ -123,14 +181,28 @@ public class Forum implements Serializable {
 		this.member = member;
 	}
 
-	public String getAccount() {
-		return member.getAccount();
+	public int getClick() {
+		return click;
 	}
 
-	public void setAccount(String account) {
-		this.account = account;
+	public void setClick(int click) {
+		this.click = click;
 	}
 
+	public String getGrade() {
+		return grade;
+	}
 
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
+
+	public String getReview() {
+		return review;
+	}
+
+	public void setReview(String review) {
+		this.review = review;
+	}
 
 }

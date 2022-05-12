@@ -16,10 +16,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.grp4.houseship.member.model.LoginSuccessHandler;
+import com.grp4.houseship.member.model.OAuthLoginSuccessHandler;
+import com.grp4.houseship.member.model.OAuthMemberService;
 import com.grp4.houseship.member.model.UserDetailsServiceImpl;
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled=true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	//private UserDetailsServiceImpl userDetailsServiceImpl;
@@ -45,6 +47,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	 
 	 @Autowired
 	 LoginSuccessHandler loginSuccessHandler;
+	//for第三方登入用
+	 @Autowired
+	 OAuthMemberService oauthMemberService;
+	//for第三方登入用
+	 @Autowired
+	 OAuthLoginSuccessHandler oauth2LoginSuccessHandler;
 	
 	
 	
@@ -66,16 +74,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 		.authorizeRequests()
+		//for第三方登入用
+		.antMatchers("/oauth/**").permitAll()
 //		.antMatchers(HttpMethod.GET,"/home/**").authenticated()
-		.antMatchers(HttpMethod.GET,"/admin/member/**").hasAuthority("admin")
-		.antMatchers(HttpMethod.GET,"/ui/member/accountmanager.controller").hasAuthority("user")
+		.antMatchers(HttpMethod.GET,"/admin/member/**").hasAuthority("ROLE_ADMIN")
+		.antMatchers(HttpMethod.GET,"/admin/member/**").hasAuthority("ROLE_STAFF")
+		.antMatchers(HttpMethod.GET,"/ui/member/accountmanager.controller").hasAuthority("ROLE_USER")
 //		.antMatchers(HttpMethod.GET,"/house/**").authenticated()
 //		.antMatchers(HttpMethod.GET,"/order/**").authenticated()
 //		.antMatchers(HttpMethod.GET,"/forum/**").authenticated()
 		.antMatchers(HttpMethod.GET).permitAll()
 //		.antMatchers(HttpMethod.POST,"/home/**").authenticated()
-		.antMatchers(HttpMethod.POST,"/admin/member/**").hasAuthority("admin")
-		.antMatchers(HttpMethod.POST,"/ui/member/accountmanager.controller").hasAuthority("user")
+		.antMatchers(HttpMethod.POST,"/admin/member/**").hasAuthority("ROLE_ADMIN")
+		.antMatchers(HttpMethod.POST,"/ui/member/accountmanager.controller").hasAuthority("ROLE_USER")
 //		.antMatchers(HttpMethod.POST,"/house/**").authenticated()
 //		.antMatchers(HttpMethod.POST,"/order/**").authenticated()
 //		.antMatchers(HttpMethod.POST,"/forum/**").authenticated()
@@ -85,13 +96,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.rememberMe().tokenValiditySeconds(86400).key("rememberMe-key")
 		.and()
 		.csrf().disable()
-		.headers().frameOptions().sameOrigin()
-		.and()
 		//signIn.html的action必須是"/houseship/signinPage",spring security好像才能順利驗證
 		.formLogin().loginPage("/signinPage")
 		//.defaultSuccessUrl("/welcomePage") 用下面的handler代替了
-		.successHandler(loginSuccessHandler); //上面有為了這邊多一個@Autowired
-		
+		.successHandler(loginSuccessHandler) //上面有為了這邊多一個@Autowired
+		.and()
+		//for第三方登入用
+		.oauth2Login()
+			.loginPage("/signinPage")
+				.userInfoEndpoint()
+					.userService(oauthMemberService)
+					.and()
+					.successHandler(oauth2LoginSuccessHandler)
+		.and()
+		.logout()
+		.logoutSuccessUrl("/");
 	}
 	
 	

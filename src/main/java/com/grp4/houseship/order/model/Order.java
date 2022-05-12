@@ -40,7 +40,7 @@ public class Order {
     private Double pay;
 
     @ManyToOne
-    @JoinColumn(name = "COUPONNO")
+    @JoinColumn(name = "COUPONNO", referencedColumnName = "COUPONNO")
     private Coupon coupon;
 
     @Enumerated(EnumType.STRING)

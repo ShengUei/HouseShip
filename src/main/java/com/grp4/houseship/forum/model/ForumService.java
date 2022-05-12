@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class ForumService {
 	@Autowired
 	private ForumRepository forumRepository;
-	
+
 	public Long getDataCount() {
 		return forumRepository.count();
 	}
@@ -35,6 +35,7 @@ public class ForumService {
 
 //------------------Update----------------------------------------------
 	public Forum update(Integer fid, Forum forum) {
+//		forumRepository.s
 		return forumRepository.save(forum);
 	}
 
@@ -51,7 +52,11 @@ public class ForumService {
 
 //------------------QueryAll-------------------------------------------
 	public List<Forum> findAll() {
-//		System.out.println(forumRepository.findAll());
 		return forumRepository.findAll();
 	}
+
+//	public List<Forum> findmyForums(String account) {
+//		return forumRepository.findMyForum(account);
+//	}
+
 }

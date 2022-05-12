@@ -39,4 +39,72 @@ public class Coupon {
     @Column(name = "ENDDATE")
     private Date endDate;
 
+
+    public Coupon() {
+    }
+
+    public Coupon(String couponCode, String title, CouponStatus status, double discount, Date startDate, Date endDate) {
+        this.couponCode = couponCode;
+        this.title = title;
+        this.status = status;
+        this.discount = discount;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    public int getCouponNo() {
+        return couponNo;
+    }
+
+    public void setCouponNo(int couponNo) {
+        this.couponNo = couponNo;
+    }
+
+    public String getCouponCode() {
+        return couponCode;
+    }
+
+    public void setCouponCode(String couponCode) {
+        this.couponCode = couponCode;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public CouponStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(CouponStatus status) {
+        this.status = status;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 }

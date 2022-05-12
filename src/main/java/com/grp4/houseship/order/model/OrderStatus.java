@@ -7,7 +7,9 @@ public enum OrderStatus {
     //取消
     Cancel("已取消"),
     //變更
-    Update("已變更");
+    Update("已變更"),
+    //已完成
+    Finish("已完成");
 
     private String description;
 

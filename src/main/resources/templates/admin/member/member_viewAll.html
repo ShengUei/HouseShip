@@ -99,7 +99,7 @@
 		$(document).ready(function() {
 			$.ajax({
 				type: "GET",
-				url: "member/findall.controller",
+				url: "/houseship/admin/member/findall.controller",
 				success: function(result) {
 					var tr=[];
 					tr.push('<tbody>')
@@ -118,7 +118,7 @@
 						// 記得補上下面兩行的路徑
 						tr.push('<td class="text-center"><a class="btn btn-primary"  href="/houseship/admin/member/updatemember.controller/'+ result[i].account +'" role="button">詳細</a></td>');
 						tr.push('<td class="text-center"><a class="btn btn-warning" href="/houseship/admin/member/updatemember.controller/'+ result[i].account +'" role="button"> 修改</a></td>');
-						tr.push('<td class="text-center"><a class="btn btn-danger"  href="/houseship/admin/member/deletemember.controller/'+ result[i].account +'" role="button">刪除</a></td>');
+						tr.push('<td class="text-center"><a class="btn btn-danger"  href="/houseship/admin/member/deletemember.controller/'+ result[i].account +'" role="button">停權</a></td>');
 						tr.push('</tr>');
 					}
 					

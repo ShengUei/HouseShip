@@ -22,7 +22,7 @@
                     <i class="fa-solid fa-house"></i>
                 </div> 房源管理
                 </a>
-                <a class="nav-link order" href="#">
+                <a class="nav-link order" href="/houseship/admin/order">
                 <div class="sb-nav-link-icon">
                     <i class="fas fa-shopping-cart"></i>
                 </div> 訂單管理
@@ -40,8 +40,8 @@
             </div>
         </div>
         <div class="sb-sidenav-footer">
-            <div class="small" th:text="'Logged in as: ${member.lastname}'"></div>
-            Project Manager
+            <div class="small">登入身分:</div>
+            <span th:text="${session.member.firstname} + '&nbsp;' + ${session.member.lastname}"></span>
         </div>
     </nav>
 </div>

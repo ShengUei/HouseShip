@@ -129,8 +129,14 @@
     background-color: #f5f7fa;
     padding: 30px;
     color: #6b6b6b;
-    font-size: 14px;
+    font-size: 16px;
 }
 .checkout_details_area .checkoutForm textarea.form-control {
     height: 210px;
+}
+.checkout_details_area .checkoutForm .form-control.code {
+    height: 30px;
+    padding: 15px;
+    font-size: 14px;
+    margin-bottom: 5px !important;
 }

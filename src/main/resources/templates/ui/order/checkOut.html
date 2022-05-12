@@ -20,6 +20,15 @@
         .breadcrumb-text i:hover {
             color: #dfa974
         }
+        #codeCheck-btn{
+            color: white;
+            background-color: #0d6efd;
+            border: white 1px solid;
+            border-radius: 5px;
+        }
+        #couponDetail{
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -75,7 +84,7 @@
                             </div>
                             <div class="col-12 mb-3">
                                 <label for="checkInTime">預計抵達時間</label>
-                                <input type="hidden" id="defaultCheckinTime" th:value="${#dates.format(houseInfo.houseRules.check_in, 'HH')}">
+                                <input type="hidden" id="defaultCheckinTime" th:value="${#dates.format(houseInfo.houseRules.check_in, 'HH:mm')}">
                                 <input type="time" class="form-control mb-3 checkInTime" id="checkInTime" placeholder="預計抵達時間"
                                        th:field="${order.orderDetail.checkInTime}">
                             </div>
@@ -89,10 +98,21 @@
                                     <input type="checkbox" class="custom-control-input" id="useCoupon">
                                     <label class="custom-control-label" for="useCoupon">使用優惠券</label>
                                 </div>
+                                <div class="custom-control custom-checkbox mb-2" id="couponSection">
+                                    <div class="row" id="couponSection-code" style="display: none">
+                                        <div class="col-7">
+                                            <input type="text" class="form-control mb-3 code" id="couponCode" placeholder="請輸入折扣碼">
+                                        </div>
+                                        <div class="col-2">
+                                            <button id="codeCheck-btn">輸入</button>
+                                        </div>
+                                    </div>
+                                    <span id="couponDetail"></span>
+                                </div>
                             </div>
                             <div class="col-12">
                                 <div class="custom-control custom-checkbox d-block">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck3">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck3" required>
                                     <label class="custom-control-label" for="customCheck3">我已詳閱住宿規則</label>
                                 </div>
                             </div>
@@ -127,6 +147,46 @@
             });
         };
     });
+
+    $("#useCoupon").click(function (){
+        if (this.checked){
+            $("#couponSection-code").show();
+        }else{
+            $("#couponSection-code").hide();
+            $("#couponSection-discount").hide();
+            $("#couponDetail").text("");
+            $("#discount_m").val(1);
+            $("#discount-div").css("color", "black");
+            showPayment();
+        }
+    });
+
+    $("#codeCheck-btn").click(function (e){
+        e.preventDefault();
+        $("#couponDetail").text("");
+        let code = $("#couponCode").val();
+        $.ajax({
+            type: 'get',
+            url: '/houseship/coupon/check/' + code,
+            contentType:'application/json',
+            success: function (data){
+                if (data == ""){
+                    $("#couponDetail").text("查無可用的優惠券");
+                    $("#discount_m").val(1);
+                    $("#couponNO").val("");
+                    $("#discount-div").css("color", "black");
+                    showPayment();
+                }else {
+                    $("#couponDetail").text(data.title);
+                    $("#discount_m").val(data.discount);
+                    $("#couponNO").val(data.couponNo);
+                    $("#discount-div").css("color", "red");
+                    showPayment();
+                }
+            }
+        });
+    });
+
 </script>
 
 </body>

@@ -50,8 +50,8 @@
                 </div>
                 <div class="row showAfterPick">
                     <div class="col-lg-6">折扣金額</div>
-                    <div class="col-lg-6">
-                        - $<span id="discount">0</span> TWD
+                    <div class="col-lg-6" id="discount-div">
+                        - <span id="discount">0</span> TWD
                     </div>
                 </div>
                 <div class="row showAfterPick">
@@ -63,6 +63,8 @@
                 </div>
             </div>
         </div>
+        <input type="hidden" id="discount_m" value="1">
+        <input type="hidden" id="couponNO" th:field="*{coupon.couponNo}">
         <input type="hidden" id="payTotalSend" th:field="*{pay}">
         <button type="submit" class="btn btn-search">結帳</button>
     </div>
