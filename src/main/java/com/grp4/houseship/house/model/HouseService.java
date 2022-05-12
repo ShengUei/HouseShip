@@ -3,6 +3,7 @@ package com.grp4.houseship.house.model;
 import com.grp4.houseship.member.model.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,16 +29,12 @@ public class HouseService {
 		return houseRepository.findAll();
 	}
 
-	public List<HouseInfo> searchAll(Pageable pageable) {
+	public Page<HouseInfo> searchAll(Pageable pageable) {
 		return houseRepository.findByStatusIsTrueOrderByCreatedDateDesc(pageable);
 	}
 
-	public Page<HouseInfo> getTotalPagesForSearchAll(Pageable pageable) {
-		return houseRepository.findTotalPagesByStatusIsTrueOrderByCreatedDateDesc(pageable);
-	}
-
-	public List<HouseInfo> searchAllByCity(String city) {
-		return houseRepository.findByCityAndStatusIsTrueOrderByCreatedDateDesc(city);
+	public Page<HouseInfo> searchAllByCity(String city, Pageable pageable) {
+		return houseRepository.findByCityAndStatusIsTrueOrderByCreatedDateDesc(city, pageable);
 	}
 
 	public HouseInfo searchById(int id) {
@@ -48,12 +45,24 @@ public class HouseService {
 		return optional.orElse(null);
 	}
 
-	public List<HouseInfo> advanceSearch(String str) {
-		String sqlStr = "select * from houseinfo i join houseOffers o on i.offersNo = o.offersNo" +
+	public Page<HouseInfo> advanceSearch(String str, Pageable pageable) {
+		String sqlStr = "select i.* from houseinfo i join houseOffers o on i.offersNo = o.offersNo" +
 				" join houseRules r on i.rulesNo = r.rulesNo" +
 				" join (select houseNo ,min(photoPath) photoPath from housePhotos group by houseNo) p on i.houseNo = p.houseNo" +
 				" where ";
-		return entityManager.createNativeQuery(sqlStr + str, HouseInfo.class).getResultList();
+		Query query = entityManager.createNativeQuery(sqlStr + str, HouseInfo.class);
+		query.setFirstResult((int) pageable.getOffset());
+		query.setMaxResults(pageable.getPageSize());
+		Page<HouseInfo> pageOfHouseInfo = new PageImpl<>(query.getResultList(), pageable, getCountForAdvanceSearch(str));
+		return pageOfHouseInfo;
+	}
+
+	private Integer getCountForAdvanceSearch(String str) {
+		String sqlStr = "select count(*) from houseinfo i join houseOffers o on i.offersNo = o.offersNo" +
+				" join houseRules r on i.rulesNo = r.rulesNo" +
+				" join (select houseNo ,min(photoPath) photoPath from housePhotos group by houseNo) p on i.houseNo = p.houseNo" +
+				" where ";
+		return (Integer) entityManager.createNativeQuery(sqlStr + str).getSingleResult();
 	}
 
 	public List<HouseInfo> searchByAccount(Member member) {

@@ -15,11 +15,9 @@ public interface HouseRepository extends JpaRepository<HouseInfo, Integer> {
 
 //    List<HouseInfo> findByStatusIsTrueOrderByCreatedDateDesc();
 
-    List<HouseInfo> findByStatusIsTrueOrderByCreatedDateDesc(Pageable pageable);
+    Page<HouseInfo> findByStatusIsTrueOrderByCreatedDateDesc(Pageable pageable);
 
-    Page<HouseInfo> findTotalPagesByStatusIsTrueOrderByCreatedDateDesc(Pageable pageable);
-
-    List<HouseInfo> findByCityAndStatusIsTrueOrderByCreatedDateDesc(String city);
+    Page<HouseInfo> findByCityAndStatusIsTrueOrderByCreatedDateDesc(String city, Pageable pageable);
 
     List<HouseInfo> findByMemberOrderByCreatedDateDesc(Member member);
 

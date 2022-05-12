@@ -25,69 +25,6 @@
 <header th:replace="/ui/header-section.html"></header>
 <div th:replace="/ui/page-preloder.html"></div>
 <div th:replace="/ui/offcanvas-menu-section.html"></div>
-<!--<div th:replace="/ui/house/searchBar-section.html"></div>-->
-<!--<div th:replace="/ui/house/breadcrumb-section.html"></div>-->
-
-<!-- Room Details Section Begin -->
-<!--<section class="room-details-section spad">-->
-<!--    <div class="container">-->
-<!--        <div class="row" id="sidebarMainContent">-->
-<!--            <div class="col-lg-12">-->
-<!--                <div>-->
-<!--                    <a href="#" th:href="@{/house/host/addnewhouse}"-->
-<!--                       style="margin-left: 1px; display: inline"><input-->
-<!--                            class="btn-primary" type="submit" name="new" value="新增"></a>-->
-<!--                    <table id="datatablesSimple">-->
-<!--                        <thead>-->
-<!--                        <tr>-->
-<!--                            <th>房屋編號</th>-->
-<!--                            <th>目前狀態</th>-->
-<!--                            <th>刊登時間</th>-->
-<!--                            <th>最後編輯時間</th>-->
-<!--                            <th>房屋名稱</th>-->
-<!--&lt;!&ndash;                            <th>服務編號</th>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <th>規章編號</th>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <th>封面照片</th>&ndash;&gt;-->
-<!--                            <th>功能</th>-->
-<!--                            <th>功能</th>-->
-<!--                            <th >功能</th>-->
-<!--                        </tr>-->
-<!--                        </thead>-->
-<!--                        <tbody>-->
-<!--                        <tr th:each="house : ${ownedList}">-->
-<!--                            <td id="house-id" th:text="*{house.houseNo}">房屋編號</td>-->
-<!--                            <td th:if="*{house.status == true}">上架中</td>-->
-<!--                            <td th:unless="*{house.status == true}">下架中</td>-->
-<!--                            <td th:text="*{#dates.format(house.createdDate, 'yyyy/MM/dd')}">刊登時間</td>-->
-<!--                            <td th:text="*{#dates.format(house.lastModifiedDate, 'yyyy/MM/dd')}">最後編輯時間</td>-->
-<!--                            <td style="max-width: 250px" th:text="*{house.h_title}">房屋名稱</td>-->
-<!--&lt;!&ndash;                            <td th:text="*{house.houseOffers.offersNo}">服務編號</td>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <td th:text="*{house.houseRules.rulesNo}">規章編號</td>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <td>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <img src="/houseship/images/house/room-details.jpg" th:src="'/houseship/images/house/' + *{house.housePhotos[0].photoPath}" alt="house image">&ndash;&gt;-->
-<!--&lt;!&ndash;                            </td>&ndash;&gt;-->
-<!--                            <td class="text-center">-->
-<!--                                <a href="#" th:href="@{/house/housedetails/{houseNo}(houseNo=*{house.houseNo})}" class="btn btn-primary" role="button">詳細</a>-->
-<!--                            </td>-->
-<!--                            <td class="text-center">-->
-<!--                                <a href="#" th:href="@{/house/host/updatehouse/{houseNo}(houseNo=*{house.houseNo})}" class="btn btn-warning" role="button">修改</a>-->
-<!--                            </td>-->
-<!--                            <td class="text-center">-->
-<!--                                <button th:if="*{house.status == true}" id="disable-house" onclick="disableHouse()" type="button" class="btn btn-danger">下架房屋</button>-->
-<!--                                <button th:unless="*{house.status == true}" id="enable-house" onclick="enableHouse()" type="button" class="btn btn-success">重新上架</button>-->
-<!--                            </td>-->
-<!--                        </tr>-->
-<!--                        </tbody>-->
-<!--                    </table>-->
-<!--                </div>-->
-<!--                <button class="csv">export csv</button>-->
-<!--                <button class="json">export json</button>-->
-<!--                <button class="sql">export sql</button>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</section>-->
-<!-- Room Details Section End -->
 
 <section class="section">
     <div class="section-header">
@@ -96,8 +33,8 @@
         </div>
         <h1>房東專區</h1>
         <div class="section-header-breadcrumb">
-            <div class="breadcrumb-item active"><a href="#">首頁</a></div>
-            <div class="breadcrumb-item active"><a href="#">會員中心</a></div>
+            <div class="breadcrumb-item active"><a href="/houseship/">首頁</a></div>
+            <div class="breadcrumb-item active"><a href="/houseship/account">會員中心</a></div>
             <div class="breadcrumb-item">房東專區</div>
         </div>
     </div>
@@ -179,6 +116,10 @@
 
 <!-- Customized JS -->
 <script type="application/javascript" src="/houseship/js/house/enable-disable-house.js"></script>
+
+<script>
+    $(".house").addClass("active");
+</script>
 
 </body>
 </html>

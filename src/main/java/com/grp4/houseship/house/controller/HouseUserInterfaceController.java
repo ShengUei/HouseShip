@@ -10,6 +10,7 @@ import com.grp4.houseship.member.model.Member;
 import com.grp4.houseship.order.model.OrderDetail;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -50,23 +51,23 @@ public class HouseUserInterfaceController {
     @ResponseBody
     public ResponseEntity<List<HouseInfo>> searchAllHouses(HttpSession session, @PathVariable("page") Integer page) {
         List<HouseInfo> houseList;
-        Pageable pageable;
+        Pageable pageable = PageRequest.of(page - 1, 5);
         String locationCity = (String) session.getAttribute("locationCity");
-        System.out.println("page: " + page);
         if(locationCity != null) {
-            houseList = houseService.searchAllByCity(locationCity);
-        } else {
-//            houseList = houseService.searchAll();
-
-            pageable = PageRequest.of(page - 1, 1);
-
-            houseList = houseService.searchAll(pageable);
-            session.setAttribute("totalPages", houseService.getTotalPagesForSearchAll(pageable).getTotalPages());
+            Page<HouseInfo> houseInfoPage = houseService.searchAllByCity(locationCity, pageable);
+            session.setAttribute("totalPages", houseInfoPage.getTotalPages());
+            session.setAttribute("totalElements", houseInfoPage.getTotalElements());
             session.setAttribute("currentPage", page);
-
+            houseList = houseInfoPage.getContent();
+            session.setAttribute("houseList", houseInfoPage.getContent());
+        } else {
+            Page<HouseInfo> houseInfoPage = houseService.searchAll(pageable);
+            session.setAttribute("totalPages", houseInfoPage.getTotalPages());
+            session.setAttribute("totalElements", houseInfoPage.getTotalElements());
+            session.setAttribute("currentPage", page);
+            houseList = houseInfoPage.getContent();
+            session.setAttribute("houseList", houseList);
         }
-
-        session.setAttribute("houseList", houseList);
 
         session.removeAttribute("locationCity");
 
@@ -83,6 +84,12 @@ public class HouseUserInterfaceController {
     public ResponseEntity<Map<String, Integer>> getTotalPages(HttpSession session) {
         Integer totalPages = (Integer) session.getAttribute("totalPages");
         Integer currentPage = (Integer) session.getAttribute("currentPage");
+        Integer totalElements;
+        if(session.getAttribute("totalElements") instanceof Long) {
+            totalElements = ((Long) session.getAttribute("totalElements")).intValue();
+        } else {
+            totalElements = (Integer) session.getAttribute("totalElements");
+        }
         if(totalPages == null || currentPage == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -91,17 +98,20 @@ public class HouseUserInterfaceController {
         responseHeaders.setContentType(MediaType.APPLICATION_JSON);
         Map<String, Integer> pageMap = new HashMap<>();
         pageMap.put("totalPages", totalPages);
+        pageMap.put("totalElements", totalElements);
         pageMap.put("currentPage", currentPage);
 
         return new ResponseEntity<>(pageMap, responseHeaders, HttpStatus.OK);
     }
 
-    @PostMapping(path = "/api/house/advanced-search-result")
+    @PostMapping(path = "/api/house/advanced-search-result/{page}")
     @ResponseBody
-    public ResponseEntity<List<HouseInfo>> advancedSearchAllHouses(@RequestBody AdvancedSearchModel advancedSearchModel
+    public ResponseEntity<List<HouseInfo>> advancedSearchAllHouses(@RequestBody AdvancedSearchModel advancedSearchModel,
+                                                                    @PathVariable("page") Integer page
                                                                     , HttpSession session) {
         List<HouseInfo> houseList;
         StringBuilder sb = new StringBuilder();
+        Pageable pageable = PageRequest.of(page - 1, 5);
 
         if(advancedSearchModel.isGreaterPrice()) {
             sb.append("i.h_price > 3000");
@@ -142,9 +152,15 @@ public class HouseUserInterfaceController {
             sb.append(" AND r.pet = 1");
         }
 
-        houseList = houseService.advanceSearch(sb.toString());
+        Page<HouseInfo> houseInfoPage = houseService.advanceSearch(sb.toString(), pageable);
+//        Integer countForAdvanceSearch = houseService.getCountForAdvanceSearch(sb.toString());
+
+        houseList = houseInfoPage.getContent();
 
         session.setAttribute("houseList", houseList);
+        session.setAttribute("totalPages", houseInfoPage.getTotalPages());
+        session.setAttribute("totalElements", houseInfoPage.getTotalElements());
+        session.setAttribute("currentPage", page);
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setContentType(MediaType.APPLICATION_JSON);

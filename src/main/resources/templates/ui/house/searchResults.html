@@ -289,7 +289,7 @@
                     </div>
                     <div class="single-listing">
                         <div class="small-section-tittle2">
-                            <button type="submit" class="btn" onclick="advancedSearch()">進階查詢</button>
+                            <button type="submit" class="btn" id="advanced-search">進階查詢</button>
                         </div>
                     </div>
                 </div>
@@ -441,6 +441,10 @@
         $("#searchContent").hide();
         $("#searchContent_close").hide();
     });
+
+    $("#advanced-search").on('click', () => {
+        advancedSearch(1);
+    })
 </script>
 <script src="/houseship/js/house/ui-house-scripts.js" type="application/javascript"></script>
 
