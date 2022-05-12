@@ -1,11 +1,15 @@
 const searchResultsContainer = $('#search-results');
 const countResultSpan = $('#count-result-span');
 
-searchResult(0);
+searchResult(1);
 
 function searchResult (page) {
     let url = '/houseship/api/house/search-result/' + page;
-    console.log("url" + url);
+
+    countResultSpan.html('');
+    searchResultsContainer.html('');
+    $("#map-iframe").html('');
+    $("#room-pagination").html('');
 
     $.ajax({
         method: 'GET',
@@ -48,6 +52,7 @@ function advancedSearch () {
     countResultSpan.html('');
     searchResultsContainer.html('');
     $("#map-iframe").html('');
+    $("#room-pagination").html('');
 
     $('#search-results-preloder').show();
     $('#search-results-loader').show();
@@ -113,13 +118,19 @@ function totalPages() {
         dataType: "json",
 
         success:function(jsonData){
-            for(let i = 0; i < jsonData; i++) {
+            for(let i = 0; i < jsonData.totalPages; i++) {
                 let index = i + 1;
                 $("#room-pagination").append('<a href="#" id="page-' + index + '">'+ index + '</a>');
                 let str = '#page-' + index;
                 $(str).on('click', pageButton);
             }
-            $("#room-pagination").append('<a href="#">Next <i class="fa fa-long-arrow-right"></i></a>');
+            $("#room-pagination").append('<a href="#" id="next-page">Next <i class="fa fa-long-arrow-right"></i></a>');
+            $("#next-page").on('click', nextPageButton);
+
+            function nextPageButton(e) {
+                e.preventDefault();
+                searchResult(jsonData.currentPage + 1);
+            }
         },
 
         error:function(){
@@ -130,8 +141,7 @@ function totalPages() {
 
 function pageButton(e) {
     e.preventDefault();
-    console.log('index: ' + $(this).text());
-    searchResult($(this).text());
+    searchResult(this.innerText);
 }
 
 function render(data, target) {

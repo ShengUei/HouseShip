@@ -58,10 +58,12 @@ public class HouseUserInterfaceController {
         } else {
 //            houseList = houseService.searchAll();
 
-            pageable = PageRequest.of(page, 1);
+            pageable = PageRequest.of(page - 1, 1);
 
             houseList = houseService.searchAll(pageable);
             session.setAttribute("totalPages", houseService.getTotalPagesForSearchAll(pageable).getTotalPages());
+            session.setAttribute("currentPage", page);
+
         }
 
         session.setAttribute("houseList", houseList);
@@ -78,12 +80,20 @@ public class HouseUserInterfaceController {
 
     @GetMapping(path = "/api/house/totalpages")
     @ResponseBody
-    public ResponseEntity<Integer> getTotalPages(HttpSession session) {
+    public ResponseEntity<Map<String, Integer>> getTotalPages(HttpSession session) {
         Integer totalPages = (Integer) session.getAttribute("totalPages");
-        if(totalPages == null) {
-            return new ResponseEntity<>(totalPages, HttpStatus.NOT_FOUND);
+        Integer currentPage = (Integer) session.getAttribute("currentPage");
+        if(totalPages == null || currentPage == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(totalPages, HttpStatus.OK);
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+        Map<String, Integer> pageMap = new HashMap<>();
+        pageMap.put("totalPages", totalPages);
+        pageMap.put("currentPage", currentPage);
+
+        return new ResponseEntity<>(pageMap, responseHeaders, HttpStatus.OK);
     }
 
     @PostMapping(path = "/api/house/advanced-search-result")
@@ -208,7 +218,7 @@ public class HouseUserInterfaceController {
 
         boolean insertStatue = houseService.insert(houseInfo);
         if(insertStatue) {
-            return "redirect:/house/host/ownedhouse";
+            return "redirect:/host/ownedhouse";
         }
         model.addAttribute("errMsg", "新增失敗");
         return "/ui/house/add-new-house";
@@ -313,7 +323,7 @@ public class HouseUserInterfaceController {
     }
 
     private List<HousePhotos> savePhoto(Model model, MultipartFile[] photos) {
-        if(photos != null && photos.length > 0 && photos.length < 5) {
+        if(photos != null && photos.length > 0 && photos.length <= 5) {
             List<HousePhotos> photosList = new ArrayList<>();
             String fileName, pathname;
             for(MultipartFile photo : photos){
