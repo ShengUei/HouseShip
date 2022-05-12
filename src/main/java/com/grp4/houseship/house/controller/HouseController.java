@@ -12,7 +12,7 @@ import com.grp4.houseship.member.model.Member;
 
 
 @Controller
-@RequestMapping(path = "/house")
+@RequestMapping(path = "/admin/house")
 public class HouseController {
 
     @Autowired

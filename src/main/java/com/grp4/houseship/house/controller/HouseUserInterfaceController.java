@@ -184,7 +184,7 @@ public class HouseUserInterfaceController {
         return "/ui/house/house-details";
     }
 
-    @GetMapping(path = "/host/ownedhouse")
+    @GetMapping(path = "/account/host/ownedhouse")
     public String ownedHouse(HttpSession session, Model model) {
         Member member = new Member();
         member.setAccount("admin");
@@ -193,7 +193,7 @@ public class HouseUserInterfaceController {
         return "/ui/house/ownedhouse";
     }
 
-    @GetMapping(path = "/host/addnewhouse")
+    @GetMapping(path = "/account/host/addnewhouse")
     public String addNewHousePage(Model model) {
         HouseInfo houseInfo = new HouseInfo();
         houseInfo.setH_type(1);
@@ -210,7 +210,7 @@ public class HouseUserInterfaceController {
         return "/ui/house/add-new-house";
     }
 
-    @PostMapping(path = "/host/addnewhouse")
+    @PostMapping(path = "/account/host/addnewhouse")
     public String addNewHouse(Model model,
                             @ModelAttribute("houseInfo") HouseInfo houseInfo,
                             @RequestParam("photos") MultipartFile[] photos) {
@@ -234,13 +234,13 @@ public class HouseUserInterfaceController {
 
         boolean insertStatue = houseService.insert(houseInfo);
         if(insertStatue) {
-            return "redirect:/host/ownedhouse";
+            return "redirect:/account/host/ownedhouse";
         }
         model.addAttribute("errMsg", "新增失敗");
         return "/ui/house/add-new-house";
     }
 
-    @GetMapping(path = "/host/updatehouse/{houseid}")
+    @GetMapping(path = "/account/host/updatehouse/{houseid}")
     public String updateHousePage(@PathVariable("houseid") int houseid, Model model, HttpSession session) {
         HouseInfo houseInfo = houseService.searchById(houseid);
         session.setAttribute("tempPhotoList", houseInfo.getHousePhotos());
@@ -248,7 +248,7 @@ public class HouseUserInterfaceController {
         return "/ui/house/update-house";
     }
 
-    @PostMapping(path = "/host/updatehouse")
+    @PostMapping(path = "/account/host/updatehouse")
     public String updateHouse(Model model,
                               HttpSession session,
                               @ModelAttribute("houseInfo") HouseInfo houseInfo,
@@ -272,13 +272,13 @@ public class HouseUserInterfaceController {
 
         boolean insertStatue = houseService.insert(houseInfo);
         if(insertStatue) {
-            return "redirect:/house/host/ownedhouse";
+            return "redirect:/account/host/ownedhouse";
         }
         model.addAttribute("errMsg", "修改失敗");
         return "/ui/house/update-house";
     }
 
-    @PostMapping(path = "/host/cancelhouse/{houseid}")
+    @PostMapping(path = "/account/host/cancelhouse/{houseid}")
     @ResponseBody
     public ResponseEntity<String> cancelHouse(@PathVariable("houseid") int houseid) {
         boolean cancelStatue = houseService.cancel(houseid);
@@ -290,7 +290,7 @@ public class HouseUserInterfaceController {
         return new ResponseEntity<>("{\"message\": \"下架失敗\"}", responseHeaders, HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping(path = "/host/enablehouse/{houseid}")
+    @PostMapping(path = "/account/host/enablehouse/{houseid}")
     @ResponseBody
     public ResponseEntity<String> enableHouse(@PathVariable("houseid") int houseid) {
         boolean enableStatue = houseService.enable(houseid);

@@ -47,7 +47,7 @@
                 <div class="container mainContainer">
                     <!-- 主要內容放這 begin -->
                     <div>
-                        <a href="#" th:href="@{/host/addnewhouse}"
+                        <a href="#" th:href="@{/account/host/addnewhouse}"
                            style="margin-left: 1px; display: inline"><input
                                 class="btn-primary" type="submit" name="new" value="新增"></a>
                         <table id="datatablesSimple">
@@ -83,7 +83,7 @@
                                     <a href="#" th:href="@{/housedetails/{houseNo}(houseNo=*{house.houseNo})}" class="btn btn-primary" role="button">詳細</a>
                                 </td>
                                 <td class="text-center">
-                                    <a href="#" th:href="@{/host/updatehouse/{houseNo}(houseNo=*{house.houseNo})}" class="btn btn-warning" role="button">修改</a>
+                                    <a href="#" th:href="@{/account/host/updatehouse/{houseNo}(houseNo=*{house.houseNo})}" class="btn btn-warning" role="button">修改</a>
                                 </td>
                                 <td class="text-center">
                                     <button th:if="*{house.status == true}" id="disable-house" onclick="disableHouse()" type="button" class="btn btn-danger">下架房屋</button>
@@ -93,9 +93,9 @@
                             </tbody>
                         </table>
                     </div>
-                    <button class="csv">export csv</button>
-                    <button class="json">export json</button>
-                    <button class="sql">export sql</button>
+                    <button class="csv">匯出 csv</button>
+                    <button class="json">匯出 json</button>
+                    <button class="sql">匯出 sql</button>
                     <!-- 主要內容放這 end -->
                 </div>
             </div>

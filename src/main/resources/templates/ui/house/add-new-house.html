@@ -68,7 +68,7 @@
                 <div class="col-lg-12">
                     <div class="room-details-item">
                         <h5 th:if="${errMsg != null}" th:text="${errMsg}" style="color: red;">錯誤訊息</h5>
-                        <form class="needs-validation" novalidate enctype="multipart/form-data" style="max-width: 1000px" action="#" method="post" th:action="@{/host/addnewhouse}" th:object="${houseInfo}">
+                        <form class="needs-validation" novalidate enctype="multipart/form-data" style="max-width: 1000px" action="#" method="post" th:action="@{/account/host/addnewhouse}" th:object="${houseInfo}">
                             <div style="display: none" id="carouselExampleInterval" class="carousel slide" data-bs-interval="false" data-bs-ride="carousel">
                                 <div class="carousel-inner">
                                 </div>
@@ -110,7 +110,7 @@
                                     </div>
                                     <h5>房屋地址 :</h5>
                                     <div class="col-md-3">
-                                        <input required th:field="*{city}" type="text" class="form-control" id="city" name="city" placeholder="請在此輸入縣市"/>
+                                        <input required th:field="*{city}" type="text" class="form-control city" id="city" name="city" placeholder="請在此輸入縣市"/>
                                     </div>
                                     <div class="col-md-8">
                                         <input required th:field="*{h_address}" type="text" class="form-control" id="address" name="h_address" placeholder="請在此輸入地址"/>

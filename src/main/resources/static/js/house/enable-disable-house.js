@@ -4,7 +4,7 @@ function disableHouse() {
         const houseNo = $('#house-id').text();
         $.ajax({
             method: 'POST',
-            url: '/houseship/host/cancelhouse/' + houseNo,
+            url: '/houseship/account/host/cancelhouse/' + houseNo,
             async: 'true',
             dataType: "json",
 
@@ -25,7 +25,7 @@ function enableHouse() {
         const houseNo = $('#house-id').text();
         $.ajax({
             method: 'POST',
-            url: '/houseship/host/enablehouse/' + houseNo,
+            url: '/houseship/account/host/enablehouse/' + houseNo,
             async: 'true',
             dataType: "json",
 

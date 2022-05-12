@@ -27,13 +27,13 @@ window.addEventListener('DOMContentLoaded', event => {
 
 
 var page = {
-    home: "/houseship/home",
-    logout: "/houseship/SignOut",
-    member: "/houseship/member",
-    house: "/houseship/house",
-    order: "/houseship/order/viewAll",
+    home: "/houseship/admin/home",
+    logout: "/houseship/logout",
+    member: "/houseship/admin/member",
+    house: "/houseship/admin/house",
+    order: "/houseship/admin/order",
     coupon: "workInProgress.html",
-    forum: "/houseship/forum",
+    forum: "/houseship/admin/forum",
 };
 
 document.querySelector("#logout").setAttribute("href", page.logout);

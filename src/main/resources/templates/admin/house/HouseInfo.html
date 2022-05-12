@@ -38,7 +38,7 @@
                     <div class="card-body">
                         <!--表單內容可以從這開始 -->
                         <div>
-                            <a href="#" th:href="@{/house/addnewhouse}"
+                            <a href="#" th:href="@{/account/host/addnewhouse}"
                                style="margin-left: 1px; display: inline"><input
                                     class="btn-primary" type="submit" name="new" value="新增"></a>
                             <!-- 								<form style="display: inline" action="#" -->
@@ -68,10 +68,10 @@
                                         <td th:text="${houseInfo.houseOffers.offersNo}">House Offers No</td>
                                         <td th:text="${houseInfo.houseRules.rulesNo}">House Rules No</td>
                                         <td class="text-center">
-                                            <a href="#" th:href="@{/house/housedetail/{houseNo}(houseNo=${houseInfo.houseNo})}" class="btn btn-primary" role="button">詳細</a>
+                                            <a href="#" th:href="@{/housedetails/{houseNo}(houseNo=*{houseInfo.houseNo})}" class="btn btn-primary" role="button">詳細</a>
                                         </td>
                                         <td class="text-center">
-                                            <a href="#" th:href="@{/house/updatehouse/{houseNo}(houseNo=${houseInfo.houseNo})}" class="btn btn-warning" role="button">修改</a>
+                                            <a href="#" th:href="@{/account/host/updatehouse/{houseNo}(houseNo=*{houseInfo.houseNo})}" class="btn btn-warning" role="button">修改</a>
                                         </td>
                                         <td class="text-center">
                                             <a href="#" th:href="@{/house/deletehouse/{houseNo}(houseNo=${houseInfo.houseNo})}" class="btn btn-danger" role="button">刪除</a>
@@ -80,9 +80,9 @@
                                 </tbody>
                             </table>
                         </div>
-                        <button class="csv">export csv</button>
-                        <button class="json">export json</button>
-                        <button class="sql">export sql</button>
+                        <button class="csv">匯出 csv</button>
+                        <button class="json">匯出 json</button>
+                        <button class="sql">匯出 sql</button>
                     </div>
                 </div>
             </div>

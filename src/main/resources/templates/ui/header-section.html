@@ -23,9 +23,9 @@
                     <div class="nav-menu">
                         <nav class="mainmenu">
                             <ul>
-                                <li><a href="./index.html">住宿</a></li>
+                                <li><a href="/houseship/">住宿</a></li>
                                 <li><a href="#">討論區</a></li>
-                                <li><a href="#">房東專區</a></li>
+                                <li><a href="/houseship/account/host/ownedhouse">房東專區</a></li>
                                 <li class="nav-right">
                                     <a href="#" th:if="${session.member == null}">
                                         <img style="border-radius: 50%; object-fit: cover; width: 40px; height: 40px"
@@ -46,7 +46,7 @@
                                         <li><a class="dropdown-item" href="/houseship/account">會員中心</a></li>
                                         <hr class="mb-0">
                                         <li><a class="dropdown-item" href="#">帳號管理</a></li>
-                                        <li><a class="dropdown-item" href="/houseship/order/myorder/1">我的訂單</a></li>
+                                        <li><a class="dropdown-item" href="/houseship/account/myorder/1">我的訂單</a></li>
                                         <li><a class="dropdown-item" href="#">登出</a></li>
                                     </ul>
                                 </li>

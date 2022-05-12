@@ -81,7 +81,7 @@ public class OrderController_UI {
     }
 
     //會員查詢訂單
-    @GetMapping("/order/myorder/{pageNo}")
+    @GetMapping("/account/myorder/{pageNo}")
     public String viewMyOrders(@PathVariable("pageNo") int pageNo, HttpSession session, Model model){
         Member member = (Member) session.getAttribute("member");
         orderService.orderStatusUpdate();
