@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title th:if="${houseInfo != null}" th:text="${houseInfo.h_title}">房屋資訊</title>
 
+    <link rel="icon" href="/houseship/images/favicon.png" type="image/png">
     <link rel="stylesheet" href="/houseship/css/style-ui-link-for-house.css">
     <link rel="stylesheet" href="/houseship/css/style-ui-search.css">
     <link rel="stylesheet" href="/houseship/css/style-ui-booking.css">
@@ -100,7 +101,7 @@
                     <div class="room-details-item">
                         <div class="rd-text" th:object="${houseInfo}">
                             <div class="rd-title">
-                                <h3 th:text="*{h_title}">房屋名稱</h3>
+                                <h3 id="house-title" th:text="*{h_title}">房屋名稱</h3>
                                 <!-- Rating Begin -->
 <!--                                <div class="rdt-right">-->
 <!--                                    <div class="rating">-->
@@ -292,7 +293,10 @@
     <div th:replace="/ui/js.html"></div>
 
     <!-- Customized JS -->
-    <script>$('.carousel-inner > .carousel-item:first-child').addClass("active");</script>
+    <script>
+        $('.carousel-inner > .carousel-item:first-child').addClass("active");
+        // $('#breadcrumb-house-title').html($('#house-title').text());
+    </script>
 
 </body>
 </html>

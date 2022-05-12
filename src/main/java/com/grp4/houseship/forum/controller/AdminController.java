@@ -2,6 +2,7 @@ package com.grp4.houseship.forum.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 
@@ -51,9 +52,9 @@ public class AdminController {
 
 		Member sessionaccount = (Member) session.getAttribute("member");
 		if (sessionaccount != null) {
-			model.addAttribute("session_account", sessionaccount);
+//			model.addAttribute("session_account", sessionaccount);
 
-			System.out.println(sessionaccount);
+//			System.out.println(sessionaccount);
 			return "admin/forum/ForumForm";
 		} else {
 			return "redirect:/signinPage";
@@ -65,28 +66,34 @@ public class AdminController {
 //	@ResponseBody
 	public String createForum(@RequestParam("account") String account, @RequestParam("myfile") MultipartFile file,
 			@RequestParam("theme") String theme, @RequestParam("title") String title,
-			@RequestParam("content") String content,HttpServletRequest request, Model model) throws IOException {
+			@RequestParam("content") String content,HttpSession session, Model model) throws IOException {
 		HashMap<String, String> errors = new HashMap<String, String>();
 		model.addAttribute("errors", errors);
+//		Member sessionaccount = (Member) session.getAttribute("member");
 
-		String fileName = file.getOriginalFilename();
-		System.out.println("originalFileName:"+fileName);
+
+		 String fileName = (String)String.format("%s\\%s.%s", "forum", Instant.now().toEpochMilli(), file.getContentType().split("/")[1]);
 		
+		System.out.println("originalFileName:"+fileName);
 		if(fileName ==null) {
 			fileName = "noimage_s.jpg";
 		}
-		System.out.println(fileName);
-		String saveTempFile = "C:/DataSource/SpringProject/HouseShip-integrated-v2-1.zip_expanded/HouseShip/src/main/resources/static/images/forum/";
+		 String pathname = "C:\\Users\\" + System.getProperty("user.name") + "\\Desktop\\images\\" + fileName;
+//		 File saveFile = new File(pathname);
+//			file.transferTo(saveFile);
+//			System.out.println(saveFile);
+
+		
 		
 //		File saveTempDirFile = new File(saveTempFile);
 //		saveTempDirFile.mkdirs();
 		
-		String saveFilePath = saveTempFile + fileName;
-		File saveFile = new File(saveFilePath);
-		if(!saveFile.getParentFile().exists()) {
-			saveFile.getParentFile().mkdirs();
-		}
-		file.transferTo(saveFile);
+		String saveFilePath = pathname + fileName;
+		File saveFile1 = new File(saveFilePath);
+//		if(!saveFile1.getParentFile().exists()) {
+			saveFile1.getParentFile().mkdirs();
+//		}
+		file.transferTo(saveFile1);
 		System.out.println(saveFilePath);
 		if (account == null || account.length() == 0) {
 			errors.put("account", "格式不正確");
@@ -102,10 +109,12 @@ public class AdminController {
 			errors.put("content", "格式不正確");
 		}
 		Member memacount = memberService.findByAccount(account);
+		System.out.println(memacount);
 
 		if (memacount != null) {
 			Forum forum = new Forum();
 			forum.setMember(memacount);
+			forum.setImage(fileName);
 			forum.setTheme(theme);
 			forum.setTitle(title);
 			forum.setContent(content);
@@ -151,14 +160,15 @@ public class AdminController {
 //	}
 
 	@GetMapping(path = "/detail/{fid}")
-	@ResponseBody
 	public String queryByIdcontroller(@PathVariable("fid") int fid, Model model) {
 		System.out.println(fid);
 		Forum findById = forumservice.findById(fid);
 		model.addAttribute("fourmById", findById);
+		System.out.println(findById);
 
-		return "redirect:admin/forum/QueryByIdForum";
+		return "admin/forum/QueryByIdForum";
 	}
+	
 //-------------------------UpdateController-----------------------------------------------------------------------------------------------
 
 	@GetMapping(path = "/update/{fid}")
@@ -173,8 +183,18 @@ public class AdminController {
 	public String updatecontroller(@PathVariable("fid") int fid, @RequestParam("myfile") MultipartFile file,
 			@RequestParam("theme") String theme, @RequestParam("title") String title,
 			@RequestParam("content") String content) throws IOException {
+		   String fileName = String.format("%s\\%s.%s", "forum", Instant.now().toEpochMilli(), file.getContentType().split("/")[1]);
+				System.out.println("originalFileName:" + fileName);
+				  String pathname = "C:\\Users\\" + System.getProperty("user.name") + "\\Desktop\\images\\" + fileName;
+
+				File saveFile = new File(pathname);
+				file.transferTo(saveFile);
+				System.out.println(saveFile);
+
+		
 		Forum forumset = new Forum();
 //		forumset.setImage(file.getSize());
+		forumset.setImage(fileName);
 		forumset.setTheme(theme);
 		forumset.setTitle(title);
 		forumset.setContent(content);

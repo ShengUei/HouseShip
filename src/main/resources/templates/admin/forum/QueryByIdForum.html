@@ -18,6 +18,7 @@
 	rel="stylesheet"
 	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	crossorigin="anonymous">
+<link rel="stylesheet" href="/houseship/css/style-admin-link.css">
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
@@ -61,84 +62,100 @@ td, th {
 textarea {
 	resize: none;
 }
+
+img {
+	width: 80px;
+	height: 80px;
+	margin-right: 10px;
+}
+
+imgth {
+	width: 83px;
+	height: 83px;
+	margin-right: 13px;
+}
 </style>
 </head>
-<body>
+<body class="sb-nav-fixed">
+	<header th:replace="admin/header.html"></header>
+	<div id="layoutSidenav">
+		<nav th:replace="admin/sidebar.html"></nav>
+		<div id="layoutSidenav_content">
 
-	<!-- 	從這邊開始改 -->
-	<div class="div1">
-		<h2 class="head2">討論版資訊</h2>
+			<!-- 	從這邊開始改 -->
+			<div class="div1">
+				<h2 class="head2">討論版資訊</h2>
 
-<!-- 		<form action="#" method="post" th:object="${forumById}"> -->
-			<div class="divForm">
-				<table class="table table-striped">
-					<tbody>
-						<tr>
-							<td><label for="fid">編號:</label></td>
-							<td id="fid" th:text="*{fourmById.fid}"></td>
-						</tr>
-						<tr>
-							<td><label for="account">帳號:</label></td>
-							<td id="account" th:text="*{fourmById.account}"></td>
-						</tr>
-						<!--                 <tr> -->
-						<!--                     <td><label for="posttime">建立時間:</label></td> -->
-						<!--                     <td ><input id="posttime" size="30" readonly th:field="*{posttime}"/></td> -->
-						<!--                 </tr> -->
-						<!--                 <tr> -->
-						<!--                     <td><label for="updatetime">最後修改時間:</label></td> -->
-						<!--                     <td ><input id="updatetime" size="30" readonly th:field="*{updatetime}"/></td> -->
-						<!--                 </tr> -->
-						<tr>
-							<td><label for="file">圖片:</label></td>
-							<td id="file" th:text="*{fourmById.image}"></td>
-						</tr>
-						<tr>
-							<td><label for="theme">主題:</label></td>
-							<td id="theme" th:text="*{fourmById.theme}"></td>
-						</tr>
+				<!-- 		<form action="#" method="post" th:object="${forumById}"> -->
+				<div class="divForm">
+					<table class="table table-striped">
+						<tbody>
+							<tr>
+								<td><label for="fid">編號:</label></td>
+								<td id="fid" th:text="*{fourmById.fid}"></td>
+							</tr>
+							<tr>
+								<td><label for="account">帳號:</label></td>
+								<td id="account" th:text="*{fourmById.account}"></td>
+							</tr>
+							<tr>
+								<td><label for="posttime">建立時間:</label></td>
+								<td><input id="posttime" size="30" readonly
+									th:text="${#temporals.format(fourmById.postTime,'yyyy-MM-dd HH:mm')}" /></td>
+							</tr>
+							<!-- 						                <tr> -->
+							<!-- 						                    <td><label for="updatetime">最後修改時間:</label></td> -->
+							<!-- 						                    <td ><input id="updatetime" size="30" readonly th:field="*{updatetime}"/></td> -->
+							<!-- 						                </tr> -->
+							<tr>
+								<td><label for="file">圖片:</label></td>
+								<td th:text="*{fourmById.image}"></td>
+							</tr>
+							<tr>
+								<td><label for="theme">主題:</label></td>
+								<td id="theme" th:text="*{fourmById.theme}"></td>
+							</tr>
 
-						<tr>
-							<td><label for="category">類型:</label></td>
-							<td id="theme" th:text="*{fourmById.category}"></td>
-						</tr>
+							<!-- 							<tr> -->
+							<!-- 								<td><label for="category">類型:</label></td> -->
+							<!-- 								<td id="theme" th:text="*{fourmById.category}"></td> -->
+							<!-- 							</tr> -->
 
 
-						<tr>
-							<td><label for="title">標題:</label></td>
-							<td id="title" th:text="*{fourmById.title}"></td>
-						</tr>
-						<tr>
-							<td><label for="content">內容:</label></td>
-							<td id="content" th:text="*{fourmById.content}"></td>
-						</tr>
-						<tr>
-							<td><label for="click">點擊數:</label></td>
-							<td id="click" th:text="*{fourmById.click}" /></td>
-						</tr>
-						<tr>
-							<td><label for="grade">評分:</label></td>
-							<td id="grade" th:text="*{fourmById.grade}" /></td>
-						</tr>
-						<tr>
-							<td><label for="review">狀態:</label></td>
-							<td sid="review" size="100" readonly
-								th:field="*{fourmById.review}" /></td>
-						</tr>
+							<tr>
+								<td><label for="title">標題:</label></td>
+								<td id="title" th:text="*{fourmById.title}"></td>
+							</tr>
+							<tr>
+								<td><label for="content">內容:</label></td>
+								<td id="content" th:text="*{fourmById.content}"></td>
+							</tr>
+							<!-- 						<tr> -->
+							<!-- 							<td><label for="click">點擊數:</label></td> -->
+							<!-- 							<td id="click" th:text="*{fourmById.click}" /></td> -->
+							<!-- 						</tr> -->
+							<!-- 						<tr> -->
+							<!-- 							<td><label for="grade">評分:</label></td> -->
+							<!-- 							<td id="grade" th:text="*{fourmById.grade}" /></td> -->
+							<!-- 						</tr> -->
+							<!-- 						<tr> -->
+							<!-- 							<td><label for="review">狀態:</label></td> -->
+							<!-- 							<td sid="review" size="100" readonly -->
+							<!-- 								th:field="*{fourmById.review}" /></td> -->
+							<!-- 						</tr> -->
 
-					</tbody>
-				</table>
+						</tbody>
+					</table>
+				</div>
+				<!-- 		</form> -->
 			</div>
-<!-- 		</form> -->
+			<div class="divInput">
+				<a th:href="@{/admin/forum}" class="btn btn-primary" role="button">返回</a>
+			</div>
+			<footer th:replace="admin/footer.html"></footer>
+		</div>
 	</div>
-	<div class="divInput">
-		<a th:href="@{admin/forum}" class="btn btn-primary" role="button">取消</a>
-	</div>
-</body>
-</html>
-<title>Title</title>
-</head>
-<body>
-
+	<!-- JS -->
+	<div th:replace="/admin/js.html"></div>
 </body>
 </html>

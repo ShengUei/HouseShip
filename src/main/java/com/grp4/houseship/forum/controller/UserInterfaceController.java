@@ -37,9 +37,9 @@ public class UserInterfaceController {
 	@Autowired
 	private MemberService memberService;
 
-	@GetMapping(path = "/forum/My/myforum")
+	@GetMapping(path = "/account/forum/My/myforum")
 	public String querymyforum(HttpSession session, Model model) {
-		String sessionaccount = (String) session.getAttribute("member");
+		Member sessionaccount = (Member) session.getAttribute("member");
 		model.addAttribute("session_account", sessionaccount);
 		return "ui/forum/MyForum";
 	}
@@ -53,7 +53,7 @@ public class UserInterfaceController {
 		
 		if(sessionaccount != null) {
 			model.addAttribute("session_account", sessionaccount);
-			System.out.println(sessionaccount);
+			System.out.println("-----------"+ sessionaccount +"---------------");
 			return "ui/forum/ForumForm";			
 		}else {
 			return "redirect:/signinPage";
@@ -63,55 +63,36 @@ public class UserInterfaceController {
 
 	@PostMapping(path = "/createforumformcheck.controller")
 //	@ResponseBody
-	public String createForum(@RequestParam("account") String account, @RequestParam("myfile") MultipartFile file,
+	public String createForum(@RequestParam("myfile") MultipartFile file,
 			@RequestParam("theme") String theme, @RequestParam("title") String title,
 			@RequestParam("content") String content, HttpSession session, Model model) throws IOException {
 		HashMap<String, String> errors = new HashMap<String, String>();
 		model.addAttribute("errors", errors);
 		Member sessionaccount = (Member) session.getAttribute("member");
 		if (sessionaccount != null) {
-			String fileName = String.format("%s.%s", Instant.now().toEpochMilli(), file.getContentType().split("/")[1]);
+            Object fileName = String.format("%s\\%s.%s", "forum", Instant.now().toEpochMilli(), file.getContentType().split("/")[1]);
 			System.out.println("originalFileName:" + fileName);
-			String saveTempFile = ResourceUtils.getURL("classpath:").getPath() + "static/images/forum/" + fileName;
+            String pathname = "C:\\Users\\" + System.getProperty("user.name") + "\\Desktop\\images\\" + fileName;
 
-			File saveFile = new File(saveTempFile);
+			File saveFile = new File(pathname);
 			file.transferTo(saveFile);
 			System.out.println(saveFile);
+			
 
-			if (account == null || account.length() == 0) {
-				errors.put("account", "格式不正確");
-			}
-
-			if (theme == null || theme.length() == 0) {
-				errors.put("theme", "格式不正確");
-			}
-			if (title == null || title.length() == 0) {
-				errors.put("title", "格式不正確");
-			}
-			if (content == null || content.length() == 0) {
-				errors.put("content", "格式不正確");
-			}
-			
-			
-	//account 讀不出來
-			
-			
-			
-			
-			
-			
-			Forum forum = new Forum();
-			forum.setMember(sessionaccount);
-			forum.setImage(fileName);
-			forum.setTheme(theme);
-			forum.setTitle(title);
-			forum.setContent(content);
-
-			model.addAttribute("create_forum", forum);
-			
-			System.out.println(forum);
-
-			return "ui/forum/DisplayForum";
+//			Member memberaccount = memberService.findByAccount(account);
+				System.out.println(sessionaccount);
+				Forum forum = new Forum();
+				forum.setMember(sessionaccount);
+				forum.setImage(pathname);
+				forum.setTheme(theme);
+				forum.setTitle(title);
+				forum.setContent(content);
+				
+				model.addAttribute("create_forum", forum);
+				
+				System.out.println(forum);
+				
+				return "ui/forum/DisplayForum";
 		}
 
 		errors.put("msg", "此表單已失效，請重新輸入");

@@ -18,6 +18,7 @@
 	rel="stylesheet"
 	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 	crossorigin="anonymous">
+<link rel="stylesheet" href="/houseship/css/style-admin-link.css">
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
@@ -61,77 +62,100 @@ td, th {
 textarea {
 	resize: none;
 }
+
+img {
+	width: 80px;
+	height: 80px;
+	margin-right: 10px;
+}
+
+imgth {
+	width: 83px;
+	height: 83px;
+	margin-right: 13px;
+}
 </style>
 </head>
-<body>
+<body class="sb-nav-fixed">
+	<header th:replace="admin/header.html"></header>
+	<div id="layoutSidenav">
+		<nav th:replace="admin/sidebar.html"></nav>
+		<div id="layoutSidenav_content">
 
-	<!-- 	從這邊開始改 -->
-	<div class="div1">
-		<h2 class="head2">新增討論版</h2>
+			<!-- 	從這邊開始改 -->
+			<div class="div1">
+				<h2 class="head2">新增討論版</h2>
 
-		<form action="#" th:action="@{/admin/createforumformcheck.controller}"
-			method="post" enctype="multipart/form-data">
+				<form action="#"
+					th:action="@{/admin/createforumformcheck.controller}" method="post"
+					enctype="multipart/form-data">
 
-			<div class="divForm">
-				<table class="table table-striped">
-					<tbody>
-						<tr>
-							<td><label for="account">帳號:</label></td>
-							<td><input id="account" name="account" size="30" /></td>
-						</tr>
-						<tr id="fileTr">
-							<td><label for="file">圖片:</label></td>
-							<td><input type="file" name="myfile" id="file" /><br>
-								<!-- 								<button type="button" value="veiwfile" onclick="viewfile()">預覽</button> -->
-								<img id="demo" class="img-thumbnail"
-								style="max-width: 150px; max-height: 300px;" /><br></td>
-						</tr>
-						<tr>
-							<td><label for="theme">主題:</label></td>
-							<td><input id="theme" size="100" name="theme"
-								list="customization" required placeholder="必填" /> <datalist
-									id="customization">
-<!-- 									<option selected>請選擇主題:</option> -->
-									<option id="discuss" value="討論">討論</option>
-									<option id="article" value="文章">文章</option>
-									<option id="insight" value="心得">心得</option>
-						</tr>
-						
-						<tr>
-							<td><label for="category">類別:</label></td>
-							<td><input id="category" size="100" name="category"
-								list="customization" required placeholder="必填" /> <datalist
-									id="customization">
-<!-- 									<option selected>請選擇主題:</option> -->
-									<option id="food and beverage" value="餐飲">餐飲</option>
-									<option id="family travel" value="家庭旅遊">家庭旅遊</option>
-									<option id="sport and exercise" value="運動與健身">運動與健身</option>
-									<option id="brach" value="海灘">海灘</option>
-						</tr>
+					<div class="divForm">
+						<table class="table table-striped">
+							<tbody>
+								<tr>
+									<td><label for="account">帳號:</label></td>
+									<td><input id="account" name="account" size="30" /></td>
+								</tr>
+								<tr id="fileTr">
+									<td><label for="file">圖片:</label></td>
+									<td><input type="file" name="myfile" id="file" /><br>
+										<!-- 								<button type="button" value="veiwfile" onclick="viewfile()">預覽</button> -->
+										<img id="demo" class="img-thumbnail"
+										style="max-width: 150px; max-height: 300px;" /><br></td>
+								</tr>
+								<tr>
+									<td><label for="theme">主題:</label></td>
+									<td><input id="theme" size="100" name="theme"
+										list="customization" required placeholder="必填" /> <select
+										class="form-select" id="theme" name="theme">
+											<!-- 									<option selected>請選擇主題:</option> -->
+											<option id="discuss" value="討論">討論</option>
+											<option id="article" value="文章">文章</option>
+											<option id="insight" value="心得">心得</option>
+									</select>
+								</tr>
 
-						<tr>
-							<td><label for="title">標題:</label></td>
-							<td><input id="title" size="100" name="title" required
-								placeholder="必填" /></td>
-						</tr>
-						<tr>
-							<td><label for="content">內容:</label></td>
-							<td><textarea id="content" name="content" required
-									placeholder="必填" cols="30" rows="10"></textarea></td>
-					</tbody>
-				</table>
-				<div class="divInput">
-					<button class="btn btn-primary">確認</button>
-					<p id="text" />
-				</div>
+								<tr>
+									<td><label for="category">類別:</label></td>
+									<td><input id="category" size="100" name="category"
+										list="customization" required placeholder="必填" /> <select
+										class="form-select" id="category" name="category">
+											<!-- 									<option selected>請選擇主題:</option> -->
+											<option id="food and beverage" value="餐飲">餐飲</option>
+											<option id="family travel" value="家庭旅遊">家庭旅遊</option>
+											<option id="sport and exercise" value="運動與健身">運動與健身</option>
+											<option id="brach" value="海灘">海灘</option>
+											</select>
+								</tr>
+
+								<tr>
+									<td><label for="title">標題:</label></td>
+									<td><input id="title" size="100" name="title" required
+										placeholder="必填" /></td>
+								</tr>
+								<tr>
+									<td><label for="content">內容:</label></td>
+									<td><textarea id="content" name="content" required
+											placeholder="必填" cols="30" rows="10"></textarea></td>
+							</tbody>
+						</table>
+						<div class="divInput">
+							<button class="btn btn-primary">確認</button>
+							<p id="text" />
+						</div>
+						<!-- 					</div> -->
+				</form>
 			</div>
-		</form>
-	</div>
-	<div class="divInput">
-		<a th:href="@{/forum}" class="btn btn-primary" role="button">取消</a>
-	</div>
+			<div class="divInput">
+				<a th:href="@{/admin/forum}" class="btn btn-primary" role="button">取消</a>
+			</div>
 
-
+			<footer th:replace="admin/footer.html"></footer>
+		</div>
+	</div>
+	<!-- JS -->
+	<div th:replace="/admin/js.html"></div>
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript">

@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface ForumRepository extends JpaRepository<Forum, Integer> {
 
-//	@Query("from forum where account = account")
-//	List<Forum> findMyForum(String account);
+//	public List<Forum> findMyForum(String account);
 
 }
