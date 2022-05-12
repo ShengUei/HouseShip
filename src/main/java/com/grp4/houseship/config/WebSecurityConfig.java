@@ -77,8 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		//for第三方登入用
 		.antMatchers("/oauth/**").permitAll()
 //		.antMatchers(HttpMethod.GET,"/home/**").authenticated()
-		.antMatchers(HttpMethod.GET,"/admin/member/**").hasAuthority("ROLE_ADMIN")
-		.antMatchers(HttpMethod.GET,"/admin/member/**").hasAuthority("ROLE_STAFF")
+		.antMatchers(HttpMethod.GET,"/admin/member/**").hasAnyAuthority("ROLE_ADMIN","ROLE_STAFF")
 		.antMatchers(HttpMethod.GET,"/ui/member/accountmanager.controller").hasAuthority("ROLE_USER")
 //		.antMatchers(HttpMethod.GET,"/house/**").authenticated()
 //		.antMatchers(HttpMethod.GET,"/order/**").authenticated()
