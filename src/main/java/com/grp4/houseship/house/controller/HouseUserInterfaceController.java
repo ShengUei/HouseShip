@@ -244,6 +244,7 @@ public class HouseUserInterfaceController {
     public String updateHousePage(@PathVariable("houseid") int houseid, Model model, HttpSession session) {
         HouseInfo houseInfo = houseService.searchById(houseid);
         session.setAttribute("houseNo", houseInfo.getHouseNo());
+        session.setAttribute("createdDate", houseInfo.getCreatedDate());
         session.setAttribute("tempPhotoList", houseInfo.getHousePhotos());
         model.addAttribute("houseInfo", houseInfo);
         return "/ui/house/update-house";
@@ -261,7 +262,7 @@ public class HouseUserInterfaceController {
         houseInfo.setMember(member);
         houseInfo.setStatus(true);
 
-        if (houseInfo.getHousePhotos() == null) {
+        if (photos == null) {
             photosList = (List<HousePhotos>) session.getAttribute("tempPhotoList");
         } else {
             photosList = savePhoto(model, photos);
@@ -273,6 +274,8 @@ public class HouseUserInterfaceController {
 
         Integer houseNo = (Integer) session.getAttribute("houseNo");
         houseInfo.setHouseNo(houseNo);
+        Date createdDate = (Date) session.getAttribute("createdDate");
+        houseInfo.setCreatedDate(createdDate);
         boolean insertStatue = houseService.update(houseNo,houseInfo);
         if(insertStatue) {
             return "redirect:/account/host/ownedhouse";
