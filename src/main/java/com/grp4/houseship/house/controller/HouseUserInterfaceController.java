@@ -262,7 +262,15 @@ public class HouseUserInterfaceController {
         houseInfo.setMember(member);
         houseInfo.setStatus(true);
 
-        if (photos == null) {
+        Integer houseNo = (Integer) session.getAttribute("houseNo");
+        houseInfo.setHouseNo(houseNo);
+        Date createdDate = (Date) session.getAttribute("createdDate");
+        houseInfo.setCreatedDate(createdDate);
+        Geometry geometry = addressToLatLng(houseInfo.getCity() + houseInfo.getH_address());
+        houseInfo.setLat(geometry.location.lat);
+        houseInfo.setLng(geometry.location.lng);
+
+        if (photos.length == 1) {
             photosList = (List<HousePhotos>) session.getAttribute("tempPhotoList");
         } else {
             photosList = savePhoto(model, photos);
@@ -270,13 +278,12 @@ public class HouseUserInterfaceController {
                 return "/ui/house/update-house";
             }
         }
+
         houseInfo.setHousePhotos(photosList);
 
-        Integer houseNo = (Integer) session.getAttribute("houseNo");
-        houseInfo.setHouseNo(houseNo);
-        Date createdDate = (Date) session.getAttribute("createdDate");
-        houseInfo.setCreatedDate(createdDate);
         boolean insertStatue = houseService.update(houseNo,houseInfo);
+        session.removeAttribute("houseNo");
+        session.removeAttribute("createdDate");
         if(insertStatue) {
             return "redirect:/account/host/ownedhouse";
         }
