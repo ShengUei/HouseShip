@@ -35,7 +35,7 @@
                                         <img style="border-radius: 50%; object-fit: cover; width: 45px; height: 45px"
                                              src="/houseship/images/user.png" th:if="${session.member.mempic == null}">
                                         <img style="border-radius: 50%; object-fit: cover; width: 45px; height: 45px"
-                                             src="/houseship/images/man.png" th:if="${session.member.mempic != null}">
+                                             th:src="'/houseship/api/images/' + ${session.member.mempic}" th:if="${session.member.mempic != null}">
                                     </a>
                                     <ul class="dropdown" th:if="${session.member == null}">
                                         <li><a class="dropdown-item" href="/houseship/signinPage">登入</a></li>
