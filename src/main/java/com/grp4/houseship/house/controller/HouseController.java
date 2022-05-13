@@ -74,7 +74,7 @@ public class HouseController {
     @PostMapping(path = "/deletehouse/{houseid}")
     public String deleteHouse(@PathVariable("houseid") int houseid) {
         houseServiece.delete(houseid);
-        return "redirect:/house";
+        return "redirect:/admin/house";
     }
 
 }

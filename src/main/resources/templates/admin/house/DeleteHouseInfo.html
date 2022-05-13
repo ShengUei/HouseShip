@@ -51,7 +51,7 @@
 <div class="div1">
     <h2 class="head2">刪除房屋</h2>
 
-    <form action="#" th:action="@{/house/deletehouse/{houseid}(houseid=*{houseNo})}" method="post" th:object="${houseInfo}">
+    <form action="#" th:action="@{/admin/house/deletehouse/{houseid}(houseid=*{houseNo})}" method="post" th:object="${houseInfo}">
 
         <div class="divForm">
             <table class="table table-striped">
@@ -169,7 +169,7 @@
     </form>
 </div>
 <div class="divInput">
-    <a th:href="@{/templates/house}" class="btn btn-primary" role="button">返回</a>
+    <a th:href="@{/admin/house}" class="btn btn-primary" role="button">返回</a>
 </div>
 </body>
 </html>

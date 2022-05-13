@@ -243,6 +243,7 @@ public class HouseUserInterfaceController {
     @GetMapping(path = "/account/host/updatehouse/{houseid}")
     public String updateHousePage(@PathVariable("houseid") int houseid, Model model, HttpSession session) {
         HouseInfo houseInfo = houseService.searchById(houseid);
+        session.setAttribute("houseNo", houseInfo.getHouseNo());
         session.setAttribute("tempPhotoList", houseInfo.getHousePhotos());
         model.addAttribute("houseInfo", houseInfo);
         return "/ui/house/update-house";
@@ -270,7 +271,9 @@ public class HouseUserInterfaceController {
         }
         houseInfo.setHousePhotos(photosList);
 
-        boolean insertStatue = houseService.insert(houseInfo);
+        Integer houseNo = (Integer) session.getAttribute("houseNo");
+        houseInfo.setHouseNo(houseNo);
+        boolean insertStatue = houseService.update(houseNo,houseInfo);
         if(insertStatue) {
             return "redirect:/account/host/ownedhouse";
         }
