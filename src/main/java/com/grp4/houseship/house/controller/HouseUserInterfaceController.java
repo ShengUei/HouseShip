@@ -149,7 +149,6 @@ public class HouseUserInterfaceController {
         }
 
         Page<HouseInfo> houseInfoPage = houseService.advanceSearch(sb.toString(), pageable);
-//        Integer countForAdvanceSearch = houseService.getCountForAdvanceSearch(sb.toString());
 
         houseList = houseInfoPage.getContent();
 
@@ -182,8 +181,7 @@ public class HouseUserInterfaceController {
 
     @GetMapping(path = "/account/host/ownedhouse")
     public String ownedHouse(HttpSession session, Model model) {
-        Member member = new Member();
-        member.setAccount("admin");
+        Member member = (Member) session.getAttribute("member");
 
         model.addAttribute("ownedList", houseService.searchByAccount(member));
         return "/ui/house/ownedhouse";
@@ -208,11 +206,11 @@ public class HouseUserInterfaceController {
 
     @PostMapping(path = "/account/host/addnewhouse")
     public String addNewHouse(Model model,
+                            HttpSession session,
                             @ModelAttribute("houseInfo") HouseInfo houseInfo,
                             @RequestParam("photos") MultipartFile[] photos) {
-        Member member = new Member();
-        member.setUser_id(1);
-        member.setAccount("admin");
+
+        Member member = (Member) session.getAttribute("member");
         houseInfo.setMember(member);
         houseInfo.setStatus(true);
 
@@ -252,9 +250,7 @@ public class HouseUserInterfaceController {
                               @ModelAttribute("houseInfo") HouseInfo houseInfo,
                               @RequestParam("photos") MultipartFile[] photos) {
         List<HousePhotos> photosList;
-        Member member = new Member();
-        member.setUser_id(1);
-        member.setAccount("admin");
+        Member member = (Member) session.getAttribute("member");
         houseInfo.setMember(member);
         houseInfo.setStatus(true);
 
