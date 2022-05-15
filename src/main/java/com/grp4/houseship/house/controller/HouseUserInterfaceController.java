@@ -53,21 +53,17 @@ public class HouseUserInterfaceController {
         List<HouseInfo> houseList;
         Pageable pageable = PageRequest.of(page - 1, 5);
         String locationCity = (String) session.getAttribute("locationCity");
+        Page<HouseInfo> houseInfoPage;
         if(locationCity != null) {
-            Page<HouseInfo> houseInfoPage = houseService.searchAllByCity(locationCity, pageable);
-            session.setAttribute("totalPages", houseInfoPage.getTotalPages());
-            session.setAttribute("totalElements", houseInfoPage.getTotalElements());
-            session.setAttribute("currentPage", page);
-            houseList = houseInfoPage.getContent();
-            session.setAttribute("houseList", houseInfoPage.getContent());
+            houseInfoPage = houseService.searchAllByCity(locationCity, pageable);
         } else {
-            Page<HouseInfo> houseInfoPage = houseService.searchAll(pageable);
-            session.setAttribute("totalPages", houseInfoPage.getTotalPages());
-            session.setAttribute("totalElements", houseInfoPage.getTotalElements());
-            session.setAttribute("currentPage", page);
-            houseList = houseInfoPage.getContent();
-            session.setAttribute("houseList", houseList);
+            houseInfoPage = houseService.searchAll(pageable);
         }
+        session.setAttribute("totalPages", houseInfoPage.getTotalPages());
+        session.setAttribute("totalElements", houseInfoPage.getTotalElements());
+        session.setAttribute("currentPage", page);
+        houseList = houseInfoPage.getContent();
+        session.setAttribute("houseList", houseList);
 
         session.removeAttribute("locationCity");
 
@@ -316,7 +312,11 @@ public class HouseUserInterfaceController {
     }
 
     @GetMapping(path = "/api/map")
-    public String showMap() {
+    public String showMap(HttpSession session) {
+        HouseInfo houseInfo = (HouseInfo) session.getAttribute("houseInfo");
+        if(houseInfo != null) {
+            return "/ui/house/map-house-detail";
+        }
         return "/ui/house/map";
     }
 

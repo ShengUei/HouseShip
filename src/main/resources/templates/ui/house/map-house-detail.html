@@ -75,66 +75,17 @@
             // contentType: 'application/json; charset=utf-8',
 
             success:function(jsonData){
-                let totalLat = 0;
-                let totalLng = 0;
-
-                $(jsonData).each((index, value) => {
-                    totalLat += value.lat;
-                    totalLng += value.lng;
-                });
-
-                const center = new google.maps.LatLng(totalLat/jsonData.length, totalLng/jsonData.length);
+                console.log(jsonData)
+                const center = new google.maps.LatLng(jsonData[0].lat, jsonData[0].lng);
                 map = new google.maps.Map(document.getElementById("map"), {
-                    zoom: 14,
+                    zoom: 17,
                     center: center,
                 });
 
-                $(jsonData).each((index, value) => {
-
-                    const styles = {
-                        default: [],
-                        hide: [
-                            {
-                                featureType: "poi",
-                                stylers: [{ visibility: "off" }],
-                            }
-                        ],
-                    };
-
-                    map.setOptions({ styles: styles["hide"] });
-
-                    let latLng = new google.maps.LatLng(value.lat, value.lng);
-                    let marker = new google.maps.Marker({
-                        position: latLng,
-                        map: map,
-                        icon: ' ',
-                        label: {
-                            text: `$${value.h_price} TWD`,
-                            className: "mapLabel"
-                        },
-                    });
-
-                    let infowindow = new google.maps.InfoWindow({
-                        content: `<a target="_parent" href="/houseship/housedetails/${value.houseNo}">
-                                    <div class="card" style="width: 18rem;" id="marker-card-${value.houseNo}">
-                                      <img src="/houseship/api/images/${value.housePhotos[0].photoPath}" class="card-img-top" alt="...">
-                                      <div class="card-body">
-                                        <h5 class="card-title">${value.h_title}</h5>
-                                        <p class="card-text" style="font-size: 18px">$${value.h_price} TWD</p>
-                                      </div>
-                                    </div>
-                                  </a>`
-                    });
-
-                    marker.addListener("click", () => {
-                        infowindow.open({
-                            anchor: marker,
-                            map,
-                            shouldFocus: true,
-                        });
-                    });
-
-                })
+                let marker = new google.maps.Marker({
+                    position: center,
+                    map: map
+                });
 
                 console.log('map load success');
 

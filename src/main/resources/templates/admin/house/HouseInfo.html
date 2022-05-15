@@ -52,6 +52,7 @@
                                 <tr>
                                     <th >房屋編號</th>
                                     <th>房屋所有人</th>
+                                    <th>目前狀態</th>
                                     <th>房屋名稱</th>
                                     <th>服務編號</th>
                                     <th>規章標號</th>
@@ -64,6 +65,8 @@
                                     <tr th:each="houseInfo : ${houseInfoList}">
                                         <td th:text="${houseInfo.houseNo}">House No</td>
                                         <td th:text="${houseInfo.member.account}">House Owner</td>
+                                        <td th:if="*{houseInfo.status == true}">上架中</td>
+                                        <td th:unless="*{houseInfo.status == true}">下架中</td>
                                         <td th:text="${houseInfo.h_title}">House Title</td>
                                         <td th:text="${houseInfo.houseOffers.offersNo}">House Offers No</td>
                                         <td th:text="${houseInfo.houseRules.rulesNo}">House Rules No</td>

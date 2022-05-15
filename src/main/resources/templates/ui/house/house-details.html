@@ -100,6 +100,16 @@
                 <div class="col-lg-8">
                     <div class="room-details-item">
                         <div class="rd-text" th:object="${houseInfo}">
+                            <div class="d-flex" style="height: 75px">
+                                <div>
+                                    <img style="width: 64px; height: 64px; display: inline" src="/houseship/images/user.png" alt=" " th:src="'/houseship/api/images/' + *{member.mempic}">
+                                </div>
+                                <div style="margin-left: 20px">
+                                    <i style="color: grey;" id="house-account" th:text="'@' + *{member.account}">帳號</i>
+                                    <p id="house-owner" th:text="'房東: ' + *{member.firstname}">房東</p>
+                                </div>
+                            </div>
+                            <hr>
                             <div class="rd-title">
                                 <h3 id="house-title" th:text="*{h_title}">房屋名稱</h3>
                                 <!-- Rating Begin -->
@@ -164,6 +174,17 @@
                                     洗衣機
                                 </div>
                             </div>
+                            <br>
+                            <hr>
+                            <!-- Map content -->
+                            <h5>住宿地點</h5>
+                            <br>
+                            <div class="col-lg-12" >
+                                <div id="map-iframe" class="row">
+                                    <iframe width="100%" height="600px" style="border:0" src="/houseship/api/map"></iframe>
+                                </div>
+                            </div>
+                            <!-- Map content End-->
                             <br>
                             <hr>
                             <h5>房屋規章</h5>
@@ -295,7 +316,6 @@
     <!-- Customized JS -->
     <script>
         $('.carousel-inner > .carousel-item:first-child').addClass("active");
-        // $('#breadcrumb-house-title').html($('#house-title').text());
     </script>
 
 </body>

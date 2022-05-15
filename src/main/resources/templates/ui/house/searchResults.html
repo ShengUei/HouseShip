@@ -6,8 +6,6 @@
     <meta charset="UTF-8">
     <meta name="description" content="HouseShip Home">
     <meta name="keywords" content="#">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>HouseShip.com</title>
     <link rel="icon" href="/houseship/images/favicon.png" type="image/png">
     <link rel="stylesheet" href="/houseship/css/style-ui-link.css">
@@ -407,8 +405,7 @@
 
             <!-- Map content -->
             <div class="col-xl-7 col-lg-7 col-md-7" >
-                <div id="map-iframe" class="row">
-                </div>
+                <div id="map-iframe" class="row"></div>
             </div>
             <!-- Map content End-->
 
@@ -433,6 +430,7 @@
 <!-- Js Plugins -->
 <div th:replace="/ui/js.html"></div>
 
+<script src="/houseship/js/house/ui-house-scripts.js" type="application/javascript"></script>
 <script>
     $("#show_select").click(function () {
         $("#searchContent").show();
@@ -447,7 +445,6 @@
         advancedSearch(1);
     })
 </script>
-<script src="/houseship/js/house/ui-house-scripts.js" type="application/javascript"></script>
 
 </body>
 
