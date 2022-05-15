@@ -124,19 +124,31 @@ function totalPages() {
             $('#count-result-span').html('查詢結果: 共' + jsonData.totalElements + '筆');
 
             if(jsonData.totalPages !== 1) {
-            for(let i = 0; i < jsonData.totalPages; i++) {
-                let index = i + 1;
-                $("#room-pagination").append('<a href="#" id="page-' + index + '">'+ index + '</a>');
-                let str = '#page-' + index;
-                $(str).on('click', pageButton);
-            }
+                if(jsonData.currentPage !== 1) {
+                    $("#room-pagination").append('<a href="#" id="previous-page"><i class="fa fa-long-arrow-left"></i> 上一頁</a>');
+                    $("#previous-page").on('click', previousPageButton);
+                }
 
-                $("#room-pagination").append('<a href="#" id="next-page">Next <i class="fa fa-long-arrow-right"></i></a>');
-                $("#next-page").on('click', nextPageButton);
+                for(let i = 0; i < jsonData.totalPages; i++) {
+                    let index = i + 1;
+                    $("#room-pagination").append('<a href="#" id="page-' + index + '">'+ index + '</a>');
+                    let str = '#page-' + index;
+                    $(str).on('click', pageButton);
+                }
+
+                if(jsonData.currentPage !== jsonData.totalPages) {
+                    $("#room-pagination").append('<a href="#" id="next-page">下一頁 <i class="fa fa-long-arrow-right"></i></a>');
+                    $("#next-page").on('click', nextPageButton);
+                }
 
                 function nextPageButton(e) {
                     e.preventDefault();
                     searchResult(jsonData.currentPage + 1);
+                }
+
+                function previousPageButton(e) {
+                    e.preventDefault();
+                    searchResult(jsonData.currentPage - 1);
                 }
             }
 
@@ -164,6 +176,11 @@ function totalPagesForAdvancedSearch() {
             $('#count-result-span').html('查詢結果: 共' + jsonData.totalElements + '筆');
 
             if(jsonData.totalPages !== 1) {
+                if(jsonData.currentPage !== 1) {
+                    $("#room-pagination").append('<a href="#" id="previous-page"><i class="fa fa-long-arrow-left"></i> 上一頁</a>');
+                    $("#previous-page").on('click', previousPageButton);
+                }
+
                 for(let i = 0; i < jsonData.totalPages; i++) {
                     let index = i + 1;
                     $("#room-pagination").append('<a href="#" id="page-' + index + '">'+ index + '</a>');
@@ -171,12 +188,19 @@ function totalPagesForAdvancedSearch() {
                     $(str).on('click', pageButtonForAdvancedSearch);
                 }
 
-                $("#room-pagination").append('<a href="#" id="next-page">Next <i class="fa fa-long-arrow-right"></i></a>');
-                $("#next-page").on('click', nextPageButton);
+                if(jsonData.currentPage !== jsonData.totalPages) {
+                    $("#room-pagination").append('<a href="#" id="next-page">下一頁 <i class="fa fa-long-arrow-right"></i></a>');
+                    $("#next-page").on('click', nextPageButton);
+                }
 
                 function nextPageButton(e) {
                     e.preventDefault();
-                    advancedSearch(jsonData.currentPage + 1);
+                    searchResult(jsonData.currentPage + 1);
+                }
+
+                function previousPageButton(e) {
+                    e.preventDefault();
+                    searchResult(jsonData.currentPage - 1);
                 }
             }
         },
