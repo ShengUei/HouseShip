@@ -1,5 +1,6 @@
 package com.grp4.houseship.house.controller;
 
+import com.grp4.houseship.email.service.EmailService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,6 +15,8 @@ import com.grp4.houseship.house.model.HouseInfo;
 import com.grp4.houseship.house.model.HouseService;
 import com.grp4.houseship.member.model.Member;
 
+import javax.mail.MessagingException;
+
 
 @Controller
 @RequestMapping(path = "/admin/house")
@@ -21,6 +24,9 @@ public class HouseController {
 
     @Autowired
     private HouseService houseServiece;
+
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping
     public String searchAllHouse(Model model) {
@@ -77,11 +83,18 @@ public class HouseController {
 
     @PostMapping(path = "/deletehouse/{houseid}")
     public ResponseEntity<String> deleteHouse(@PathVariable("houseid") int houseid) {
-        boolean deleteStatue = houseServiece.delete(houseid);
-        System.out.println("deleteStatue: " + deleteStatue);
+        HouseInfo houseInfo = houseServiece.searchById(houseid);
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+        boolean deleteStatue = houseServiece.delete(houseid);
         if (deleteStatue) {
+            String title = "親愛的: " + houseInfo.getMember().getFirstname() + houseInfo.getMember().getLastname() + " 您好\n"
+                    + "您在 HouseShip 上刊登的 '"+ houseInfo.getH_title() + "' 房屋已遭系統刪除";
+            try {
+                emailService.sendHouseMail(houseInfo, "ui/house/email_delete_house_success", title);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
             return new ResponseEntity<>("{\"message\": \"刪除成功\"}", responseHeaders, HttpStatus.OK);
         }
         return new ResponseEntity<>("{\"message\": \"刪除失敗\"}", responseHeaders, HttpStatus.BAD_REQUEST);

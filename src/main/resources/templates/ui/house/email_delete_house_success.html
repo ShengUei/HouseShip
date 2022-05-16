@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>系統通知</title>
+    <style>
+        .content{
+            width: 500px;
+            margin: 10px auto;
+            color: #555656
+        }
+        .logo img{
+            width: 150px;
+            margin-bottom: 10px;
+        }
+        .detail{
+            border: #747575 1px solid;
+            padding: 15px;
+            box-shadow: 5px 5px 8px 2px #dde0e5;
+            font-size: 18px;
+        }
+        .detail hr{
+            border-color: transparent;
+            border-top: #cecece 1px solid;
+            margin-bottom: 2px;
+        }
+        .detail table{
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .detail table tr{
+            height: 20px;
+            padding-bottom: 5px;
+        }
+        .house-tittle{
+            font-size: 26px;
+            color: #dfa974;
+            font-weight: bold;
+            text-align: justify;
+            margin-bottom: 10px;
+            margin-top: 5px;
+        }
+        .left{
+            text-align: left;
+        }
+        .right{
+            text-align: right;
+        }
+        .descp{
+            font-size: 16px;
+            font-weight: lighter;
+            color: #747575;
+        }
+        .link{
+            margin: 20px auto;
+        }
+        .link a button{
+            background-color: #dfa974;
+            border-radius: 5px;
+            color: #FFFFFF;
+            border: 0;
+            font-size: 16px;
+            padding: 5px;
+            line-height: 20px;
+        }
+        .link a button:hover{
+            font-weight: bold;
+        }
+        button:not(:disabled):not(.disabled) {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="logo">
+            <img src="cid:logo">
+        </div>
+        <h2><b th:text="${houseInfo.getMember().firstname + houseInfo.getMember().lastname}"></b>，您所刊登的房屋已遭系統刪除: </h2>
+        <div class="detail">
+            <h3 class="house-tittle" th:text="${houseInfo.h_title}">房屋名稱</h3>
+            <hr>
+            <div>
+                <span class="descp">刪除日期: </span><br>
+                <span th:text="${#dates.format(#dates.createNow(), 'yyyy 年 M 月 dd 日')}">刪除日期</span>
+            </div>
+            <hr>
+            <div>
+                <span class="descp">刪除原因: </span><br>
+                <span>刊登不實內容</span>
+            </div>
+            <hr>
+            <div>
+                <span class="descp">地址: </span><br>
+                <span th:text="${houseInfo.city + houseInfo.h_address}">地址</span>
+            </div>
+            <hr>
+            <div>
+                <span class="descp">房型: </span><br>
+                <span class="right" th:text="${houseInfo.h_type} + 人房">房型</span>
+            </div>
+            <hr>
+            <div>
+                <span class="descp">房屋金額: </span><br>
+                <span class="right" th:text="${#numbers.formatDecimal(houseInfo.h_price,3,'COMMA',0,'POINT') + ' TWD/每晚'}">TWD/每晚</span>
+            </div>
+            <hr>
+        </div>
+        <br>
+        <br>
+        <br>
+        <hr>
+        <a href="http://localhost:8080/houseship/">HouseShip.com</a>
+    </div>
+    <h3> </h3>
+</body>
+</html>

@@ -5,6 +5,7 @@ import com.google.maps.GeocodingApi;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.Geometry;
+import com.grp4.houseship.email.service.EmailService;
 import com.grp4.houseship.house.model.*;
 import com.grp4.houseship.member.model.Member;
 import com.grp4.houseship.order.model.OrderDetail;
@@ -22,6 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +37,9 @@ public class HouseUserInterfaceController {
 
     @Autowired
     private HouseService houseService;
+
+    @Autowired
+    private EmailService emailService;
     
     @GetMapping(path = "/search")
     public String search() {
@@ -228,6 +233,13 @@ public class HouseUserInterfaceController {
 
         boolean insertStatue = houseService.insert(houseInfo);
         if(insertStatue) {
+            String title = "親愛的: " + houseInfo.getMember().getFirstname() + houseInfo.getMember().getLastname() + " 您好\n"
+                            + "您在 HouseShip 上新增的 '"+ houseInfo.getH_title() + "' 房屋已成功上架";
+            try {
+                emailService.sendHouseMail(houseInfo, "ui/house/email_house_success", title);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
             return "redirect:/account/host/ownedhouse";
         }
         model.addAttribute("errMsg", "新增失敗");

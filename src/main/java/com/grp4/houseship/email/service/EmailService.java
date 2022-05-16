@@ -1,5 +1,6 @@
 package com.grp4.houseship.email.service;
 
+import com.grp4.houseship.house.model.HouseInfo;
 import com.grp4.houseship.member.model.Member;
 import com.grp4.houseship.order.model.Order;
 import org.springframework.core.io.FileSystemResource;
@@ -57,6 +58,26 @@ public class EmailService {
         helper.setSubject(title);
         helper.setText(process,true);
         helper.setTo(order.getOrderDetail().getGuest().getEmail());
+
+        //靜態資源
+        FileSystemResource file = new FileSystemResource( "src/main/resources/static/images/logo.png" );
+        helper.addInline("logo", file);
+
+        javaMailSender.send(mimeMessage);
+        return "Sent";
+    }
+
+    public String sendHouseMail(HouseInfo houseInfo, String template, String title) throws MessagingException{
+        Context context = new Context();
+        context.setVariable("houseInfo", houseInfo);
+
+        String process = templateEngine.process(template, context);
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,true);
+
+        helper.setSubject(title);
+        helper.setText(process,true);
+        helper.setTo(houseInfo.getMember().getEmail());
 
         //靜態資源
         FileSystemResource file = new FileSystemResource( "src/main/resources/static/images/logo.png" );
