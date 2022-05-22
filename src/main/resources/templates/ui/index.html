@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="HouseShip Home">
+    <meta name="keywords" content="#">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HouseShip.com</title>
+    <link rel="icon" href="/houseship/images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="/houseship/css/style-ui-link.css">
+</head>
+
+<body>
+<!-- Page Preloder -->
+<div th:replace="/ui/page-preloder.html"></div>
+
+<!-- Offcanvas Menu Section Begin -->
+<div th:replace="/ui/offcanvas-menu-section.html"></div>
+
+<!-- Header Section Begin -->
+<header th:replace="/ui/header-section.html"></header>
+
+<!-- Hero Section Begin -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 ml-auto mr-auto ie-container-width-fix">
+                <div class="booking-form search-form">
+                    <form action="#" method="get">
+                        <div class="form-row search-form-row">
+                            <div class="form-group form-element-100">
+                                <div class="check-date">
+                                    <input name="city" type="text" class="form-control" id="inputCity"
+                                           placeholder="目的地">
+                                    <i class="icon_pin"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row search-form-row">
+                            <div class="form-group form-element-50">
+                                <div class="check-date">
+                                    <input name="check-in" type="text" class="form-control" id="inputCheckIn"
+                                           placeholder="入住">
+                                    <input type="hidden" id="checkin_send">
+                                    <i class="icon_calendar"></i>
+                                </div>
+                            </div>
+                            <div class="form-group form-element-50">
+                                <div class="check-date">
+                                    <input name="check-out" type="text" class="form-control" id="inputCheckOut"
+                                           placeholder="退房">
+                                    <input type="hidden" id="checkout_send">
+                                    <i class="icon_calendar"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row search-form-row">
+                            <div class="form-group form-element-3">
+                                <div class="check-date">
+                                    <input type="number" class="form-control" name="adult" id="adult" min="0"
+                                           value="0">
+                                    <span class="inputText">成人</span>
+                                </div>
+                            </div>
+                            <div class="form-group form-element-3">
+                                <div class="check-date ">
+                                    <input type="number" class="form-control" name="children" id="children" min="0"
+                                           value="0">
+                                    <span class="inputText">孩童</span>
+
+                                </div>
+                            </div>
+                            <div class="form-group form-element-3">
+                                <div class="select-option check-date">
+                                    <select id="room" class="">
+                                        <option data-display="請選擇房型" value="">房型</option>
+                                        <option value="1">單人房</option>
+                                        <option value="2">雙人房</option>
+                                        <option value="3">家庭房</option>
+                                    </select>
+                                    <!-- <span class="inputText">房型</span> -->
+                                </div>
+                            </div>
+                            <!-- <div class="form-group form-element form-element-2"> -->
+                            <button type="submit" class="btn btn-search" id="searchRooms">查詢空房</button>
+                            <!-- </div> -->
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- <div class="col-lg-6">
+                <div class="hero-text">
+                    <h1>Houseship</h1>
+                    <p>Here are the best hotel booking sites, including recommendations for international
+                        travel and for finding low-priced hotel rooms.</p>
+                    <a href="#" class="primary-btn">立即探索</a>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <div class="hero-slider owl-carousel">
+        <div class="hs-item set-bg" data-setbg="/houseship/images/index/hero-1.jpg"></div>
+        <div class="hs-item set-bg" data-setbg="/houseship/images/index/hero-2.jpg"></div>
+        <div class="hs-item set-bg" data-setbg="/houseship/images/index/hero-3.jpg"></div>
+    </div>
+</section>
+<!-- Hero Section End -->
+
+<!-- explore Section Begin -->
+<section class="explore-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="about-text">
+                    <div class="section-title">
+                        <span>大家都在關注</span>
+                        <h2>2022澎湖花火節 <br/>20周年慶</h2>
+                    </div>
+                    <p style="font-size: 18px" class="f-para">澎湖花火節今年自4月25日至6月30日總計規劃24場花火活動，其中10場專場與LINE合作，推出LINE
+                        FRIENDS主題無人機科技燈光秀。</p>
+                    <p style="font-size: 18px" class="s-para">設計多套專屬澎湖的無人機圖型，將在觀音亭、七美、吉貝、望安等地展演。</p>
+                    <p style="text-align: right"><a href="/houseship/search/澎湖縣" class="primary-btn about-btn"
+                                                    style="font-size: 16px">查看住宿</a></p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="about-pic">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <img src="/houseship/images/index/about-1.jpg" alt="">
+                        </div>
+                        <div class="col-sm-6">
+                            <img src="/houseship/images/index/about-2.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- About Us Section End -->
+
+<!-- Services Section End -->
+<section class="services-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title">
+                    <span>還沒決定目的地?</span>
+                    <h2><i class="flaticon-036-parking" style="color: #dfa974"></i>探索熱門旅遊城市</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-sm-6">
+                <a href="/houseship/search/台北市">
+                    <div class="service-item">
+                        <img src="/houseship/images/index/taipei.jpg">
+                        <h4>台北</h4>
+                        <p>101觀景台</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <a href="/houseship/search/台東縣">
+                    <div class="service-item">
+                        <img src="/houseship/images/index/taitung.jpg">
+                        <h4>台東</h4>
+                        <p>太麻里—櫻木花道平交道打卡熱點</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <a href="/houseship/search/花蓮縣">
+                    <div class="service-item">
+                        <img src="/houseship/images/index/hualian.jpg">
+                        <h4>花蓮</h4>
+                        <p>清水斷崖</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <a href="/houseship/search/屏東縣">
+                    <div class="service-item">
+                        <img src="/houseship/images/index/pingtung.jpg">
+                        <h4>屏東</h4>
+                        <p>恆春-小巴里島灘岩</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <a href="/houseship/search/南投縣">
+                    <div class="service-item">
+                        <img src="/houseship/images/index/sunmoonlake.jpg">
+                        <h4>南投</h4>
+                        <p>日月潭-向山行政暨遊客中心</p>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <a href="/houseship/search/台南市">
+                    <div class="service-item">
+                        <img src="/houseship/images/index/tainan.jpg">
+                        <h4>台南</h4>
+                        <p>井仔腳瓦盤鹽田</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Services Section End -->
+
+
+<!-- Footer Section Begin -->
+<footer th:replace="/ui/footer-section.html"></footer>
+
+
+<!-- Js Plugins -->
+<div th:replace="/ui/js.html"></div>
+<script src="/houseship/js/search-dates/index-search-house.js" type="application/javascript"></script>
+
+
+</body>
+
+</html>

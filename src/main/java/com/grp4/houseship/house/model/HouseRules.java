@@ -2,6 +2,8 @@ package com.grp4.houseship.house.model;
 
 import javax.persistence.*;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;

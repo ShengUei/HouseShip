@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="HouseShip Home">
+<meta name="keywords" content="#">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>討論版</title>
+<link rel="stylesheet" href="/houseship/css/style-ui-link.css">
+<style type="text/css">
+.img {
+	width: 450px;
+	height: 360px;
+	margin-right: 10px;
+}
+</style>
+<body>
+	<!-- Page Preloder -->
+	<div th:replace="/ui/page-preloder.html"></div>
+
+	<!-- Offcanvas Menu Section Begin -->
+	<div th:replace="/ui/offcanvas-menu-section.html"></div>
+
+	<!-- Header Section Begin -->
+	<header th:replace="/ui/header-section.html"></header>
+
+	<!--表單內容可以從這開始 -->
+	<!-- Breadcrumb Section Begin -->
+	<div class="breadcrumb-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="breadcrumb-text">
+						<h2>討論區</h2>
+						<div class="bt-option">
+							<a href="/houseship">首頁</a> <span>討論總攬</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 	<!-- Breadcrumb Section End -->
+	<!-- 	<div> -->
+	<!-- 		<a href="#" th:href="@{/forum/create}" -->
+	<!-- 			style="margin-right: 1px; display: inline"><input -->
+	<!-- 			class="btn-primary" type="submit" name="new" value="新增"></a> -->
+	</div>
+
+	<!-- Blog Section Begin -->
+	<section class="blog-section blog-page spad">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4 col-md-6" th:each="f: ${forumList}">
+					<img id="img" th:src="'/houseship/api/images/'+${f.image}" src="/houseship/images/forum/blog-4.jpg">
+						<div class="bi-text">
+							<span class="b-tag" th:text="${f.theme}"></span>
+							<h4>
+								<a th:href="@{/forum/{fid}(fid=${f.fid})}" th:text="${f.title}"></a>
+							</h4>
+							<div class="b-time">
+								<i th:text="${#temporals.format(f.postTime,'yyyy-MM-dd HH:mm')}"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-12">
+				<div class="load-more">
+					<a href="#" class="primary-btn">顯示更多</a>
+				</div>
+			</div>
+		</div>
+		</div>
+		</div>
+	</section>
+	<!--   main end     -->
+	<!-- Footer Section Begin -->
+	<footer th:replace="/ui/footer-section.html"></footer>
+	<!-- Js Plugins -->
+	<div th:replace="/ui/js.html"></div>
+
+</body>
+
+</html>

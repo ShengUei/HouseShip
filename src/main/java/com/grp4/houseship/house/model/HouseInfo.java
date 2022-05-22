@@ -3,10 +3,16 @@ package com.grp4.houseship.house.model;
 import javax.persistence.*;
 
 import com.grp4.houseship.member.model.Member;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "houseinfo")
 public class HouseInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -18,12 +24,31 @@ public class HouseInfo implements Serializable {
 	
 	@Transient
 	private String account;
+
+	@CreatedDate
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "CREATEDDATE")
+	private Date createdDate;
+
+	@LastModifiedDate
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "LASTMODIFIEDDATE")
+	private Date lastModifiedDate;
 	
 	@Column(name = "H_TITLE")
 	private String h_title;
+
+	@Column(name = "H_CITY")
+	private String city;
 	
 	@Column(name = "H_ADDRESS")
 	private String h_address;
+
+	@Column(name = "LAT")
+	private Double lat;
+
+	@Column(name = "LNG")
+	private Double lng;
 	
 	@Column(name = "H_TYPE")
 	private int h_type;
@@ -33,6 +58,9 @@ public class HouseInfo implements Serializable {
 	
 	@Column(name = "H_PRICE")
 	private double h_price;
+
+	@Column(name = "STATUS")
+	private boolean status;
 	
 	@Transient
 	private int offersNo;
@@ -42,6 +70,7 @@ public class HouseInfo implements Serializable {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ACCOUNT", referencedColumnName = "ACCOUNT")
+//	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Member member;
 
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -52,8 +81,9 @@ public class HouseInfo implements Serializable {
 	@JoinColumn(name = "RULESNO", referencedColumnName = "RULESNO")
 	private HouseRules houseRules;
 
-//	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy ="houseInfo")
-//	private Set<HousePhotos> housePhotos;
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "HOUSENO", referencedColumnName = "HOUSENO")
+	private List<HousePhotos> housePhotos;
 	
 	public HouseInfo() {
 	}
@@ -90,6 +120,22 @@ public class HouseInfo implements Serializable {
 		this.h_address = h_address;
 	}
 
+	public Double getLat() {
+		return lat;
+	}
+
+	public void setLat(Double lat) {
+		this.lat = lat;
+	}
+
+	public Double getLng() {
+		return lng;
+	}
+
+	public void setLng(Double lng) {
+		this.lng = lng;
+	}
+
 	public int getH_type() {
 		return h_type;
 	}
@@ -112,6 +158,38 @@ public class HouseInfo implements Serializable {
 
 	public void setH_price(double h_price) {
 		this.h_price = h_price;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Date getLastModifiedDate() {
+		return lastModifiedDate;
+	}
+
+	public void setLastModifiedDate(Date lastModifiedDate) {
+		this.lastModifiedDate = lastModifiedDate;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 
 	public int getOffersNo() {
@@ -154,12 +232,11 @@ public class HouseInfo implements Serializable {
 		this.houseRules = houseRules;
 	}
 
-//	public Set<HousePhotos> getHousePhotos() {
-//		return housePhotos;
-//	}
-//
-//	public void setHousePhotos(Set<HousePhotos> housePhotos) {
-//		this.housePhotos = housePhotos;
-//	}
+	public List<HousePhotos> getHousePhotos() {
+		return housePhotos;
+	}
 
+	public void setHousePhotos(List<HousePhotos> housePhotos) {
+		this.housePhotos = housePhotos;
+	}
 }

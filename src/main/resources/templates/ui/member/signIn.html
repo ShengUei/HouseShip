@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="HouseShip Home">
+    <meta name="keywords" content="#">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HouseShip.com</title>
+    <link rel="stylesheet" href="/houseship/css/style-ui-link.css">
+    <!-- 另一個套版,非sona -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- 另一個套版,非sona -->
+    <link rel="stylesheet" href="/houseship/css/signIn.css">
+ 
+    
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    <div th:replace="/ui/page-preloder.html"></div>
+
+    <!-- Offcanvas Menu Section Begin -->
+    <div th:replace="/ui/offcanvas-menu-section.html"></div>
+
+    <!-- Header Section Begin -->
+   <header th:replace="/ui/header-section.html"></header>
+
+
+    <!-- explore Section Begin -->
+    <section class="ftco-section">
+		<div class="container">
+			
+			<div class="row justify-content-center">
+				<div class="col-md-12 col-lg-10">
+					<div class="wrap d-md-flex">
+						<div class="img" style="background-image: url(/houseship/images/sign_img.jpg);">
+			      </div>
+						<div class="login-wrap p-4 p-md-5">
+			      	<div class="d-flex">
+			      		<div class="w-100">
+			      			<h3 class="mb-4">登入</h3>
+			      		</div>
+								<div class="w-100">
+									<p class="social-media d-flex justify-content-end">
+										<a href="#" th:href="@{/oauth2/authorization/facebook}" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-facebook"></span></a>
+										<a href="#" th:href="@{/oauth2/authorization/google}" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-google"></span></a>
+									</p>
+								</div>
+			      	</div>
+						<form action="/houseship/signinPage" id="login" class="signin-form" method="post">
+			      		<div class="form-group mb-3">
+			      			<label class="label" for="username" style="font-size: 16px">帳號</label>
+			      			<input style="font-size: 16px" type="text" class="form-control" id="username" placeholder="請輸入您的帳號" name="username" required>
+			      		</div>
+		            <div class="form-group mb-3">
+		            	<label class="label" for="password" style="font-size: 16px">密碼</label>
+		              <input type="password" class="form-control" id="password" placeholder="請輸入您的密碼" name="password" required>
+		            </div>
+		            <div class="form-group">
+		            	<button type="submit" class="form-control btn btn-primary rounded submit px-3">登入</button>
+		            </div>
+		            <div class="form-group d-md-flex">
+		            	<div class="w-50 text-left">
+			            	<label class="checkbox-wrap checkbox-primary  mb-0">
+							 	<input type="checkbox" name="remember-me" >記住登入資訊
+								<span class="checkmark"></span>
+							</label>
+						</div>
+						<div class="w-50 text-md-right">
+							<a href="/houseship/forgotpassword">忘記密碼?</a>
+						</div>
+		            </div>
+					<div class="form-group d-md-flex">
+		            	<div class="w-50 text-left">
+			            	<button type="button" id="adminButton" class=" btn btn-primary rounded submit px-3">管理者</button>
+						</div>
+						<div class="w-50 text-md-right">
+							<button type="submit" id="userButton" class=" btn btn-primary rounded submit px-3">使用者</button>
+						</div>
+		            </div>
+		          </form>
+		          <p class="text-center">還沒成為會員嗎? <a data-toggle="tab" href="/houseship/register">註冊點這</a></p>
+		         
+		          
+		        </div>
+		      </div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+    <!-- Footer Section Begin -->
+     <footer th:replace="/ui/footer-section.html"></footer>
+
+
+
+    <!-- Js Plugins -->
+    <div th:replace="/ui/js.html"></div>
+    <script>
+	    $(document).on('click','#adminButton',function(){
+	  		document.getElementById('username').value='admin';
+	  	  	document.getElementById('password').value='P@ssw0rd'; 
+	  	 	$('#login').submit();
+  		});
+    </script>
+        <script>
+	    $(document).on('click','#userButton',function(){
+	  		document.getElementById('username').value='Wang';
+	  	  	document.getElementById('password').value='123'; 
+	  	 	$('#login').submit();
+  		});
+    </script>
+</body>
+</html>

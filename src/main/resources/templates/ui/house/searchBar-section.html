@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Bar Section</title>
+</head>
+<body>
+<div class="container-search-bar search-bar">
+    <div class="row">
+        <div class="col-xs-12 col-area">
+            <div class="booking-form search-form">
+                <form action="#" method="get">
+                    <div class="form-row search-form-row">
+                        <div class="form-group form-element">
+                            <div class="check-date">
+                                <input name="city" type="text" class="form-control" id="inputCity" th:if="${session.thisCity == null}"
+                                       placeholder="目的地">
+                                <input name="city" type="text" class="form-control" id="inputCity" th:if="${session.thisCity != null}" th:value="${session.thisCity}"
+                                       placeholder="目的地">
+                                <i class="icon_pin"></i>
+                            </div>
+                        </div>
+                        <div class="form-group form-element">
+                            <div class="check-date">
+                                <input name="check-in" type="text" class="form-control" id="inputCheckIn" th:if="${session.thisDate1 == null}"
+                                       placeholder="入住">
+                                <input name="check-in" type="text" class="form-control" id="inputCheckIn" th:if="${session.thisDate1 != null}" th:value="${session.thisDate1}"
+                                       placeholder="入住">
+                                <input type="hidden" id="checkin_send" name="checkin_send" th:value="${session.thisDate1}">
+                                <i class="icon_calendar"></i>
+                            </div>
+                        </div>
+                        <div class="form-group form-element">
+                            <div class="check-date">
+                                <input name="check-out" type="text" class="form-control" id="inputCheckOut" th:if="${session.thisDate2 == null}"
+                                       placeholder="退房">
+                                <input name="check-out" type="text" class="form-control" id="inputCheckOut" th:if="${session.thisDate2 != null}" th:value="${session.thisDate2}"
+                                       placeholder="退房">
+                                <input type="hidden" id="checkout_send" name="checkout_send" th:value="${session.thisDate2}">
+                                <i class="icon_calendar"></i>
+                            </div>
+                        </div>
+                        <div class="form-group form-element-10">
+                            <button type="submit" class="btn btn-search" id="searchRooms">查詢</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

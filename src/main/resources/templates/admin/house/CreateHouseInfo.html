@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>新增房屋</title>
+    <link rel="icon" href="/houseship/images/favicon.png" type="image/png">
+    <!-- 複製樣式 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <style>
+        .div1{
+            border:2px solid #0B1A4A;
+            border-radius:20px;
+            width:600px;
+            margin: 50px auto;
+        }
+        .head2{
+            margin: 20px auto;
+            text-align: center;
+        }
+        .divForm{
+            width: 500px;
+            margin: 20px auto;
+            text-align: left;
+        }
+        .divInput{
+            margin: 10px auto;
+            text-align: center;
+        }input{
+             width:250px;
+         }td,th{
+              width:250px
+          }.btn{
+               width:100px;
+           }
+        textarea{
+            resize: none;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 	從這邊開始改 -->
+<div class="div1">
+    <h2 class="head2">新增房屋</h2>
+
+    <form action="#" th:action="@{/house/addnewhouse}" method="post" th:object="${houseInfo}">
+
+        <div class="divForm">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>欄位名稱</th>
+                    <th>房屋資訊</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><label for="title">房屋名稱:</label></td>
+                    <td><input id="title" size="30" th:field="*{h_title}"/></td>
+                </tr>
+                <tr>
+                    <td><label for="price">房屋費用:</label></td>
+                    <td><input id="price" size="30" th:field="*{h_price}"/></td>
+                </tr>
+                <tr>
+                    <td><label for="address">房屋地址:</label></td>
+                    <td><input id="address" size="100" th:field="*{h_address}"/></td>
+                </tr>
+                <tr>
+                    <td><label>房屋房型:</label></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>單人房:</td>
+                    <td><label for="single">
+                        <input type="radio" id="single" value="1" th:field="*{h_type}"/>
+                    </label></td>
+                </tr>
+                <tr>
+                    <td>雙人房:</td>
+                    <td><label for="double">
+                        <input type="radio"  id="double" value="2" th:field="*{h_type}"/>
+                    </label></td>
+                </tr>
+                <tr>
+                    <td>四人房:</td>
+                    <td><label for="quadruple">
+                        <input type="radio"  id="quadruple" value="4" th:field="*{h_type}"/>
+                    </label></td>
+                </tr>
+                <tr>
+                    <td><label for="about">房屋介紹:</label></td>
+                    <td><textarea id="about" cols="30" rows="10" th:field="*{h_about}"></textarea></td>
+                </tr>
+                <tr>
+                    <td>提供服務:</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>WIFI:</td>
+                    <td><input type="checkbox" id="wifi" th:field="*{houseOffers.wifi}"/></td>
+                </tr>
+                <tr>
+                    <td>電視:</td>
+                    <td><input type="checkbox" id="tv" th:field="*{houseOffers.tv}"/></td>
+                </tr>
+                <tr>
+                    <td>廚房:</td>
+                    <td><input type="checkbox" id="kitchen" th:field="*{houseOffers.kitchen}"/></td>
+                </tr>
+                <tr>
+                    <td>冰箱:</td>
+                    <td><input type="checkbox" id="refrigerator" th:field="*{houseOffers.refrigerator}"/></td>
+                </tr>
+                <tr>
+                    <td>微波爐:</td>
+                    <td><input type="checkbox" id="microwave" th:field="*{houseOffers.microwave}"/></td>
+                </tr>
+                <tr>
+                    <td>冷氣:</td>
+                    <td><input type="checkbox" id="aircon" th:field="*{houseOffers.aircon}"/></td>
+                </tr>
+                <tr>
+                    <td>洗衣機:</td>
+                    <td><input type="checkbox" id="washer" th:field="*{houseOffers.washer}"/></td>
+                </tr>
+                <tr>
+                    <td><label>房屋規章:</label></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><label for="check_in">入住時間:</label></td>
+                    <td><input type="time" id="check_in" th:field="*{houseRules.check_in}"/></td>
+                </tr>
+                <tr>
+                    <td><label for="check_out">退房時間:</label></td>
+                    <td><input type="time" id="check_out" th:field="*{houseRules.check_out}"/></td>
+                </tr>
+                <tr>
+                    <td>吸菸</td>
+                    <td><input type="checkbox" id="smoking" th:field="*{houseRules.smoking}"/></td>
+                </tr>
+                <tr>
+                    <td>攜帶寵物</td>
+                    <td><input type="checkbox" id="pet" th:field="*{houseRules.pet}"/></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="divInput">
+                <button class="btn btn-primary">確認新增</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="divInput">
+    <a th:href="@{/templates/house}" class="btn btn-primary" role="button">返回</a>
+</div>
+</body>
+</html>
+<title>Title</title>
+</head>
+<body>
+
+</body>
+</html>

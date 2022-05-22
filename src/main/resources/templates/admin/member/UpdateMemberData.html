@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	 		<meta charset="UTF-8">
+	        <meta charset="utf-8" />
+	        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+	        <meta http-equiv="Pragma" content="no-cache" />
+	        <meta http-equiv="Expires" content="0" />
+	        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		<title>修改會員資料</title>
+	<link rel="icon" href="/houseship/images/favicon.png" type="image/png">
+		<!-- 複製樣式 -->
+		<link type="text/css" href="/houseship/css/style-admin-link.css" rel="stylesheet" />
+		
+		<style type="text/css">
+			.div1{
+				border:2px solid #0B1A4A;
+				border-radius:20px;
+				width:600px;
+				margin: 50px auto;
+			}
+			.head2{
+				margin: 20px auto;
+				text-align: center;
+			}
+			.divForm{
+				width: 500px;
+				margin: 20px auto;
+				text-align: left;
+			}
+			.divInput{
+				margin: 10px auto;
+				text-align: center;
+			}input{
+				width:250px;
+			}td,th{
+				width:250px
+			}.btn{
+				width:100px;
+			}
+		</style>
+</head>
+<body>
+ <header th:replace="/admin/header.html"></header>
+	<!-- 	從這邊開始改 -->
+<div class="div1">
+	<h2 class="head2">修改會員資料</h2>
+	<!-- 網址列上已經有tttp..../updatemember.controller ,只需要補最後面的會員帳號 -->
+	<!-- 用form:form表單跟Member bean綁定,進而取得目標帳號的bean物件? -->
+	<form action="#" th:action="@{/admin/member/updatemember.controller/{memberaccount}(memberaccount=${account})}" method="post" th:object="${member}">
+	
+	<div class="divForm">
+	<table class="table table-striped">
+		<thead>
+		<tr>
+			<th>欄位名稱</th>
+			<th>修改資料</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr>
+			<td><label for="account">會員:</label></td>
+			<td><input id="account" size="30" readonly th:field="*{account}"/></td>
+<!--<td>帳號</td>-->
+<!--<td><input type="text" name="account" value="${account}" disabled></td>-->
+<!-- 上面沒法傳輸資料到controller,用下面的hidden代替,上面負責顯示 -->
+<!--<input type="text" name="account" value="${account}" hidden> -->
+		</tr>
+		<tr>
+			<td><label for="hashed_pwd">密碼:</label></td>
+			<td><input id="hashed_pwd" size="30" readonly th:field="*{hashed_pwd}"/></td>
+<!-- 密碼設成disabled結果集會變null值 -->
+<!--	<td>密碼</td> -->
+<!--	<td><input type="text" name="hashed_pwd" value="${member.getHashed_pwd()}" ></td> -->
+		</tr>
+		<tr>
+			<td><label for="firstname">姓:</label></td>
+			<td><input id="firstname" size="30"  th:field="*{firstname}"/></td>
+<!--<td>姓</td>-->
+<!--<td><input type="text" name="firstname" value="${member.getFirstname()}"></td>-->
+		</tr>
+		<tr>
+			<td><label for="lastname">名:</label></td>
+			<td><input id="lastname" size="30" th:field="*{lastname}"/></td>
+<!--<td>名</td>-->
+<!--<td><input type="text"  name="lastname" value="${member.getLastname()}"></td>-->
+		</tr>
+		<tr>
+			<td><label for="birthday">生日:</label></td>
+			<td><input type="text" id="birthday" size="30" th:field="*{birthday}"/></td>
+<!--<td>生日</td>-->
+<!--<td><input type="date"  name="birthday" value="${member.getBirthday()}"></td>-->
+		</tr>
+
+		<tr>
+			<td><label for="email">e-mail</label></td>
+			<td><input id="email" size="30" th:field="*{email}"/></td>
+<!--<td>e-mail</td>-->
+<!--<td><input type="text"  name="email" value="${member.getEmail()}"></td>-->
+		</tr>
+		<tr>
+			<td><label for="m_address">地址:</label></td>
+			<td><input id="address" size="30" th:field="*{m_address}"/></td>
+<!--<td>地址</td>-->
+<!--<td><input type="text"  name="m_address" value="${member.getM_address()}"></td>-->
+		</tr>
+		<tr>
+			<td><label for="phone">聯絡電話:</label></td>
+			<td><input id="phone" size="30" th:field="*{phone}"/></td>
+<!--<td>聯絡電話</td>-->
+<!--<td><input type="text"  name="phone" value="${member.getPhone()}"></td>-->
+		</tr>
+		<tr>
+			<td><label for="mempic">頭像:</label></td>
+			<td><input id="mempic" size="30" th:field="*{mempic}"/></td>
+<!--<td>頭像</td>-->
+<!--<td><input type="text"  name="mempic" value="${member.getMempic()}"></td>-->
+		</tr>
+		<tr>
+			<td><label for="roles">權限:</label></td>
+			 <!-- role是每一列的資料物件 -->
+			<td id="auth_td">
+				<th:block th:each="role:${roleList}">
+					<input type="checkbox" th:name="roles" th:field="*{roles}"  th:text="'&nbsp'+${role.name}" th:value="${role.id}"  style="width:20px;height:10px">
+				</th:block>
+<!-- 					th:text="'&nbsp'+${role.name}" -->
+			</td>
+		</tr>  
+		<tr style="display:none">
+			<td><label for="enabled">頭像:</label></td>
+			<td><input id="enabled" size="30" th:field="*{enabled}"/></td>
+		</tr>
+		</tbody>		
+	</table>
+	<div class="divInput">
+			<input type="submit" name="update_confirm" class="btn btn-primary" value="確認修改">
+	</div>
+	</div>
+	</form>
+	</div>
+	<div class="divInput">
+			<a href="/houseship/admin/member"><input type="submit" class="btn btn-secondary" value="返回"></a>
+	</div>
+	<footer th:replace="/admin/footer.html"></footer>
+	
+	<div th:replace="/admin/js.html"></div>
+	<script type="text/javascript">
+		//用於讓從controller過來的日期能顯示,不會只有日曆選單
+		$(function() {
+			 
+			 $('input[name="birthday"]').daterangepicker({
+			      
+			      singleDatePicker: true,
+			      locale: {
+			          format: 'YYYY-MM-DD'
+			        }
+			  });
+		});
+	</script> 
+	<script type="text/javascript">
+		//用於讓權限的內容從英文變中文
+// 		console.log($("#auth_td input:nth-child(2)").text());
+		
+// 	console.log($("#roles1").html())
+// 		$("#roles1").text("管理者")
+// 		var authContent = document.getElementById("roles2");
+// 		authContent.innerHTML="員工";
+// 		var authContent = document.getElementById("roles3");
+// 		authContent.innerHTML="使用者";
+	</script> 
+	
+</body>
+</html>

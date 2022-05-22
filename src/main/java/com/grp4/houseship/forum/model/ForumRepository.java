@@ -1,14 +1,15 @@
 package com.grp4.houseship.forum.model;
 
-//import java.util.List;
+import java.util.List;
 
+import com.grp4.houseship.member.model.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
-//import org.springframework.data.jpa.repository.Query;
 
 public interface ForumRepository extends JpaRepository<Forum, Integer> {
+
+
+	List<Forum> findByMember(Member member);
 	
-//	@Query(value = "select c from Forum c ")
-//	public List<Forum> findAllForum();
-//	
+//	List<Forum> findByMessage()
 
 }

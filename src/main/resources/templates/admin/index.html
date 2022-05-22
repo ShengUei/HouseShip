@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title>HouseShip Dashboard</title>
+    <link rel="icon" href="/houseship/images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="/houseship/css/style-admin-link.css">
+
+</head>
+<body class="sb-nav-fixed">
+<header th:replace="/admin/header.html"></header>
+<div id="layoutSidenav">
+    <nav th:replace="/admin/sidebar.html"></nav>
+    <div id="layoutSidenav_content">
+        <!--   main start(由此放入各自的內容)   -->
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">HouseShip 後台管理</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item active">HouseShip Management</li>
+                </ol>
+                <div class="row">
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body ">
+                                <div class="row1 no-gutters align-items-center">
+                                    <div class="col ">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-2">
+                                            會員數
+                                        </div>
+                                        <div class="mb-0 font-weight-bold text-gray-800">
+                                            <span class="h3" th:text="${memberNumOfData}"></span>
+                                            <span class="text-xs">人</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fa-solid fa-user-gear opacity-75 text-gray-300 h2"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-dark stretched-link member" href="#">View</a>
+                                <div class="small text-dark"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card-body ">
+                                <div class="row1 no-gutters align-items-center">
+                                    <div class="col ">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-2">
+                                            房源
+                                        </div>
+                                        <div class="mb-0 font-weight-bold text-gray-800">
+                                            <span class="h3" th:text="${houseNumOfData}"></span>
+                                            <span class="text-xs">間</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fa-solid fa-house opacity-75 text-gray-300 h2"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-dark stretched-link house" href="#">View</a>
+                                <div class="small text-dark"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-danger shadow h-100 py-2">
+                            <div class="card-body ">
+                                <div class="row1 no-gutters align-items-center">
+                                    <div class="col ">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-2">
+                                            訂單
+                                        </div>
+                                        <div class="mb-0 font-weight-bold text-gray-800">
+                                            <span class="h3" th:text="${orderNumOfData}"></span>
+                                            <span class="text-xs">筆</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-shopping-cart opacity-75 text-gray-300 h2"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-dark stretched-link order" href="#">View</a>
+                                <div class="small text-dark"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-secondary shadow h-100 py-2">
+                            <div class="card-body ">
+                                <div class="row1 no-gutters align-items-center">
+                                    <div class="col ">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-2">
+                                            優惠券
+                                        </div>
+                                        <div class="mb-0 font-weight-bold text-gray-800">
+                                            <span class="h3" th:text="${couponNumOfData}"></span>
+                                            <span class="text-xs">張</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fa-solid fa-coins opacity-75 text-gray-300 h2"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-dark stretched-link coupon" href="#">View</a>
+                                <div class="small text-dark"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-info shadow h-100 py-2">
+                            <div class="card-body ">
+                                <div class="row1 no-gutters align-items-center">
+                                    <div class="col ">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-2">
+                                            討論版文章
+                                        </div>
+                                        <div class="mb-0 font-weight-bold text-gray-800">
+                                            <span class="h3" th:text="${forumNumOfData}"></span>
+                                            <span class="text-xs">篇</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-book-open opacity-75 text-gray-300 h2"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-dark stretched-link forum" href="#">View</a>
+                                <div class="small text-dark"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!--   main end     -->
+        <footer th:replace="/admin/footer.html"></footer>
+    </div>
+</div>
+<!-- Js Plugins -->
+<div th:replace="/admin/js.html"></div>
+</body>
+</html>

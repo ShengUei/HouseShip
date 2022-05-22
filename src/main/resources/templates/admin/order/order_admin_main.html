@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title>HouseShip.com 訂單管理系統</title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+    <link rel="stylesheet" href="/houseship/css/style-admin-link.css">
+    <style>
+        .dataTable-table > thead > tr > th {
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .dataTable-table tbody tr td {
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .order-option {
+            margin-bottom: 10px;
+        }
+
+        .order-option button, .order-option div, .order-option a {
+            margin-right: 20px;
+            font-size: 16px;
+        }
+
+        #searchDiv {
+            font-size: 18px;
+        }
+
+        .table-name {
+            font-size: 18px;
+        }
+
+        #downloadDropdown {
+            color: black;
+            border: 1px solid black;
+            margin-right: 0;
+        }
+
+        .orderDetail {
+            margin-top: 10px;
+            border: 1px solid #dae4ec;
+            text-align: left;
+        }
+    </style>
+</head>
+<body class="sb-nav-fixed">
+
+<header th:replace="/admin/header.html"></header>
+
+<div id="layoutSidenav">
+
+    <nav th:replace="/admin/sidebar.html"></nav>
+
+    <div id="layoutSidenav_content">
+        <!--   main start(由此放入各自的內容)   -->
+        <main>
+            <!-- 從這邊開始改 -->
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">訂單管理系統</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item active">Order Management</li>
+                </ol>
+
+                <div class="card mb-4" style="border: 0" id="searchDiv">
+<!--                    <form action="search" method="post">-->
+<!--                        依入住日期查詢 <input type="date" name="date1">~ <input type="date" name="date2"> <input-->
+<!--                            type="submit" name="searchDate" value="查詢">-->
+<!--                    </form>-->
+                    <div class="row">
+                        <div class="col-2">
+                            <div class="dropdown" style="display: inline; margin-right: 0">
+                                <a class="nav-link dropdown-toggle" id="viewDropdown" href="#"
+                                   role="button" data-bs-toggle="dropdown" aria-expanded="false">訂單分類
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="viewDropdown">
+                                    <li><a class="dropdown-item" href="/houseship/admin/order/checkOrder">進行中訂單</a></li>
+                                    <li><a class="dropdown-item" href="/houseship/admin/order/finishOrder">已完成訂單</a></li>
+                                    <li><a class="dropdown-item" href="/houseship/admin/order/cancelOrder">已取消訂單</a></li>
+                                    <li><a class="dropdown-item" href="/houseship/admin/order">所有訂單</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header table-name">
+                        <i class="fas fa-table me-1"></i> 訂單總覽
+                    </div>
+                    <div class="card-body">
+                        <!--表單內容可以從這開始 -->
+                        <div>
+                            <div class="order-option">
+                                <div style="display: inline">
+                                    <input id="checkAll" type="checkbox" style="margin-left: 10px">
+                                    <label for="checkAll">全選</label>
+                                </div>
+                                <a class="btn btn-outline-primary" id="new" data-bs-toggle="modal"
+                                   data-bs-target="#new_order1">新增</a>
+                                <a class="btn btn-outline-warning" id="deleteAll">刪除選中</a>
+                                <div class="dropdown" style="display: inline; float:right; margin-right: 0">
+                                    <a class="nav-link dropdown-toggle" id="downloadDropdown" href="#"
+                                       role="button" data-bs-toggle="dropdown" aria-expanded="false">下載選項
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="downloadDropdown">
+                                        <li><a class="dropdown-item csv" href="#">CSV 檔案</a></li>
+                                        <li><a class="dropdown-item json" href="#">JSON 檔案</a></li>
+                                        <li><a class="dropdown-item sql" href="#">SQL 檔案</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <table id="datatablesSimple">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>訂單編號</th>
+                                    <th>訂購會員</th>
+                                    <th>成立時間</th>
+                                    <th>金額</th>
+                                    <th>狀態</th>
+                                    <th>優惠序號</th>
+                                    <th>選項</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="order : ${orderList}">
+                                    <td>
+                                        <input class="checkMe" type="checkbox" name="check"
+                                               th:value="${order.orderId }">
+                                    </td>
+                                    <td th:text="${order.orderId}"></td>
+                                    <td th:text="${order.member.firstname + ' ' + order.member.lastname}"></td>
+                                    <td th:text="${#dates.format(order.orderTime, 'yyyy/MM/dd HH:mm')}"></td>
+                                    <td th:text="${#numbers.formatDecimal(order.pay,3,'COMMA',0,'POINT')}"></td>
+                                    <td th:text="${order.status.description}"></td>
+                                    <td th:if="${order.coupon != null}" th:text="${order.coupon.couponCode}"></td>
+                                    <td th:if="${order.coupon == null}">無</td>
+                                    <td>
+                                        <div style="justify-content: start; display: flex">
+                                            <a
+                                                    class="btn btn-outline-secondary"
+                                                    data-bs-toggle="modal"
+                                                    th:href="${'#showOrderDetail'+ order.orderId}"
+                                                    role="button"
+                                                    aria-expanded="false"
+                                                    th:aria-controls="showOrderDetail"
+                                            >
+                                                檢視
+                                            </a>
+                                            <a class="btn btn-outline-primary" th:href="@{'/admin/order/edit/' + ${order.orderId}}" th:if="${#strings.equals(order.status,'Check')}">修改</a>
+                                            <a class="btn btn-outline-danger"
+                                               th:if="${!#strings.equals(order.status,'Cancel') and !#strings.equals(order.status,'Finish')}"
+                                               th:href="@{'/admin/order/cancelOrder/' + ${order.orderId}}"
+                                               onclick="cancelOrder(event)">取消</a>
+                                            <a class="activeOption btn btn-outline-success"
+                                               th:if="${#strings.equals(order.status,'Cancel')}"
+                                               th:href="@{'/admin/order/activeOrder/' + ${order.orderId}}">啟用</a>
+                                        </div>
+
+                                        <div class="modal fade orderDetail" th:id="${'showOrderDetail' + order.orderId}"
+                                             tabindex="-1" role="dialog">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">檢視訂單明細</h4>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div>
+                                                            <span class="descp">房屋編號:&nbsp;&nbsp;</span>
+                                                            <span th:text="${order.orderDetail.houseInfo.houseNo}"></span>
+                                                        </div>
+                                                        <hr>
+                                                        <div>
+                                                            <span class="descp">入住日期:&nbsp;&nbsp;</span>
+                                                            <span th:text="${order.orderDetail.checkInDate}"></span>
+                                                        </div>
+                                                        <hr>
+                                                        <div>
+                                                            <span class="descp">退房日期:&nbsp;&nbsp;</span>
+                                                            <span th:text="${order.orderDetail.checkOutDate}"></span>
+                                                        </div>
+                                                        <hr>
+                                                        <div>
+                                                            <span class="descp">每晚房價:&nbsp;&nbsp;</span>
+                                                            <span th:text="${#numbers.formatDecimal(order.orderDetail.housePrice,3,'COMMA',0,'POINT')}"></span>
+                                                        </div>
+                                                        <hr>
+                                                        <div>
+                                                            <span class="descp">房客人數:&nbsp;&nbsp;</span>
+                                                            <span class="right"
+                                                                  th:text="${order.orderDetail.guestNum}">房客人數</span>
+                                                        </div>
+                                                        <hr>
+                                                        <div>
+                                                            <span class="descp">預計抵達時間:&nbsp;&nbsp;</span>
+                                                            <span class="right"
+                                                                  th:text="${#dates.format(order.orderDetail.checkInTime, 'HH:mm')}"></span>
+                                                        </div>
+                                                        <hr>
+                                                        <div>
+                                                            <span class="descp">備註內容:&nbsp;&nbsp;</span>
+                                                            <span class="right"
+                                                                  th:text="${order.orderDetail.note}"></span>
+                                                        </div>
+                                                        <hr>
+                                                        <div>
+                                                            <span class="descp">房客資料:&nbsp;&nbsp;</span><br>
+                                                            姓名: <span class="right"
+                                                                      th:text="${order.orderDetail.guest.firstname} + ${order.orderDetail.guest.lastname}">旅客姓名</span><br>
+                                                            連絡電話: <span class="right"
+                                                                        th:text="${order.orderDetail.guest.phone}"></span><br>
+                                                            email: <span class="right"
+                                                                         th:text="${order.orderDetail.guest.email}"></span>
+                                                        </div>
+                                                        <hr>
+                                                        <div>
+                                                            <span class="descp">房東資訊</span><br>
+                                                            帳號:&nbsp;&nbsp;<span class="right"
+                                                                                 th:text="${order.orderDetail.houseInfo.member.account}"></span><br>
+                                                            連絡電話:&nbsp;&nbsp;<span class="right"
+                                                                                   th:text="${order.orderDetail.houseInfo.member.phone}">房東電話</span><br>
+                                                            email:&nbsp;&nbsp;<span class="right"
+                                                                                    th:text="${order.orderDetail.houseInfo.member.email}">房東信箱</span>
+                                                        </div>
+                                                        <hr>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a th:href="@{'/admin/order/edit/' + ${order.orderId}}" th:if="${#strings.equals(order.status,'Check')}"
+                                                           class="btn btn-primary"
+                                                           style="margin-left:10px;cursor:pointer;">編輯入住資料</a>
+                                                        <a type="submit" class="" data-bs-dismiss="modal"
+                                                           style="margin-left:10px;cursor:pointer;">關閉</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!--   main end     -->
+
+        <div th:replace="/admin/order/order_admin_new_modal"></div>
+
+        <footer th:replace="/admin/footer.html"></footer>
+    </div>
+</div>
+<!-- JS -->
+<div th:replace="/admin/js.html"></div>
+<script type="text/javascript" src="/houseship/js/order/order_admin_script.js"></script>
+
+
+</body>
+</html>

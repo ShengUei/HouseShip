@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="HouseShip Home">
+    <meta name="keywords" content="#">
+    <title>HouseShip.com</title>
+    <link rel="icon" href="/houseship/images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="/houseship/css/style-ui-link.css">
+    <link rel="stylesheet" href="/houseship/css/price_rangs.css">
+    <link rel="stylesheet" href="/houseship/css/style-ui-search.css">
+
+    <style>
+        #customer-preloder {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 999999;
+            background: #ffffff;
+        }
+        #customer-loader {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -13px;
+            margin-left: -13px;
+            border-radius: 60px;
+            animation: customer-loader 0.8s linear infinite;
+            -webkit-animation: customer-loader 0.8s linear infinite;
+        }
+        @keyframes customer-loader {
+            0% {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+                border: 4px solid #f44336;
+                border-left-color: transparent;
+            }
+            50% {
+                -webkit-transform: rotate(180deg);
+                transform: rotate(180deg);
+                border: 4px solid #673ab7;
+                border-left-color: transparent;
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+                border: 4px solid #f44336;
+                border-left-color: transparent;
+            }
+        }
+        @-webkit-keyframes customer-loader {
+            0% {
+                -webkit-transform: rotate(0deg);
+                border: 4px solid #f44336;
+                border-left-color: transparent;
+            }
+            50% {
+                -webkit-transform: rotate(180deg);
+                border: 4px solid #673ab7;
+                border-left-color: transparent;
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+                border: 4px solid #f44336;
+                border-left-color: transparent;
+            }
+        }
+
+        #search-results-preloder {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 999999;
+            background: #ffffff;
+        }
+        #search-results-loader {
+            width: 40px;
+            height: 40px;
+            position: relative;
+            top: 50%;
+            left: 50%;
+            margin-top: -13px;
+            margin-left: -13px;
+            border-radius: 60px;
+            animation: search-results-loader 0.8s linear infinite;
+            -webkit-animation: search-results-loader 0.8s linear infinite;
+        }
+        @keyframes search-results-loader {
+            0% {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+                border: 4px solid #f44336;
+                border-left-color: transparent;
+            }
+            50% {
+                -webkit-transform: rotate(180deg);
+                transform: rotate(180deg);
+                border: 4px solid #673ab7;
+                border-left-color: transparent;
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+                border: 4px solid #f44336;
+                border-left-color: transparent;
+            }
+        }
+        @-webkit-keyframes search-results-loader {
+            0% {
+                -webkit-transform: rotate(0deg);
+                border: 4px solid #f44336;
+                border-left-color: transparent;
+            }
+            50% {
+                -webkit-transform: rotate(180deg);
+                border: 4px solid #673ab7;
+                border-left-color: transparent;
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+                border: 4px solid #f44336;
+                border-left-color: transparent;
+            }
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        #search-results::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        #search-results {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+            max-height: 772px;
+        }
+
+
+    </style>
+
+</head>
+
+<body>
+<!-- Page Preloder -->
+<!--<div th:replace="/ui/page-preloder.html"></div>-->
+<div id="customer-preloder">
+    <div id="customer-loader"></div>
+</div>
+
+<!-- Offcanvas Menu Section Begin -->
+<div th:replace="/ui/offcanvas-menu-section.html"></div>
+
+<!-- Header Section Begin -->
+<header th:replace="/ui/header-section.html"></header>
+
+<!-- Search Bar Section Begin -->
+<div th:replace="/ui/house/searchBar-section.html"></div>
+
+<!-- Result List Area Start -->
+<div class="listing-area">
+    <div class="container-out">
+        <div class="row">
+            <!-- Search content -->
+            <div class="col-xl-3 col-lg-3 col-md-3" id="searchContent">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="small-section-tittle2 mb-45">
+                            <div class="close_icon">
+                                <a href="#" title="收起"><i class="arrow_carrot-left"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Search Category Listing start -->
+                <div class="category-listing mb-50">
+                    <!-- single one -->
+                    <div class="single-listing">
+                        <div class="small-section-tittle2">
+                            <h4>房型選擇</h4>
+                        </div>
+                        <!-- Select items start -->
+                        <div class="select-job-items2">
+                            <select id="select-type" name="house-type">
+                                <option value="0">所有房型</option>
+                                <option value="1">單人房</option>
+                                <option value="2">雙人房</option>
+<!--                                <option value="3">三人房</option>-->
+                                <option value="4">四人房</option>
+<!--                                <option value="">整層住宅</option>-->
+<!--                                <option value="">獨棟房屋</option>-->
+                            </select>
+                        </div>
+                        <!--  Select items End-->
+                        <!-- select-Categories start -->
+                        <div id="select-Categories" class="select-Categories pt-80 pb-50">
+                            <div class="small-section-tittle2">
+                                <h4>設施及服務</h4>
+                            </div>
+                            <label class="container">WiFi
+                                <input id="wifi" type="checkbox" value="true">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="container">電視
+                                <input id="tv" type="checkbox" value="true">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="container">冰箱
+                                <input id="refrigerator" type="checkbox" value="true">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="container">冷氣
+                                <input id="aircon" type="checkbox" value="true">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="container">微波爐
+                                <input id="microwave" type="checkbox" value="true">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="container">廚房
+                                <input id="kitchen" type="checkbox" value="true">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="container">洗衣機
+                                <input id="washer" type="checkbox" value="true">
+                                <span class="checkmark"></span>
+                            </label>
+<!--                            <label class="container">獨立衛浴-->
+<!--                                <input type="checkbox">-->
+<!--                                <span class="checkmark"></span>-->
+<!--                            </label>-->
+                            <label class="container">禁菸客房
+                                <input id="smoking" type="checkbox" value="false">
+                                <span class="checkmark"></span>
+                            </label>
+<!--                            <label class="container">親子空間-->
+<!--                                <input type="checkbox">-->
+<!--                                <span class="checkmark"></span>-->
+<!--                            </label>-->
+                            <label class="container">寵物友善
+                                <input id="pet" type="checkbox" value="true">
+                                <span class="checkmark"></span>
+                            </label>
+<!--                            <label class="container">停車場-->
+<!--                                <input type="checkbox">-->
+<!--                                <span class="checkmark"></span>-->
+<!--                            </label>-->
+                        </div>
+                        <!-- select-Categories End -->
+                    </div>
+                    <div class="single-listing">
+                        <!-- Range Slider Start -->
+                        <aside class="left_widgets p_filter_widgets price_rangs_aside sidebar_box_shadow">
+                            <div class="small-section-tittle2">
+                                <h4>每晚價格 (TWD)</h4>
+                            </div>
+                            <div class="widgets_inner">
+                                <div class="range_item">
+                                    <!-- <div id="slider-range"></div> -->
+                                    <input type="text" class="js-range-slider" value=""/>
+                                    <div class="d-flex align-items-center">
+                                        <div class="price_value d-flex justify-content-center">
+                                            $<input type="text" class="js-input-from" id="amountFrom"/>
+                                            <span>~ </span>
+                                            $<input type="text" class="js-input-to" id="amountTo"/>
+                                        </div>
+                                        <div class="price_text">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                    <div class="select-Categories d-flex align-items-center mt-20">
+                                        <label class="container">大於 $ 3000
+                                            <input type="checkbox" id="price3000">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </aside>
+                        <!-- Range Slider End -->
+                    </div>
+                    <div class="single-listing">
+                        <div class="small-section-tittle2">
+                            <button type="submit" class="btn" id="advanced-search">進階查詢</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Category Listing End -->
+            </div>
+            <!-- Search content End-->
+
+            <!-- Result content -->
+            <div id="result-content"  class="col-xl-5 col-lg-5 col-md-5">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="small-section-tittle2 mb-45">
+                            <div class="ion" id="show_select">
+                                <a href="#" title="展開"><i class="icon_adjust-horiz"></i></a>
+                            </div>
+                            <h4>進階篩選</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- Featured_Result_start -->
+                <section class="featured-area">
+                    <div class="container">
+                        <!-- Count of Result list Start -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="count-result mb-35">
+                                    <span id="count-result-span"></span>
+                                    <!-- Select Result items start -->
+                                    <div class="select-items">
+                                        <span>排序: </span>
+                                        <select id="select-price" name="select">
+                                            <option id="select-price-default" value="default">默認</option>
+                                            <option value="asc">價格低到高</option>
+                                            <option value="desc">價格高到低</option>
+                                        </select>
+                                    </div>
+                                    <!--  Select Result items End-->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Count of Job list End -->
+                        <!-- single-content -->
+<!--                        <div class="single-items mb-30">-->
+<!--                            <div class="result-items">-->
+<!--                                <div class="house-img">-->
+<!--                                    <a href="#"><img src="/houseship/images/house/room-details.jpg"-->
+<!--                                                     alt="house image"></a>-->
+<!--                                </div>-->
+<!--                                <div class="house-tittle house-tittle2">-->
+<!--                                    <a href="#">-->
+<!--                                        <h4>工業風景觀套房</h4>-->
+<!--                                    </a>-->
+<!--                                    <div class="description">-->
+<!--                                        <ul>-->
+<!--                                            <li>雙人房</li>-->
+<!--                                            <li><i class="icon_pin_alt"></i>台中市中西區</li>-->
+<!--                                        </ul>-->
+<!--                                        <ul>-->
+<!--                                            <li>WiFi</li>-->
+<!--                                            <li>空調</li>-->
+<!--                                            <li>禁菸</li>-->
+<!--                                            <li>獨立衛浴</li>-->
+<!--                                        </ul>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="items-link items-link2 f-right">-->
+<!--                                <span>$880 TWD/晚</span>-->
+<!--                                <a href="#">前往查看</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                        <!-- single-content End-->
+                        <!-- single-content -->
+<!--                        <div class="single-items mb-30">-->
+<!--                            <div class="result-items">-->
+<!--                                <div class="house-img">-->
+<!--                                    <a href="#"><img src="/houseship/images/default_img.png" alt="house image"></a>-->
+<!--                                </div>-->
+<!--                                <div class="house-tittle house-tittle2">-->
+<!--                                    <a href="#">-->
+<!--                                        <h4>親子童趣家庭套房</h4>-->
+<!--                                    </a>-->
+<!--                                    <div class="description">-->
+<!--                                        <ul>-->
+<!--                                            <li>四人房</li>-->
+<!--                                            <li><i class="icon_pin_alt"></i>台南市東區</li>-->
+<!--                                        </ul>-->
+<!--                                        <ul>-->
+<!--                                            <li>WiFi</li>-->
+<!--                                            <li>空調</li>-->
+<!--                                            <li>禁菸</li>-->
+<!--                                            <li>親子空間</li>-->
+<!--                                            <li>停車場</li>-->
+<!--                                        </ul>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="items-link items-link2 f-right">-->
+<!--                                <span>$1200 TWD/晚</span>-->
+<!--                                <a href="#">前往查看</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                        <!-- single-content End-->
+                        <div id="search-results-preloder" style="display: none">
+                            <div id="search-results-loader" style="display: none"></div>
+                        </div>
+                        <div id="search-results" class="overflow-auto"></div>
+
+                    </div>
+                </section>
+                <!-- Featured_Result_end -->
+            </div>
+            <!-- Result content End-->
+
+            <!-- Map content -->
+            <div class="col-xl-7 col-lg-7 col-md-7" >
+                <div id="map-iframe" class="row"></div>
+            </div>
+            <!-- Map content End-->
+
+            <!-- Page -->
+            <div class="col-lg-12">
+                <div id="room-pagination" class="room-pagination">
+<!--                    <a href="#">1</a>-->
+<!--                    <a href="#">2</a>-->
+<!--                    <a href="#">Next <i class="fa fa-long-arrow-right"></i></a>-->
+                </div>
+            </div>
+            <!-- Page End-->
+        </div>
+    </div> <!-- Container End-->
+</div>
+
+<!-- Job List Area End -->
+
+<!-- Footer Section Begin -->
+<footer th:replace="/ui/footer-section.html"></footer>
+
+<!-- Js Plugins -->
+<div th:replace="/ui/js.html"></div>
+
+<script src="/houseship/js/house/ui-house-scripts.js" type="application/javascript"></script>
+<script src="/houseship/js/search-dates/index-search-house.js" type="application/javascript"></script>
+
+<script>
+    $("#show_select").click(function () {
+        $("#searchContent").show();
+        $("#searchContent_close").show();
+    });
+    $(".close_icon").click(function () {
+        $("#searchContent").hide();
+        $("#searchContent_close").hide();
+    });
+
+    $("#advanced-search").on('click', () => {
+        advancedSearch(1);
+    })
+</script>
+
+</body>
+
+</html>

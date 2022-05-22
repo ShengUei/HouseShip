@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Booking Option Section</title>
+</head>
+<body>
+<div class="col-lg-4" id="sidebar">
+    <div class="room-booking sidebar__inner" >
+                <p style="color: red" id="checkNotice"></p>
+        <div th:object="${order.orderDetail}">
+            <div class="check-date">
+                <label for="inputCheckIn_booking">入住日期</label>
+                <input name="check-in" type="text" class="form-control" id="inputCheckIn_booking"
+                       th:value="${#dates.format(orderDetail.checkInDate, 'yyyy 年 M 月 dd 日')}" required>
+                <input type="hidden" id="checkin_send_booking" th:field="*{checkInDate}">
+                <i class="icon_calendar"></i>
+            </div>
+            <div class="check-date">
+                <label for="inputCheckOut_booking">退房日期</label>
+                <input name="check-out" type="text" class="form-control" id="inputCheckOut_booking"
+                       th:value="${#dates.format(orderDetail.checkOutDate, 'yyyy 年 M 月 dd 日')}" required>
+                <input type="hidden" id="checkout_send_booking" th:field="*{checkOutDate}">
+                <i class="icon_calendar"></i>
+            </div>
+            <div class="check-date">
+                <label for="guest">房客</label>
+                <input type="number" class="form-control" name="children" id="guest" min="1"
+                       th:max="${houseInfo.h_type}" th:field="*{guestNum}">
+                <!--                <i class="">人</i>-->
+                <span class="inputText">人</span>
+            </div>
+            <hr>
+            <div class="select-option">
+                <div class="row">
+                    <div class="col-lg-6">每晚單價</div>
+                    <div class="col-lg-6">
+                        <input type="hidden" id="h_bookPrice_num" th:field="*{housePrice}">
+                        $<span id="h_bookPrice"
+                               th:text="*{#numbers.formatDecimal(housePrice,3,'COMMA',0,'POINT')}"></span>
+                        TWD
+                    </div>
+                </div>
+                <div class="row showAfterPick">
+                    <div class="col-lg-6">共計入住</div>
+                    <div class="col-lg-6">
+                        <span id="bookingNight"></span>晚
+                    </div>
+                </div>
+                <div class="row showAfterPick">
+                    <div class="col-lg-6">折扣金額</div>
+                    <div class="col-lg-6" id="discount-div">
+                        - <span id="discount">0</span> TWD
+                    </div>
+                </div>
+                <div class="row showAfterPick">
+                    <div class="col-lg-6">總金額</div>
+                    <div class="col-lg-6 addColor">
+                        <span id="payTotal"></span> TWD
+                        <!--                    <input type="hidden" id="payTotalSend" th:field="${order.pay}">-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="discount_m" value="1">
+<!--        <input type="hidden" id="couponNO" th:field="*{coupon.couponNo}">-->
+        <input type="hidden" id="couponNO" name="newOrder_couponNo">
+        <input type="hidden" id="payTotalSend" th:field="*{pay}">
+        <button type="submit" class="btn btn-search" id="checkOutBtn">結帳</button>
+    </div>
+</div>
+
+
+</body>
+</html>

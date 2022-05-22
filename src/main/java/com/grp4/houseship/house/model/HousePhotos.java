@@ -1,10 +1,12 @@
 package com.grp4.houseship.house.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "housePhotos")
+@Table(name = "housephotos")
 public class HousePhotos implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -12,16 +14,17 @@ public class HousePhotos implements Serializable {
 	@Column(name = "PHOTONO")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int photoNo;
-	
+
+//	@Column(name = "HOUSENO")
 	@Transient
 	private int houseNo;
 	
 	@Column(name = "PHOTOPATH")
 	private String photoPath;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "HOUSENO", referencedColumnName = "HOUSENO")
-	private HouseInfo houseInfo;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "HOUSENO", referencedColumnName = "HOUSENO")
+//	private HouseInfo houseInfo;
 
 	public HousePhotos() {
 	}
@@ -54,12 +57,12 @@ public class HousePhotos implements Serializable {
 		this.photoPath = photoPath;
 	}
 
-	public HouseInfo getHouseInfo() {
-		return houseInfo;
-	}
-
-	public void setHouseInfo(HouseInfo houseInfo) {
-		this.houseInfo = houseInfo;
-	}
+//	public HouseInfo getHouseInfo() {
+//		return houseInfo;
+//	}
+//
+//	public void setHouseInfo(HouseInfo houseInfo) {
+//		this.houseInfo = houseInfo;
+//	}
 	
 }

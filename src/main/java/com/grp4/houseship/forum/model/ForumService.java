@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.grp4.houseship.member.model.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ public class ForumService {
 	@Autowired
 	private ForumRepository forumRepository;
 	
+
 	public Long getDataCount() {
 		return forumRepository.count();
 	}
@@ -22,6 +24,7 @@ public class ForumService {
 	public Forum insert(Forum forum) {
 		return forumRepository.save(forum);
 	}
+	
 
 //------------------Delete----------------------------------------------
 	public boolean delete(int fid) {
@@ -34,8 +37,15 @@ public class ForumService {
 	}
 
 //------------------Update----------------------------------------------
-	public Forum update(Integer fid, Forum forum) {
-		return forumRepository.save(forum);
+	public boolean update(Integer fid, Forum forum) {
+		Optional<Forum> op1 = forumRepository.findById(fid);
+		if (op1.isPresent()) {
+			System.out.println(fid);
+			forumRepository.save(forum);
+			
+			return true;
+		}
+		return false;
 	}
 
 //-----------------QueryById---------------------------------------------
@@ -51,7 +61,11 @@ public class ForumService {
 
 //------------------QueryAll-------------------------------------------
 	public List<Forum> findAll() {
-//		System.out.println(forumRepository.findAll());
 		return forumRepository.findAll();
+	}
+
+	public List<Forum> findByAccount(Member account) {
+
+		return forumRepository.findByMember(account);
 	}
 }

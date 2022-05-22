@@ -1,0 +1,154 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>View Members</title>
+	<link rel="icon" href="/houseship/images/favicon.png" type="image/png">
+	
+    <!--CSS  Link-->
+	<link type="text/css" href="/houseship/css/style-admin-link.css" rel="stylesheet" />
+	
+	
+</head>
+
+<body class="sb-nav-fixed">
+    <header th:replace="/admin/header.html"></header>
+	<div id="layoutSidenav">
+        <nav th:replace="/admin/sidebar.html"></nav>
+		<div id="layoutSidenav_content">
+            <!--   main start(由此放入各自的內容)   -->
+			<main>
+		        <!-- 從這邊開始改 -->
+				<div class="container-fluid px-4">
+					<h1 class="mt-4">會員管理系統</h1>
+					<ol class="breadcrumb mb-4">
+						<li class="breadcrumb-item active">Member Management</li>
+					</ol>
+					
+					<div class="card mb-4">
+						<div class="card-header">
+							<i class="fas fa-table me-1"></i> 會員資料
+						</div>
+						<div class="card-body">
+							<!--表單內容可以從這開始 -->
+							<div>
+								<a href="/houseship/admin/member/insertmember.controller" style="margin-left:1px;display:inline"><input
+									class="btn-primary" type="submit" name="new" value="新增"></a>
+								<form style="display:inline" action="#" method="post">
+								<input style="margin-left:10px;display:inline"
+ 										class="btn-warning" type="submit" value="批次刪除">
+									<table id="datatablesSimple" >
+										<thead>
+											<tr>
+<!-- 												<th></th> -->
+												<th>帳號</th>
+<!-- 												<th>密碼</th> -->
+												<th>姓</th>
+												<th>名</th>
+												<th>生日</th>
+												<th>e-mail</th>
+												<th>聯絡地址</th>
+												<th>聯絡電話</th>
+												<th>頭像</th>
+												<th colspan="3">功能</th>
+											</tr>
+										</thead>
+ 										<tbody>
+											<tr th:each="member: ${memberList}">
+												<td th:text="${member.account}">帳號</td>
+												<td th:text="${member.firstname}">姓</td>
+												<td th:text="${member.lastname}">名</td>
+												<td th:text="${member.birthday}">生日</td>
+												<td th:text="${member.email}">email</td>
+												<td th:text="${member.m_address}">m_address</td>
+												<td th:text="${member.phone}">phone</td>
+												<td th:text="${member.mempic}">mempic</td>
+												<td class="text-center">
+                                            		<a href="#" th:href="@{/admin/member/updatemember.controller/{account}(account=*{member.account})}" class="btn btn-primary" role="button">修改</a>
+                                        		</td>
+                                        		<td class="text-center">
+                                            		<a href="#" th:href="@{/admin/member/deletemember.controller/{account}(account=*{member.account})}" class="btn btn-warning" role="button">停權</a>
+                                       			</td>
+                                        		<td class="text-center">
+                                            		<a href="#" th:href="@{/admin/member/restoremember.controller/{account}(account=*{member.account})}" class="btn btn-danger" role="button">復權</a>
+                                       			</td>
+<!-- 										 	<tr th:each="houseInfo : ${houseInfoList}"> -->
+<!-- 												<td><input class="checkMe" type="checkbox" name="check" -->
+<!-- 												value="${members.account}"></td> -->
+<!-- 												<td th:text=${members.account}>1</td>	 -->
+<!-- 												<td th:text=${members.hashed_pwd}>2</td>	 -->
+<!-- 												<td th:text=${members.firstname}>3</td>	 -->
+<!-- 												<td th:text=${members.lastname}>4</td>	 -->
+<!-- 												<td th:text=${members.birthday}>5</td>	 -->
+<!-- 												<td th:text=${members.email}>6</td>	 -->
+<!-- 												<td th:text=${members.m_address}>7</td>	 -->
+<!-- 												<td th:text=${members.phone}>7</td>	 -->
+<!-- 												<td th:text=${members.mempic}>8</td>	 -->
+<!-- 												<td class="text-center"><a class="btn btn-primary" href="<c:url value="/member/updatemember.controller/${members.account}"/>" role="button"> 修改</a></td> -->
+<!-- 												<td class="text-center"><a class="btn btn-danger" href="<c:url value="/member/deletemember.controller/${members.account}"/>" role="button">刪除</a></td> -->
+													
+											</tr>
+<!-- 											</c:forEach> -->
+											
+										</tbody> 
+									</table>
+								</form>
+							</div>
+							<button class="csv">export csv</button>
+                       		<button class="json">export json</button>
+                        	<button class="sql">export sql</button>
+						</div>
+					</div>
+				</div>
+			</main>
+			
+			<!-- 不動 -->
+			  <footer th:replace="/admin/footer.html"></footer>
+		</div>
+	</div>
+	
+    <div th:replace="/admin/js.html"></div>
+
+	<script type="text/javascript">
+// 		$(document).ready(function() {
+// 			$.ajax({
+// 				type: "GET",
+// 				url: "/houseship/admin/member/findall.controller",
+// 				success: function(result) {
+// 					var tr=[];
+// 					tr.push('<tbody>')
+// 					for (var i = 0; i < result.length; i++) {
+// 						tr.push('<tr>');
+// 						tr.push('<td>' + '<input class="checkMe" type="checkbox" name="check" value="'+result[i].account+'">' + '</td>');
+// 						tr.push('<td>' + result[i].account + '</td>');
+// 						tr.push('<td>' + result[i].hashed_pwd + '</td>');
+// 						tr.push('<td>' + result[i].firstname + '</td>');
+// 						tr.push('<td>' + result[i].lastname + '</td>');
+// 						tr.push('<td>' + result[i].birthday + '</td>');
+// 						tr.push('<td>' + result[i].email + '</td>');
+// 						tr.push('<td>' + result[i].m_address + '</td>');
+// 						tr.push('<td>' + result[i].phone + '</td>');
+// 						tr.push('<td>' + result[i].mempic + '</td>');
+// 						// 記得補上下面兩行的路徑
+// 						tr.push('<td class="text-center"><a class="btn btn-warning" href="/houseship/admin/member/updatemember.controller/'+ result[i].account +'" role="button"> 修改</a></td>');
+// 						tr.push('<td class="text-center"><a class="btn btn-danger"  href="/houseship/admin/member/deletemember.controller/'+ result[i].account +'" role="button">停權</a></td>');
+// 						tr.push('<td class="text-center"><a class="btn btn-primary"  href="/houseship/admin/member/restoremember.controller/'+ result[i].account +'" role="button">復權</a></td>');
+// 						tr.push('</tr>');
+// 					}
+					
+// 					tr.push('</tbody>')
+// 					$('#datatablesSimple').append($(tr.join()));	
+// 				}
+// 			})
+// 		});  
+					
+	</script>	
+
+
+</body>
+</html>

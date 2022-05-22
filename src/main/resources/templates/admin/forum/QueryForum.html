@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Cache-Control"
+	content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<title>View Forum</title>
+
+
+<link rel="stylesheet" href="/houseship/css/style-admin-link.css">
+
+</head>
+<style>
+img {
+	width: 80px;
+	height: 120px;
+	margin-right: 10px;
+}
+
+imgth {
+	width: 83px;
+	height: 83px;
+	margin-right: 13px;
+}
+</style>
+<body class="sb-nav-fixed">
+	<header th:replace="admin/header.html"></header>
+	<div id="layoutSidenav">
+		<nav th:replace="admin/sidebar.html"></nav>
+		<div id="layoutSidenav_content">
+			<!--   main start(由此放入各自的內容)   -->
+			<main>
+				<!-- 從這邊開始改 -->
+				<div class="container-fluid px-4">
+					<h1 class="mt-4">討論區管理系統</h1>
+					<ol class="breadcrumb mb-4">
+						<li class="breadcrumb-item active">Forum Management</li>
+					</ol>
+
+					<div class="card mb-4">
+						<div class="card-header">
+							<i class="fas fa-table me-1"></i> 討論總覽
+						</div>
+						<div class="card-body">
+							<!--表單內容可以從這開始 -->
+							<div>
+								<a href="#" th:href="@{/admin/create}"
+									style="margin-left: 1px; display: inline"><input
+									class="btn-primary" type="submit" name="new" value="新增"></a>
+								<table id="datatablesSimple">
+									<thead>
+										<tr>
+											<th>編號</th>
+											<th>帳號</th>
+											<th>建立時間</th>
+											<!-- 											<th>最後修改時間</th> -->
+											<!-- 											<th id="imgth">圖片</th> -->
+											<th>主題</th>
+											<!-- 											<th>類別</th> -->
+											<th>標題</th>
+											<!-- 											<th>內容</th> -->
+											<!-- 											<th>點擊數</th> -->
+											<!-- 											<th>留言數</th> -->
+<!-- 											<th>狀態</th> -->
+											<!-- 											<th>上下架</th> -->
+											<th colspan='5'>功能</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="f: ${forumList}">
+											<td th:text="${f.fid}">編號</td>
+											<td th:text="${f.account}">帳號</td>
+											<td th:text="${f.postTime}">建立時間</td>
+											<!-- 											<td th:if="${f.updateTime} == null">暫無紀錄</td> -->
+											<!-- 											<td><img alt="" src="/houseship/images/forum noimage_s.jpg" th:src="'/houseship/images/forum/' + ${f.image}"></td> -->
+											<td th:text="${f.theme}">主題</td>
+											<!-- 											<td th:if="${f.category== null}">無</td> -->
+											<td th:text="${f.title}"></td>
+											<!-- 											<td th:text="${f.content}">內容</td> -->
+											<!-- 											<td th:text="${f.click}">點擊數</td> -->
+											<!-- 											<td th:text="${f.grade}">留言數</td> -->
+<!-- 											<td th:if="${f.review}==1" th:text='已通過'></td> -->
+<!-- 											<td th:if="${f.review}==0" th:text="待審查"></td> -->
+											<!-- 											<td th:if="${f.rack}==1" th:text="待審查"></td> -->
+											<!-- 											<td th:if="${f.rack}==0" th:text="待審查"></td> -->
+
+											<td><a href="#"
+												th:href="@{/admin/detail/{fid}(fid=${f.fid})}"><input
+													type='submit' class="btn btn-outline-secondary"
+													value='詳細資料'></a> <a href="#"
+												th:href="@{/admin/update/{fid}(fid=${f.fid})}"><input
+													type='submit' class="btn btn-outline-primary" value='編輯'></a>
+												<a href="#" th:href="@{/admin/delete/{fid}(fid=${f.fid})}"><input
+													type='submit' class="btn btn-outline-danger" value='刪除'></a>
+<!-- 												<a href="#" th:if="${f.review}==0" -->
+<!-- 												th:href="@{/admin/delete/{fid}(fid=${f.fid})}"><input -->
+<!-- 													type='submit' class="btn btn-outline-primary" value='審查'></a> -->
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<button class="csv">export csv</button>
+							<button class="json">export json</button>
+							<button class="sql">export sql</button>
+						</div>
+					</div>
+				</div>
+			</main>
+			<!--   main end     -->
+			<footer th:replace="admin/footer.html"></footer>
+		</div>
+	</div>
+	<!-- JS -->
+	<div th:replace="/admin/js.html"></div>
+</body>
+</html>

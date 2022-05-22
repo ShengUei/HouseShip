@@ -1,0 +1,59 @@
+
+.orderList img {
+    object-fit: cover;
+    width: 100px;
+    height: 80px;
+}
+
+.orderList .card .card-header {
+    border-bottom-color: #f9f9f9;
+    line-height: 30px;
+    -ms-grid-row-align: center;
+    align-self: center;
+    width: 100%;
+    min-height: 70px;
+    padding: 15px 25px;
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+}
+
+.orderList .card .card-header .card-header-action {
+    margin-left: auto;
+}
+
+.orderList .card .card-header .card-header-action .btn {
+    font-size: 16px;
+    font-weight: bolder;
+    padding-left: 13px !important;
+    padding-right: 13px !important;
+    margin-top: 1px;
+    padding: 2px;
+}
+
+.orderList .descp {
+    color: #5c636a;
+}
+
+.orderList .card-body a {
+    color: #dfa974;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.orderList .card-body .action {
+    margin-right: auto;
+    margin-left: auto;
+    width: 305px;
+}
+
+.orderList .card-body .action a {
+    text-decoration: underline;
+    display: inline-block;
+    width: 150px;
+    color: #747575;
+}
+
+.orderList .card-body .action a:hover {
+    color: #dfa974;
+}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>新增會員</title>
+	<link rel="icon" href="/houseship/images/favicon.png" type="image/png">
+<link type="text/css" href="/houseship/css/style-admin-link.css" rel="stylesheet" />
+
+<style type="text/css">
+	.div1{
+		border:2px solid #0B1A4A;
+		border-radius:20px;
+		width:600px;
+		margin: 50px auto;
+	}
+	.head2{
+		margin: 20px auto;
+		text-align: center;
+	}
+	.divForm{
+		width: 500px;
+		margin: 20px auto;
+		text-align: left;
+	}
+	.divInput{
+		margin: 10px auto;
+		text-align: center;
+	}input{
+		width:250px;
+	}td,th{
+		width:250px
+	}.btn{
+		width:100px;
+	}
+</style>
+</head>
+<body>
+ <header th:replace="/admin/header.html"></header>
+	<div class="div1">
+	<h2 class="head2">新增會員</h2>
+	<div class="divForm">
+	<form action="/houseship/admin/member/insertmember.controller" method="post">
+		帳號<input class="form-control" type="text" name="account" id="account" required placeholder="必填"><br>
+		密碼<input class="form-control" type="text" name="hashed_pwd" id="password" required placeholder="必填"><br>
+		姓<input class="form-control" type="text" name="firstname" id="firstname"  ><br>
+		名<input class="form-control" type="text" name="lastname" id="lastname"  ><br><br>
+		生日<input class="form-control" type="text" name="birthday" id="birthday"   ><br><br>
+		e-mail<input class="form-control" type="text" name="email" id="email"  required placeholder="必填"><br><br>
+		聯絡地址<input class="form-control" type="text" name="m_address" id="address"  placeholder="選填"><br><br>
+		聯絡電話<input class="form-control" type="text" name="phone" id="phone" ><br><br>
+		頭像<input class="form-control" type="text" name="mempic" id="mempic"  ><br><br>
+		<div class="divInput">
+			<button type="button" id="oneKeyInput" class=" btn btn-primary rounded submit px-3">一鍵輸入</button>
+			<input type="submit" class="btn btn-primary" name="insert" value="送出">
+		</div>
+	</form>
+	</div>
+	</div>
+	<div class="divInput">
+			<a href="/houseship/admin/member"><input type="submit" class="btn btn-secondary" value="取消"></a>
+	</div>
+	 <footer th:replace="/admin/footer.html"></footer>
+	<div th:replace="/admin/js.html"></div>
+	
+	<script type="text/javascript">
+	
+	    $(document).on('click','#oneKeyInput',function(){
+	    	document.getElementById('account').value='test567';
+	  	  	document.getElementById('password').value='567test';
+	  	  	document.getElementById('firstname').value='盧';
+	  	  	document.getElementById('lastname').value='佑恩';
+	  	 	document.getElementById('birthday').value='2002-01-02';
+	  	  	document.getElementById('email').value='test789@gmail.com';
+	  	  	document.getElementById('address').value='高雄市';
+	  	  	document.getElementById('phone').value='0912321345';
+	  	  	document.getElementById('mempic').value='null';
+	  	  
+  		});
+    </script>
+	
+</body>
+</html>

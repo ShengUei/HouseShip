@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>房源管理系統</title>
+    <link rel="icon" href="/houseship/images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="/houseship/css/style-admin-link.css">
+
+    <style>
+        .dataTable-table > thead > tr > th {
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .dataTable-table tbody tr td {
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .order-option {
+            margin-bottom: 10px;
+        }
+
+        .order-option button, .order-option div, .order-option a {
+            margin-right: 20px;
+            font-size: 16px;
+        }
+
+        .table-name {
+            font-size: 18px;
+        }
+
+        #downloadDropdown {
+            color: black;
+            border: 1px solid black;
+            margin-right: 0;
+        }
+    </style>
+    
+</head>
+<body class="sb-nav-fixed">
+
+<header th:replace="/admin/header.html"></header>
+
+<div id="layoutSidenav">
+
+    <nav th:replace="/admin/sidebar.html"></nav>
+    
+    <div id="layoutSidenav_content">
+        <!--   main start(由此放入各自的內容)   -->
+        <main>
+            <!-- 從這邊開始改 -->
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">房源管理系統</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item active">House Management</li>
+                </ol>
+
+                <div class="card mb-4">
+                    <div class="card-header table-name">
+                        <i class="fas fa-table me-1"></i> 房源總覽
+                    </div>
+                    <div class="card-body">
+                        <!--表單內容可以從這開始 -->
+                        <div>
+                            <div class="order-option">
+                                <a href="#" th:href="@{/account/host/addnewhouse}"
+                                   style="display: inline;"><input style="height: 38px"
+                                        class="btn-primary" type="submit" name="new" value="新增"></a>
+                                <!-- 								<form style="display: inline" action="#" -->
+                                <!-- 									method="post"> -->
+                                <!-- 									<input style="margin-left: 10px; display: inline" -->
+                                <!-- 										class="btn-warning" type="submit" value="批次刪除"> -->
+                                <!-- 								</form> -->
+                                <div class="dropdown" style="display: inline; float:right; margin-right: 0;">
+                                    <a class="nav-link dropdown-toggle" id="downloadDropdown" href="#"
+                                       role="button" data-bs-toggle="dropdown" aria-expanded="false">下載選項
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="downloadDropdown">
+                                        <li><a class="dropdown-item csv" href="#">CSV 檔案</a></li>
+                                        <li><a class="dropdown-item json" href="#">JSON 檔案</a></li>
+                                        <li><a class="dropdown-item sql" href="#">SQL 檔案</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <table id="datatablesSimple">
+                                <thead>
+                                <tr>
+                                    <th>房屋編號</th>
+                                    <th>房屋所有人</th>
+                                    <th>目前狀態</th>
+                                    <th>房屋名稱</th>
+                                    <th>服務編號</th>
+                                    <th>規章標號</th>
+                                    <th>功能</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="houseInfo : ${houseInfoList}">
+                                        <td th:text="${houseInfo.houseNo}">House No</td>
+                                        <td th:text="${houseInfo.member.account}">House Owner</td>
+                                        <td th:if="*{houseInfo.status == true}">上架中</td>
+                                        <td th:unless="*{houseInfo.status == true}">下架中</td>
+                                        <td th:text="${houseInfo.h_title}">House Title</td>
+                                        <td th:text="${houseInfo.houseOffers.offersNo}">House Offers No</td>
+                                        <td th:text="${houseInfo.houseRules.rulesNo}">House Rules No</td>
+                                        <td class="text-center">
+                                            <a href="#" th:href="@{/housedetails/{houseNo}(houseNo=*{houseInfo.houseNo})}" class="btn btn-primary" role="button">詳細</a>
+                                            <a style="margin: 0px 20px 0px 20px" href="#" th:href="@{/account/host/updatehouse/{houseNo}(houseNo=*{houseInfo.houseNo})}" class="btn btn-warning" role="button">修改</a>
+                                            <button id="delete-house" th:value="${houseInfo.houseNo}" onclick="deleteHouse()" class="btn btn-danger">刪除</button>
+                                        </td>
+<!--                                        <td class="text-center">-->
+<!--                                        </td>-->
+<!--                                        <td class="text-center">-->
+<!--&lt;!&ndash;                                            <a href="#" th:href="@{/admin/house/deletehouse/{houseNo}(houseNo=${houseInfo.houseNo})}" class="btn btn-danger" role="button">刪除</a>&ndash;&gt;-->
+<!--                                        </td>-->
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!--   main end     -->
+        
+        <footer th:replace="/admin/footer.html"></footer>
+    </div>
+</div>
+<!-- JS -->
+<div th:replace="/admin/js.html"></div>
+
+<script>
+    function deleteHouse() {
+        let result = confirm('確認是否要刪除房屋');
+        if(result === true) {
+            const houseNo = $(event.currentTarget).val();
+            $.ajax({
+                method: 'POST',
+                url: '/houseship/admin/house/deletehouse/' + houseNo,
+                async: 'true',
+                dataType: "json",
+
+                success:function(res){
+                    alert(res.message)
+                    window.location.reload();
+                },
+                error:function(err){
+                    alert(err.message)
+                }
+            });
+        }
+    }
+</script>
+
+</body>
+</html>

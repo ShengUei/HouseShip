@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title>我的訂單</title>
+    <link rel="icon" href="/houseship/images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="/houseship/css/style-ui-link.css">
+    <link rel="stylesheet" href="/houseship/css/account/style-ui-account.css" type="text/css">
+    <link rel="stylesheet" href="/houseship/css/account/style-ui-account-order.css" type="text/css">
+</head>
+<body>
+<div th:replace="/ui/page-preloder.html"></div>
+<div th:replace="/ui/offcanvas-menu-section.html"></div>
+<header th:replace="/ui/header-section.html"></header>
+
+<section class="section">
+    <div class="section-header">
+        <div class="section-header-back">
+            <a href="javascript:history.back()" class="btn btn-icon"><i class="arrow_carrot-left"></i></a>
+        </div>
+        <h1>我的訂單</h1>
+        <div class="section-header-breadcrumb">
+            <div class="breadcrumb-item active"><a href="/houseship/">首頁</a></div>
+            <div class="breadcrumb-item active"><a href="/houseship/account">會員中心</a></div>
+            <div class="breadcrumb-item">我的訂單</div>
+        </div>
+    </div>
+    <div class="section-body">
+        <div class="row">
+            <div class="col-md-2">
+                <div th:replace="/ui/account/account-sidebar.html"></div>
+            </div>
+            <div class="col-md-10">
+                <div class="container mainContainer">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="nav-align-top mb-4">
+                                <ul class="nav nav-pills mb-3 nav-fill" role="tablist">
+                                    <li class="nav-item">
+                                        <button
+                                                type="button"
+                                                class="nav-link active"
+                                                role="tab"
+                                                data-bs-toggle="tab"
+                                                data-bs-target="#navs-pills-justified-home"
+                                                aria-controls="navs-pills-justified-home"
+                                                aria-selected="true"
+                                        >
+                                            <i class="icon_calendar"></i> 即將到來
+                                            <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-danger"
+                                                  th:text="${checkpage.totalElements}"></span>
+                                        </button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button
+                                                type="button"
+                                                class="nav-link"
+                                                role="tab"
+                                                data-bs-toggle="tab"
+                                                data-bs-target="#navs-pills-justified-profile"
+                                                aria-controls="navs-pills-justified-profile"
+                                                aria-selected="false"
+                                        >
+                                            <i class="icon_box-checked"></i> 已完成
+                                        </button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button
+                                                type="button"
+                                                class="nav-link"
+                                                role="tab"
+                                                data-bs-toggle="tab"
+                                                data-bs-target="#navs-pills-justified-messages"
+                                                aria-controls="navs-pills-justified-messages"
+                                                aria-selected="false"
+                                        >
+                                            <i class=" icon_error-circle_alt"></i> 已取消
+                                        </button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane fade show active" id="navs-pills-justified-home"
+                                         role="tabpanel">
+                                        <div th:if="${checkOrders.isEmpty() == true}">
+                                            無
+                                        </div>
+                                        <div th:if="${checkOrders.isEmpty() == false}">
+                                            <ul class="list-unstyled">
+                                                <li class="mb-4 orderList" th:each="order: ${checkOrders}">
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            <div class="media">
+                                                                <a th:href="@{'/house/housedetails/'+ ${order.orderDetail.houseInfo.houseNo}}">
+                                                                    <img class="mr-3"
+                                                                         src="/houseship/images/house/room-details.jpg"
+                                                                         th:src="'/houseship/api/images/' + ${order.orderDetail.houseInfo.housePhotos[0].photoPath}"
+                                                                         alt="房屋圖片">
+                                                                </a>
+                                                                <!-- <img class="mr-3" src='/houseship/images/house/" + value.housePhotos[0].photoPath + "' alt='house image'> -->
+                                                                <div class="media-body">
+                                                                    <h5 class="mt-0 mb-1"
+                                                                        th:text="${order.orderDetail.houseInfo.h_title}">
+                                                                        房屋名稱</h5>
+                                                                    <p>
+                                                                        <span th:text="${#dates.format(order.orderDetail.checkInDate, 'yyyy 年 M 月 dd 日')}">入住日期</span>
+                                                                        <span> &nbsp; &nbsp;~ &nbsp; &nbsp;</span>
+                                                                        <span th:text="${#dates.format(order.orderDetail.checkOutDate, 'yyyy 年 M 月 dd 日')}">退房日期</span>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="card-header-action">
+                                                                <a th:data-collapse=" '#order-' + ${order.orderId}"
+                                                                   class="btn btn-icon btn-info" href="#"><i
+                                                                        class="icon_plus"></i></a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body collapse"
+                                                             th:id=" 'order-' + ${order.orderId}">
+                                                            <div>
+                                                                <span class="descp">地址:&nbsp;&nbsp;</span>
+                                                                <span th:text="${order.orderDetail.houseInfo.h_address}">地址</span>
+                                                            </div>
+                                                            <hr>
+                                                            <div>
+                                                                <span class="descp">旅客姓名:&nbsp;&nbsp;</span>
+                                                                <span class="right"
+                                                                      th:text="${order.orderDetail.guest.firstname} + ${order.orderDetail.guest.lastname}">旅客姓名</span>
+                                                            </div>
+                                                            <hr>
+                                                            <div>
+                                                                <span class="descp">入住人數:&nbsp;&nbsp;</span>
+                                                                <span class="right"
+                                                                      th:text="${order.orderDetail.guestNum}">房客人數</span>
+                                                            </div>
+                                                            <hr>
+                                                            <div>
+                                                                <span class="descp">預計抵達時間:&nbsp;&nbsp;</span>
+                                                                <span class="right"
+                                                                      th:text="${#dates.format(order.orderDetail.checkInTime, 'a hh:mm')}">到達時間</span>
+                                                            </div>
+                                                            <hr>
+                                                            <div th:if="${order.orderDetail.note != ''}">
+                                                                <span class="descp">備註:&nbsp;&nbsp;</span>
+                                                                <span class="right"
+                                                                      th:text="${order.orderDetail.note}">備註</span>
+                                                            </div>
+                                                            <hr th:if="${order.orderDetail.note != ''}">
+                                                            <div>
+                                                                <span class="descp">付款狀態:&nbsp;&nbsp;<b
+                                                                        th:text="${order.status.description}"></b></span>
+                                                            </div>
+                                                            <div>
+                                                                <span class="descp">付款金額:&nbsp;&nbsp;<b
+                                                                        th:text="${#numbers.formatDecimal(order.pay,3,'COMMA',0,'POINT')}"></b> TWD</span>
+                                                            </div>
+                                                            <hr>
+                                                            <div>
+                                                                <span class="descp">房東資訊</span><br>
+                                                                連絡電話:&nbsp;&nbsp;<span class="right"
+                                                                                       th:text="${order.orderDetail.houseInfo.member.phone}">房東電話</span><br>
+                                                                電子信箱:&nbsp;&nbsp;<span class="right"
+                                                                                       th:text="${order.orderDetail.houseInfo.member.email}">房東信箱</span>
+                                                                <a th:href="'mailto:' + ${order.orderDetail.houseInfo.member.email}">&nbsp;<i class="icon_mail_alt"></i></a>
+                                                            </div>
+                                                            <hr>
+                                                            <div class="action">
+                                                                <a th:href="@{'/account/myorder/edit/' + ${order.orderId}}"><i class="icon_pencil-edit"></i>&nbsp;編輯入住資料</a>
+                                                                <a th:href="@{'/account/myorder/cancel/' + ${order.orderId}}" class="cancelBooking"><i class=" icon_close_alt2"></i>&nbsp;取消行程</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <div class="col-lg-12">
+                                                <div class="room-pagination">
+                                                    <a th:href="@{/account/myorder/1}" title="第一頁"><i class="arrow_carrot-2left"></i></a>
+                                                    <a th:if="${not checkpage.isFirst()}" th:href="@{'/account/myorder/'+ ${checkpage.number}}">
+                                                        上一頁 </a>
+                                                    <a th:if="${not checkpage.isLast()}" th:href="@{'/account/myorder/'+ ${checkpage.number + 2}}">
+                                                        下一頁 </a>
+                                                    <a th:href="@{'/account/myorder/'+ ${checkpage.totalPages}}" title="最後一頁"><i class="arrow_carrot-2right"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="navs-pills-justified-profile" role="tabpanel">
+                                        <div th:if="${finishOrders.isEmpty() == true}">
+                                            無
+                                        </div>
+                                        <div class="mb-0" th:if="${finishOrders.isEmpty() == false}">
+                                            <ul class="list-unstyled">
+                                                <li class="mb-4 orderList" th:each="order: ${finishOrders}">
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            <div class="media">
+                                                                <a th:href="@{'/house/housedetails/'+ ${order.orderDetail.houseInfo.houseNo}}">
+                                                                    <img class="mr-3"
+                                                                         src="/houseship/images/house/room-details.jpg"
+                                                                         th:src="'/houseship/api/images/' + ${order.orderDetail.houseInfo.housePhotos[0].photoPath}"
+                                                                         alt="房屋圖片">
+                                                                </a>
+                                                                <!-- <img class="mr-3" src='/houseship/images/house/" + value.housePhotos[0].photoPath + "' alt='house image'> -->
+                                                                <div class="media-body">
+                                                                    <h5 class="mt-0 mb-1"
+                                                                        th:text="${order.orderDetail.houseInfo.h_title}">
+                                                                        房屋名稱</h5>
+                                                                    <p>
+                                                                        <span th:text="${#dates.format(order.orderDetail.checkInDate, 'yyyy 年 M 月 dd 日')}">入住日期</span>
+                                                                        <span> &nbsp; &nbsp;~ &nbsp; &nbsp;</span>
+                                                                        <span th:text="${#dates.format(order.orderDetail.checkOutDate, 'yyyy 年 M 月 dd 日')}">退房日期</span>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="card-header-action">
+                                                                <a th:data-collapse=" '#order-' + ${order.orderId}"
+                                                                   class="btn btn-icon btn-info" href="#"><i
+                                                                        class="icon_plus"></i></a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body collapse"
+                                                             th:id=" 'order-' + ${order.orderId}">
+                                                            <div>
+                                                                <span class="descp">地址:&nbsp;&nbsp;</span>
+                                                                <span th:text="${order.orderDetail.houseInfo.h_address}">地址</span>
+                                                            </div>
+                                                            <hr>
+                                                            <div>
+                                                                <span class="descp">入住人數:&nbsp;&nbsp;</span>
+                                                                <span class="right"
+                                                                      th:text="${order.orderDetail.guestNum}">房客人數</span>
+                                                            </div>
+                                                            <hr>
+                                                            <div>
+                                                                <span class="descp">付款狀態:&nbsp;&nbsp;<b
+                                                                        th:text="${order.status.description}"></b></span>
+                                                            </div>
+                                                            <div>
+                                                                <span class="descp">付款金額:&nbsp;&nbsp;<b
+                                                                        th:text="${#numbers.formatDecimal(order.pay,3,'COMMA',0,'POINT')}"></b> TWD</span>
+                                                            </div>
+                                                            <hr>
+                                                            <div>
+                                                                <span class="descp">房東資訊</span><br>
+                                                                連絡電話:&nbsp;&nbsp;<span class="right"
+                                                                                       th:text="${order.orderDetail.houseInfo.member.phone}">房東電話</span><br>
+                                                                電子信箱:&nbsp;&nbsp;<span class="right"
+                                                                                       th:text="${order.orderDetail.houseInfo.member.email}">房東信箱</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <div class="col-lg-12">
+                                                <div class="room-pagination">
+                                                    <a th:href="@{/order/myorder/1}" title="第一頁"><i class="arrow_carrot-2left"></i></a>
+                                                    <a th:if="${not finishpage.isFirst()}" th:href="@{'/order/myorder/'+ ${finishpage.number}}">
+                                                        上一頁 </a>
+                                                    <a th:if="${not finishpage.isLast()}" th:href="@{'/order/myorder/'+ ${finishpage.number + 2}}">
+                                                        下一頁 </a>
+                                                    <a th:href="@{'/order/myorder/'+ ${finishpage.totalPages}}" title="最後一頁"><i class="arrow_carrot-2right"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="navs-pills-justified-messages" role="tabpanel">
+                                        <div th:if="${cancelOrders.isEmpty() == true}">
+                                            無
+                                        </div>
+                                        <div class="mb-0" th:if="${cancelOrders.isEmpty() == false}">
+                                            <ul class="list-unstyled">
+                                                <li class="mb-4 orderList" th:each="order: ${cancelOrders}">
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            <div class="media">
+                                                                <a th:href="@{'/house/housedetails/'+ ${order.orderDetail.houseInfo.houseNo}}">
+                                                                    <img class="mr-3"
+                                                                         src="/houseship/images/house/room-details.jpg"
+                                                                         th:src="'/houseship/api/images/' + ${order.orderDetail.houseInfo.housePhotos[0].photoPath}"
+                                                                         alt="房屋圖片">
+                                                                </a>
+                                                                <!-- <img class="mr-3" src='/houseship/images/house/" + value.housePhotos[0].photoPath + "' alt='house image'> -->
+                                                                <div class="media-body">
+                                                                    <h5 class="mt-0 mb-1"
+                                                                        th:text="${order.orderDetail.houseInfo.h_title}">
+                                                                        房屋名稱</h5>
+                                                                    <p>
+                                                                        <span th:text="${#dates.format(order.orderDetail.checkInDate, 'yyyy 年 M 月 dd 日')}">入住日期</span>
+                                                                        <span> &nbsp; &nbsp;~ &nbsp; &nbsp;</span>
+                                                                        <span th:text="${#dates.format(order.orderDetail.checkOutDate, 'yyyy 年 M 月 dd 日')}">退房日期</span>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="card-header-action">
+                                                                <a th:data-collapse=" '#order-' + ${order.orderId}"
+                                                                   class="btn btn-icon btn-info" href="#"><i
+                                                                        class="icon_plus"></i></a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body collapse"
+                                                             th:id=" 'order-' + ${order.orderId}">
+                                                            <div>
+                                                                <span class="descp">地址:&nbsp;&nbsp;</span>
+                                                                <span th:text="${order.orderDetail.houseInfo.h_address}">地址</span>
+                                                            </div>
+                                                            <hr>
+                                                            <div>
+                                                                <span class="descp">入住人數:&nbsp;&nbsp;</span>
+                                                                <span class="right"
+                                                                      th:text="${order.orderDetail.guestNum}">房客人數</span>
+                                                            </div>
+                                                            <hr>
+                                                            <div>
+                                                                <span class="descp">付款狀態:&nbsp;&nbsp;<b
+                                                                        th:text="${order.status.description}"></b></span>
+                                                            </div>
+                                                            <div>
+                                                                <span class="descp">付款金額:&nbsp;&nbsp;<b
+                                                                        th:text="${#numbers.formatDecimal(order.pay,3,'COMMA',0,'POINT')}"></b> TWD</span>
+                                                            </div>
+                                                            <hr>
+                                                            <div>
+                                                                <span class="descp">房東資訊</span><br>
+                                                                連絡電話:&nbsp;&nbsp;<span class="right"
+                                                                                       th:text="${order.orderDetail.houseInfo.member.phone}">房東電話</span><br>
+                                                                電子信箱:&nbsp;&nbsp;<span class="right"
+                                                                                       th:text="${order.orderDetail.houseInfo.member.email}">房東信箱</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <div class="col-lg-12">
+                                                <div class="room-pagination">
+                                                    <a th:href="@{/order/myorder/1}" title="第一頁"><i class="arrow_carrot-2left"></i></a>
+                                                    <a th:if="${not cancelpage.isFirst()}" th:href="@{'/order/myorder/'+ ${cancelpage.number}}">
+                                                        上一頁 </a>
+                                                    <a th:if="${not cancelpage.isLast()}" th:href="@{'/order/myorder/'+ ${cancelpage.number + 2}}">
+                                                        下一頁 </a>
+                                                    <a th:href="@{'/order/myorder/'+ ${cancelpage.totalPages}}" title="最後一頁"><i class="arrow_carrot-2right"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<footer th:replace="/ui/footer-section.html"></footer>
+<div th:replace="/ui/js.html"></div>
+<script>
+    $(".order").addClass("active");
+
+    // Collapsable
+    $("[data-collapse]").each(function () {
+        var me = $(this),
+            target = me.data('collapse');
+
+        me.click(function () {
+            $(target).collapse('toggle');
+            $(target).on('shown.bs.collapse', function () {
+                me.html('<i class="icon_minus-06"></i>');
+            });
+            $(target).on('hidden.bs.collapse', function () {
+                me.html('<i class="icon_plus"></i>');
+            });
+            return false;
+        });
+    });
+
+    $(".cancelBooking").click(function(e){
+        e.preventDefault();
+        let msg = "是否取消該筆預訂?";
+        if (confirm(msg) == true){
+            window.location = $(this).attr("href");
+        }
+    });
+
+</script>
+</body>
+</html>

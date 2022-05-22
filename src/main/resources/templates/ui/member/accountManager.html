@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="HouseShip Home">
+    <meta name="keywords" content="#">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HouseShip.com</title>
+    <link rel="icon" href="/houseship/images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="/houseship/css/style-ui-link.css">
+     <!-- 另一個套版,非sona -->
+    <link rel="stylesheet" href="/houseship/css/signIn.css">
+    <style>
+    	img{
+    		
+    	}
+    </style>
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    <div th:replace="/ui/page-preloder.html"></div>
+
+    <!-- Offcanvas Menu Section Begin -->
+    <div th:replace="/ui/offcanvas-menu-section.html"></div>
+
+    <!-- Header Section Begin -->
+    <header th:replace="/ui/header-section.html"></header>
+
+    
+     <section class="contact-section spad">
+        <div class="container">
+        	<div class="row contact-text breadcrumb-section">
+        	<!-- breadcrumb-text用來置中,sona的style.css -->
+        		<div class="col-lg-12 breadcrumb-text">
+        			<h1>會員資料</h1>
+        		</div>
+        	</div>
+            <div class="row">
+            	<!-- 頭像區塊區塊 -->
+                <div class="col-lg-4">
+                	<!-- 底下的js會把user上船的圖片透過id=output載到這 -->
+                	
+                    <img id="output" alt="暫時沒有圖片 " th:src="'/houseship/api/images/'+${picPath}" width="200px" height="250px"   >
+<!--                     th:src="@{images/photo.png}" -->
+
+                </div>
+                <!-- form區塊 -->
+                <div class="col-lg-7 offset-lg-1">
+<!--                     <form action="/houseship/ui/member/accountmanager.controller" class="contact-form" method = "post" enctype="multipart/form-data"> -->
+                        <form action="#" th:action="@{/ui/member/accountmanager.controller}" method="post" class="contact-form" th:object="${member}" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-lg-6">
+                         		<label for="firstname">姓氏
+                                <input type="text" class="input group" id="firstname" placeholder="請輸入您的姓氏" th:field="*{firstname}">
+                                </label>
+                            </div>
+                            <div class="col-lg-6" >
+                            	<label for="lastname">名字
+                                <input type="text" class="input group" id="lastname" placeholder="請輸入您的名字" th:field="*{lastname}">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6"> 
+                            	<label for="birthday">生日
+                                <input type="text" class="input group" id="birthday" name="birthday" th:field="*{birthday}">
+                                </label>
+                            </div>
+                            <div class="col-lg-6">
+                            	<label for="phone">電話
+                                <input type="text" class="input group" id="phone" placeholder="請輸入您的號碼" th:field="*{phone}" >
+                                </label>
+                            </div>
+<!--                                 <button type="submit">Submit Now</button> -->
+						</div>
+                        <div class="row">
+                        	<div class="col-lg-12">
+                            	<label for="m_address">地址
+                                <input class="input group" type="text" size="50" id="address" placeholder="請輸入您的聯絡地址" th:field="*{m_address}">
+                                </label>
+                            </div>   
+                        </div>
+                        <div class="row">
+                        	<div class="col-lg-6 ">
+                        	<i class="fa-solid fa-file-arrow-up"></i>
+                            	<label for="mempic">頭像
+                                	<input  class="input group" type="file" th:field="*{mempic}" accept="image/*" onchange="loadFile(event)" style="display:none" >
+                            		<div><img src="/houseship/images/member/uploadicon.png"></div>
+                                </label>
+                            </div>
+                        </div>
+                         <div class="row">
+                        	<div class="col-lg-10 d-flex justify-content-center">
+                                 <button type="submit">送出</button>
+                            </div>   
+                        </div>
+                        
+                        	
+                            
+                        
+                    </form>
+                </div>
+            </div>
+           
+        </div>
+    </section>
+
+    <!-- Footer Section Begin -->
+    <footer th:replace="/ui/footer-section.html"></footer>
+
+
+
+    <!-- Js Plugins -->
+    <div th:replace="/ui/js.html"></div>
+    <script type="text/javascript">
+		var loadFile = function(){
+			var output = document.getElementById('output');
+			output.src = URL.createObjectURL(event.target.files[0]);
+			output.onload = function(){
+				URL.revokeObjectURL(output.src)	} //加載完圖片後釋放記憶體
+		}
+    </script>
+    <script>
+		$(function() {
+			 
+			 $('input[name="birthday"]').daterangepicker({
+			      
+			      singleDatePicker: true,
+			      locale: {
+			          format: 'YYYY-MM-DD'
+			        }
+			  });
+		});
+	</script> 
+    
+</body>
+
+</html>

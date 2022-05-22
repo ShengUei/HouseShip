@@ -1,33 +1,42 @@
 package com.grp4.houseship.house.controller;
 
+import com.grp4.houseship.email.service.EmailService;
+import com.grp4.houseship.house.model.HouseInfo;
+import com.grp4.houseship.house.model.HouseService;
+import com.grp4.houseship.member.model.Member;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import com.grp4.houseship.house.model.HouseInfo;
-import com.grp4.houseship.house.model.HouseService;
-import com.grp4.houseship.member.model.Member;
+import javax.mail.MessagingException;
 
 
 @Controller
-@RequestMapping(path = "/house")
+@RequestMapping(path = "/admin/house")
 public class HouseController {
 
     @Autowired
     private HouseService houseServiece;
 
+    @Autowired
+    private EmailService emailService;
+
     @GetMapping
     public String searchAllHouse(Model model) {
         model.addAttribute("houseInfoList", houseServiece.searchAll());
-        return "house/HouseInfo";
+        return "/admin/house/HouseInfo";
     }
     
     @GetMapping (path = "/housedetail/{houseid}")
     public String searchHouseDetail(@PathVariable("houseid") int houseid, Model model) {
         model.addAttribute("houseInfo", houseServiece.searchById(houseid));
-        return "house/HouseDetail";
+        return "/admin/house/HouseDetail";
     }
 
     @GetMapping(path = "/addnewhouse")
@@ -36,7 +45,7 @@ public class HouseController {
         houseInfo.setH_price(1);
         houseInfo.setH_type(1);
         model.addAttribute("houseInfo", houseInfo);
-        return "house/CreateHouseInfo";
+        return "/admin/house/CreateHouseInfo";
     }
 
     @PostMapping(path = "/addnewhouse")
@@ -52,7 +61,7 @@ public class HouseController {
     public String updateHouseConfirm(@PathVariable("houseid") int houseid, Model model) {
         HouseInfo houseInfo = houseServiece.searchById(houseid);
         model.addAttribute("houseInfo", houseInfo);
-        return "house/UpdateHouseInfo";
+        return "/admin/house/UpdateHouseInfo";
     }
 
     @PostMapping(path = "/updatehouse/{houseid}")
@@ -68,13 +77,26 @@ public class HouseController {
     @GetMapping(path = "/deletehouse/{houseid}")
     public String deleteHouseConfirm(@PathVariable("houseid") int houseid, Model model) {
         model.addAttribute("houseInfo", houseServiece.searchById(houseid));
-        return "house/DeleteHouseInfo";
+        return "/admin/house/DeleteHouseInfo";
     }
 
     @PostMapping(path = "/deletehouse/{houseid}")
-    public String deleteHouse(@PathVariable("houseid") int houseid) {
-        houseServiece.delete(houseid);
-        return "redirect:/house";
+    public ResponseEntity<String> deleteHouse(@PathVariable("houseid") int houseid) {
+        HouseInfo houseInfo = houseServiece.searchById(houseid);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+        boolean deleteStatue = houseServiece.delete(houseid);
+        if (deleteStatue) {
+            String title = "親愛的: " + houseInfo.getMember().getFirstname() + houseInfo.getMember().getLastname() + " 您好\n"
+                    + "您在 HouseShip 上刊登的 '"+ houseInfo.getH_title() + "' 房屋已遭系統刪除";
+            try {
+                emailService.sendHouseMail(houseInfo, "ui/house/email_delete_house_success", title);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+            return new ResponseEntity<>("{\"message\": \"刪除成功\"}", responseHeaders, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("{\"message\": \"刪除失敗\"}", responseHeaders, HttpStatus.BAD_REQUEST);
     }
 
 }

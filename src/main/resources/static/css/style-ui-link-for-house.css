@@ -1,0 +1,23 @@
+/* Google Font */
+@import url("https://fonts.googleapis.com/css?family=Lora:400,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Cabin:400,500,600,700&display=swap");
+
+/* Css Styles */
+@import url(bootstrap.min.css);
+@import url(font-awesome.min.css);
+@import url(elegant-icons.css);
+@import url(flaticon.css);
+@import url(owl.carousel.min.css);
+@import url(nice-select.css);
+@import url(jquery-ui.min.css);
+@import url(magnific-popup.css);
+@import url(slicknav.min.css);
+
+/* daterangepicker css */
+@import url('https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css');
+
+/* Template Css Styles*/
+@import url(style-ui-sona.css);
+
+/* My Css Styles*/
+@import url(style-ui-index.css);

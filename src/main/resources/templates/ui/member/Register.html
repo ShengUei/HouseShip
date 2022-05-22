@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="HouseShip Home">
+    <meta name="keywords" content="#">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HouseShip.com</title>
+	<link rel="icon" href="/houseship/images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="/houseship/css/style-ui-link.css">
+    <!-- 另一個套版,非sona -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- 另一個套版,非sona -->
+    <link rel="stylesheet" href="/houseship/css/signIn.css">
+    
+    
+</head>
+
+<body>
+    <!-- Page Preloder -->
+	<div th:replace="/ui/page-preloder.html"></div> 
+
+    <!-- Offcanvas Menu Section Begin -->
+    <div th:replace="/ui/offcanvas-menu-section.html"></div>
+
+    <!-- Header Section Begin -->
+   <header th:replace="/ui/header-section.html"></header>
+
+
+    <!-- explore Section Begin -->
+    <section class="ftco-section">
+		<div class="container">
+			
+			<div class="row justify-content-center">
+				<div class="col-md-12 col-lg-10">
+					<div class="wrap d-md-flex">
+						<div class="img" style="background-image: url(/houseship/images/sign_img.jpg);">
+			      </div>
+						<div class="login-wrap p-4 p-md-5">
+			      	<div class="d-flex">
+			      		<div class="w-100">
+			      			<h3 class="mb-4">註冊</h3>
+			      		</div>
+								<div class="w-100">
+									<p class="social-media d-flex justify-content-end">
+										<a href="#" class="social-icon d-flex align-items-center justify-content-center"><span ></span></a>
+										<a href="#" class="social-icon d-flex align-items-center justify-content-center"><span ></span></a>
+									</p>
+								</div>
+			      	</div>
+							<form action="/houseship/ui/member/register.controller" id="form" class="signin-form" method="post">
+			      		<div class="form-group mb-3">
+			      			<label class="label" for="account" style="font-size: 16px">帳號</label>
+			      			<input style="font-size: 16px" type="text" class="form-control" id="account" placeholder="請輸入帳號" name="account" required>
+			      			<span id="msg1" style ="font-size:6px"></span>
+			      		</div>
+		            <div class="form-group mb-3">
+		            	<label class="label" for="password" style="font-size: 16px">密碼</label>
+		              <input style="font-size: 16px" type="password" class="form-control" placeholder="請輸入密碼" name="hashed_pwd" id="password" required>
+		            </div>
+		            <div class="form-group mb-3">
+		            	<label class="label" for="email" style="font-size: 16px">信箱</label>
+		              <input style="font-size: 16px" type="text" class="form-control" id="email" placeholder="請輸入您的email" name="email" required>
+		              <span id="msg2" style ="font-size:6px"></span>
+		            </div>
+		            <div class="form-group">
+<!-- 		            	<button type="submit" class="form-control btn btn-primary rounded submit px-3">註冊</button> -->
+		            	<button type="button" id="register" class="form-control btn btn-primary rounded submit px-3">註冊</button>
+		            </div>
+		           
+		            <div class="form-group d-md-flex">
+		            	<div class="w-50 text-left">
+			            	
+						</div>
+									
+		            </div>
+		          </form>
+		       
+		        </div>
+		      </div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+    <!-- Footer Section Begin -->
+     <footer th:replace="/ui/footer-section.html"></footer>
+
+
+
+    <!-- Js Plugins -->
+    <div th:replace="/ui/js.html"></div>
+    <script type="text/javascript">
+    	$(document).ready(function() {
+        	//一旦user輸入資料
+        	$("#email").on("change",function(){
+            	//先把元素藏起來
+				$("#msg2").hide();
+					if ($('#email').val() == "") {
+						$('#msg2').hide();
+					}else{
+						//把user輸入的帳號給controller,請它幫忙查資料庫有無該帳號
+						$.ajax({
+							type: "POST",
+							url: "/houseship/ui/member/checkduplicateemail.controller",
+							data: JSON.stringify({email:$("#email").val()}),
+							contentType:"application/json; charset=utf-8",
+							//資料庫會回傳"Y"或"N"
+							success: function(result) {
+								$("#msg2").show();
+								
+								if(result =="Y"){
+									$("#msg2").html("此電子郵件已被註冊").css("color","red")
+								}else if(result =="N"){
+									$("#msg2").html("此電子郵件可使用").css("color","green")
+								}
+							},
+							
+							
+	
+						});
+	 				}
+            
+        	});
+
+        	$("#account").on("change",function(){
+            	//先把元素藏起來
+				$("#msg1").hide();
+					//把user輸入的帳號給controller,請它幫忙查資料庫有無該帳號
+					if ($('#account').val() == "") {
+						$('#msg1').hide();
+					}else{
+					$.ajax({
+						type: "POST",
+						url: "/houseship/ui/member/checkduplicateaccount.controller",
+						data: JSON.stringify({account:$("#account").val()}),
+						contentType:"application/json; charset=utf-8",
+						//資料庫會回傳"Y"或"N"
+						success: function(result) {
+							$("#msg1").show();
+							
+							if(result =="Y"){
+								$("#msg1").html("此帳號已被註冊").css("color","red")
+							}else if(result =="N"){
+								$("#msg1").html("此帳號可使用").css("color","green")
+							}
+						},
+						
+						
+
+					});
+				}
+            
+        	});
+		});
+    	
+    </script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" >
+    	
+    	$(document).on('click','#register',function(){
+
+    		$.fn.serializeObject = function() {  
+    		    var o = {};  
+    		    var a = this.serializeArray();  
+    		    $.each(a, function() {  
+    		        if (o[this.name]) {  
+    		            if (!o[this.name].push) {  
+    		                o[this.name] = [ o[this.name] ];  
+    		            }  
+    		            o[this.name].push(this.value || '');  
+    		        } else {  
+    		            o[this.name] = this.value || '';  
+    		        }  
+    		    });  
+    		    return o;  
+    		};
+    		
+        	$.ajax({
+                type : "POST",
+                url : '/houseship/ui/member/register.controller',
+                contentType : 'application/json',
+                data : JSON.stringify($('#form').serializeObject()),
+                success : function(registerStatu) {
+                    
+                	if(registerStatu =="Y"){
+                		swal.fire({
+        		    	 	title:"註冊成功",
+        		    	 	text:"系統已寄出驗證信,請至您的信箱完成驗證",
+        		    	 	type:"success"
+                		}).then(function() {
+                		    window.location = "/houseship/";
+                		});
+					}else if(registerStatu =="N"){
+						swal.fire({
+	    		    	 	title:"註冊失敗",
+	    		    	 	text:"系統發生錯誤,請與本公司客服聯繫",
+	    		    	 	type:"error"
+						}).then(function() {
+						    window.location = "/houseship/";
+						});
+					}
+                	
+                }
+            });
+    	});
+	</script>
+
+
+</body>
+
+</html>

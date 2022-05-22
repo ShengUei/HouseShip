@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>優惠券分眾</title>
+    <style>
+        .content{
+            width: 500px;
+            margin: 10px auto;
+            color: #555656
+        }
+        .logo img{
+            width: 150px;
+            margin-bottom: 10px;
+        }
+        .detail{
+            border: #747575 1px solid;
+            padding: 15px;
+            box-shadow: 5px 5px 8px 2px #dde0e5;
+            font-size: 18px;
+        }
+        .detail hr{
+            border-color: transparent;
+            border-top: #cecece 1px solid;
+            margin-bottom: 2px;
+        }
+        .detail table{
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .detail table tr{
+            height: 20px;
+            padding-bottom: 5px;
+        }
+        .house-tittle{
+            font-size: 26px;
+            color: #dfa974;
+            font-weight: bold;
+            text-align: justify;
+            margin-bottom: 10px;
+            margin-top: 5px;
+        }
+        .left{
+            text-align: left;
+        }
+        .right{
+            text-align: right;
+        }
+        .descp{
+            font-size: 16px;
+            font-weight: lighter;
+            color: #747575;
+        }
+        .link{
+            margin: 20px auto;
+        }
+        .link a button{
+            background-color: #dfa974;
+            border-radius: 5px;
+            color: #FFFFFF;
+            border: 0;
+            font-size: 16px;
+            padding: 5px;
+            line-height: 20px;
+        }
+        .link a button:hover{
+            font-weight: bold;
+        }
+        button:not(:disabled):not(.disabled) {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="logo">
+            <img src="cid:logo">
+<!--            <img src="/houseship/images/logo.png">-->
+        </div>
+        <h2>親愛的 HouseShip 會員，您已取得以下優惠內容: </h2>
+        <div class="detail">
+            <p th:if="${ (coupon.discount * 100) % 10 == 0}">結帳時輸入以下優惠碼，即可享 <span style="color: #dfa974; font-size: 22px" th:text="${#numbers.formatInteger(coupon.discount * 10, 0)}" >9折</span>折優惠: </p>
+            <p th:if="${ (coupon.discount * 100) % 10 != 0}">結帳時輸入以下優惠碼，即可享 <span style="color: #dfa974; font-size: 22px" th:text="${#numbers.formatInteger(coupon.discount * 100,0)}" >85折</span>折優惠: </p>
+            <h3 class="house-tittle" th:text="${coupon.couponCode}">優惠碼</h3>
+        </div>
+        <div class="link">
+            <a href="http://localhost:8080/houseship/"><button>立即訂房</button></a>
+        </div>
+        <br>
+        <br>
+        <br>
+        <hr>
+        <a href="http://localhost:8080/houseship/">HouseShip.com</a>
+    </div>
+    <h3> </h3>
+</body>
+</html>

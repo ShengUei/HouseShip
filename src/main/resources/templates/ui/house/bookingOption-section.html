@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Booking Option Section</title>
+</head>
+<body>
+<div class="col-lg-4" id="sidebar">
+    <div class="room-booking sidebar__inner">
+        <!--        <h4>您的選項</h4>-->
+        <form action="#" th:action="@{'/house/housedetails/'+ ${houseInfo.houseNo}+ '/booking'}" th:object="${orderDetail}" method="post">
+            <div class="check-date">
+                <label for="inputCheckIn_booking">入住日期</label>
+                <input name="check-in" type="text" class="form-control" id="inputCheckIn_booking" required th:if="${session.thisDate1 == null}">
+                <input type="hidden" id="checkin_send_booking" th:name="checkInDate" th:value="*{#dates.format(checkInDate, 'yyyy-MM-dd')}" th:if="${session.thisDate1 == null}" required>
+                <input name="check-in" type="text" class="form-control" id="inputCheckIn_booking" required th:if="${session.thisDate1 != null}" th:value="${session.thisDate1}" >
+                <input type="hidden" id="checkin_send_booking" th:name="checkInDate"  th:if="${session.thisDate1 != null}" th:value="${session.thisDate1}" required>
+                <i class="icon_calendar"></i>
+            </div>
+            <div class="check-date">
+                <label for="inputCheckOut_booking">退房日期</label>
+                <input name="check-out" type="text" class="form-control" id="inputCheckOut_booking" required th:if="${session.thisDate2 == null}">
+                <input type="hidden" id="checkout_send_booking" th:name="checkOutDate" th:value="*{#dates.format(checkOutDate, 'yyyy-MM-dd')}" required th:if="${session.thisDate2 == null}">
+                <input name="check-out" type="text" class="form-control" id="inputCheckOut_booking" required th:if="${session.thisDate2 != null}" th:value="${session.thisDate2}">
+                <input type="hidden" id="checkout_send_booking" th:name="checkOutDate" required th:if="${session.thisDate2 != null}" th:value="${session.thisDate2}">
+                <i class="icon_calendar"></i>
+            </div>
+            <div class="check-date">
+                <label for="guest">房客</label>
+                <input type="number" class="form-control" name="children" id="guest" min="1"
+                       th:max="${houseInfo.h_type}" value="1" th:name="guestNum">
+                <!--                <i class="">人</i>-->
+                <span class="inputText">人</span>
+            </div>
+            <hr>
+            <div class="select-option">
+                <div class="row">
+                    <div class="col-lg-6">每晚單價</div>
+                    <div class="col-lg-6">
+                        <input type="hidden" id="h_bookPrice_num" th:field="*{housePrice}">
+                        $<span id="h_bookPrice"
+                               th:text="${#numbers.formatDecimal(orderDetail.housePrice,3,'COMMA',0,'POINT')}"></span> TWD
+                    </div>
+                </div>
+                <div class="row showAfterPick" style="display: none">
+                    <div class="col-lg-6">共計入住</div>
+                    <div class="col-lg-6">
+                        <span id="bookingNight"></span>晚
+                    </div>
+                </div>
+                <div class="row showAfterPick" style="display: none">
+                    <div class="col-lg-6">總金額</div>
+                    <div class="col-lg-6 addColor">
+                        <span id="payTotal"></span> TWD
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-search">預定房源</button>
+        </form>
+    </div>
+</div>
+
+
+</body>
+</html>

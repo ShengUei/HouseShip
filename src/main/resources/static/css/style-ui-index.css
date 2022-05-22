@@ -1,0 +1,114 @@
+/* index search form */
+.menu-item .logo img {
+    width: fit-content;
+    max-width: 210px;
+}
+
+.menu-item .nav-menu .mainmenu li a {
+    font-size: 18px;
+}
+
+.menu-item .nav-menu .mainmenu li i {
+    font-size: 25px;
+    color: gray;
+}
+
+.search-form {
+    padding: 44px 40px 50px 40px;
+}
+
+.section-pad-2 {
+    padding: 30px 40px;
+}
+
+.search-form-row {
+    width: 98%;
+    max-width: 900px;
+}
+
+.search-form .form-element-100 {
+    padding: 0 5px;
+    position: relative;
+    width: 100%;
+}
+
+.search-form .form-element-50 {
+    width: 50%;
+}
+
+.search-form .form-element-3 {
+    width: 33.333333%;
+}
+
+.search-form .form-control {
+    font-size: 0.8rem;
+    padding: 0.75rem 0.75rem 0.75rem 45px;
+}
+
+.search-form .nice-select {
+    width: 100%;
+    height: 50px;
+    border: 1px solid #ebebeb;
+    border-radius: 2px;
+    font-size: 16px;
+    color: #19191a;
+    text-transform: uppercase;
+    font-weight: 500;
+    padding-left: 20px;
+}
+
+.inputText {
+    position: absolute;
+    top: 15px;
+    right: 50px;
+}
+
+.booking-form form .check-date .position2 {
+    position: relative;
+    bottom: 0px;
+    padding-left: 10px;
+}
+
+.booking-form form .btn-search {
+    margin-top: 0;
+}
+
+.booking-form form .btn-search:hover {
+    color: white;
+    background-color: #dfa974;
+    font-weight: bold;
+}
+
+.footer-section .footer-text {
+    padding: 50px 0 30px;
+}
+
+.footer-section .footer-text .ft-about .logo img {
+    max-width: 60%;
+}
+
+.footer-section .footer-text .ft-newslatter li {
+    font-size: 16px;
+    color: #aaaab3;
+    line-height: 32px;
+    list-style: none;
+}
+
+.footer-section .footer-text .ft-contact {
+    margin-bottom: 15px;
+}
+
+.footer-section .footer-text .ft-about form {
+    color: #aaaab3;
+    margin-bottom: 20px;
+}
+
+.footer-section .copyright-option {
+    padding: 10px 0;
+}
+
+
+.footer-section .copyright-option .co-text a {
+    color: #aaaab3;
+}
+

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>預約成功通知</title>
+    <style>
+        .content{
+            width: 500px;
+            margin: 10px auto;
+            color: #555656
+        }
+        .logo img{
+            width: 150px;
+            margin-bottom: 10px;
+        }
+        .detail{
+            border: #747575 1px solid;
+            padding: 15px;
+            box-shadow: 5px 5px 8px 2px #dde0e5;
+            font-size: 18px;
+        }
+        .detail hr{
+            border-color: transparent;
+            border-top: #cecece 1px solid;
+            margin-bottom: 2px;
+        }
+        .detail table{
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .detail table tr{
+            height: 20px;
+            padding-bottom: 5px;
+        }
+        .house-tittle{
+            font-size: 26px;
+            color: #dfa974;
+            font-weight: bold;
+            text-align: justify;
+            margin-bottom: 10px;
+            margin-top: 5px;
+        }
+        .left{
+            text-align: left;
+        }
+        .right{
+            text-align: right;
+        }
+        .descp{
+            font-size: 16px;
+            font-weight: lighter;
+            color: #747575;
+        }
+        .link{
+            margin: 20px auto;
+        }
+        .link a button{
+            background-color: #dfa974;
+            border-radius: 5px;
+            color: #FFFFFF;
+            border: 0;
+            font-size: 16px;
+            padding: 5px;
+            line-height: 20px;
+        }
+        .link a button:hover{
+            font-weight: bold;
+        }
+        button:not(:disabled):not(.disabled) {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="logo">
+            <img src="cid:logo">
+<!--            <img src="/houseship/images/logo.png">-->
+        </div>
+        <h2><b th:text="${order.getOrderDetail().getGuest().getFirstname()}"></b>，您已成功完成以下預約: </h2>
+        <div class="detail">
+            <h3 class="house-tittle" th:text="${order.orderDetail.houseInfo.h_title}">房屋名稱</h3>
+            <table>
+                <tr>
+                    <td class="left" th:text="${#dates.format(order.orderDetail.checkInDate, 'yyyy 年 M 月 dd 日')}">入住日期</td>
+                    <td class="right" th:text="${#dates.format(order.orderDetail.checkOutDate, 'yyyy 年 M 月 dd 日')}">退房日期</td>
+                </tr>
+                <tr>
+                    <td class="descp left">
+                        <span th:text="${#dates.format(order.orderDetail.houseInfo.houseRules.check_in, 'HH:mm')}">入住時間</span>
+                        後入住
+                    </td>
+                    <td class="descp right">
+                        <span th:text="${#dates.format(order.orderDetail.houseInfo.houseRules.check_out, 'HH:mm')}">退房時間</span>
+                        前退房
+                    </td>
+                </tr>
+            </table>
+            <hr>
+            <div>
+                <span class="descp">地址</span><br>
+                <span th:text="${order.orderDetail.houseInfo.h_address}">地址</span>
+            </div>
+            <hr>
+            <div>
+                <span class="descp">房客人數</span><br>
+                <span class="right" th:text="${order.orderDetail.guestNum}">房客人數</span>
+            </div>
+            <hr>
+            <div>
+                <span class="descp">付款狀態:  <b th:text="${order.status.description}"></b></span>
+            </div>
+            <div>
+                <span class="descp">付款金額:  <b th:text="${#numbers.formatDecimal(order.pay,3,'COMMA',0,'POINT')}"></b> TWD</span>
+            </div>
+            <hr>
+            <div>
+                <span class="descp">房東資訊</span><br>
+                連絡電話:  <span class="right" th:text="${order.orderDetail.houseInfo.member.phone}">房東電話</span><br>
+                電子信箱:  <span class="right" th:text="${order.orderDetail.houseInfo.member.email}">房東信箱</span>
+            </div>
+        </div>
+        <div class="link">
+            <a href="http://localhost:8080/houseship/account/myorder/1"><button>檢視訂單詳情</button></a>
+        </div>
+        <br>
+        <br>
+        <br>
+        <hr>
+        <a href="http://localhost:8080/houseship/">HouseShip.com</a>
+    </div>
+    <h3> </h3>
+</body>
+</html>
