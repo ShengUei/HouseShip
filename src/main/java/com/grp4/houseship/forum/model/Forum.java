@@ -15,11 +15,11 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.grp4.houseship.member.model.Member;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.grp4.houseship.member.model.Member;
 
 @Entity
 @Table(name = "forum")
@@ -63,10 +63,14 @@ public class Forum implements Serializable {
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 
 	private Member member;
+	
+//	@OneToMany(fetch = FetchType.LAZY,mappedBy = "forum",cascade = CascadeType.ALL)
+//	private List<Message>messages ;
 
 	@Transient
 	@Column(name = "click")
 	private int click;
+	@Transient
 	@Column(name = "GRADE")
 	private String grade;
 

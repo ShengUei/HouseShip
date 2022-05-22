@@ -65,14 +65,14 @@ textarea {
 }
 
 img {
-	width: 80px;
-	height: 80px;
+	width: 120px;
+	height: 100px;
 	margin-right: 10px;
 }
 
 imgth {
-	width: 83px;
-	height: 83px;
+	width: 123px;
+	height: 103px;
 	margin-right: 13px;
 }
 </style>
@@ -116,7 +116,8 @@ imgth {
 								<!-- 								</tr> -->
 								<tr>
 									<td><label for="image">圖片:</label></td>
-									<td th:text="*{forum.image}"></td>
+									<td><img th:src="'/houseship/api/images/'+${forum.image}"
+										src="/houseship/images/forum/noimage_s.jpg" alt="forum image"></td>
 								</tr>
 								<tr>
 									<td><label for="theme">主題:</label></td>
@@ -133,16 +134,16 @@ imgth {
 									<td><textarea id="content" cols="30" rows="10" readonly
 											th:field="*{forum.content}"></textarea></td>
 								</tr>
-								<tr>
-									<td><label for="click">點擊數:</label></td>
-									<td><input id="click" size="100" readonly
-										th:field="*{forum.click}" /></td>
-								</tr>
-								<tr>
-									<td><label for="grade">評分:</label></td>
-									<td><input id="grade" size="100" readonly
-										th:field="*{forum.grade}" /></td>
-								</tr>
+								<!-- 								<tr> -->
+								<!-- 									<td><label for="click">點擊數:</label></td> -->
+								<!-- 									<td><input id="click" size="100" readonly -->
+								<!-- 										th:field="*{forum.click}" /></td> -->
+								<!-- 								</tr> -->
+								<!-- 								<tr> -->
+								<!-- 									<td><label for="grade">評分:</label></td> -->
+								<!-- 									<td><input id="grade" size="100" readonly -->
+								<!-- 										th:field="*{forum.grade}" /></td> -->
+								<!-- 								</tr> -->
 
 							</tbody>
 						</table>

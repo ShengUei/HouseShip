@@ -55,6 +55,7 @@
 <!-- Form Begin -->
 <div class="container">
         <div class="checkout_details_area clearfix">
+            <input type="hidden" th:value="${houseInfo.houseNo}" id="thisHouseNo">
             <form action="#" th:action="@{'/house/housedetails/'+ ${houseInfo.houseNo}+ '/checkout'}"
                   th:object="${order}" method="post">
                 <div class="row">

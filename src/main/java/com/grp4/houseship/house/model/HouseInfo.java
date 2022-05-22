@@ -2,7 +2,6 @@ package com.grp4.houseship.house.model;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.grp4.houseship.member.model.Member;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

@@ -1,9 +1,11 @@
 package com.grp4.houseship.order.controller;
 
+import com.grp4.houseship.coupon.model.Coupon;
+import com.grp4.houseship.coupon.model.CouponService;
 import com.grp4.houseship.email.service.EmailService;
 import com.grp4.houseship.house.model.HouseInfo;
-import com.grp4.houseship.house.model.HouseService;
 import com.grp4.houseship.member.model.Member;
+import com.grp4.houseship.house.model.HouseService;
 import com.grp4.houseship.order.ecpay.EcpayPayment;
 import com.grp4.houseship.order.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +28,13 @@ public class OrderController_UI {
     private HouseService houseService;
 
     @Autowired
+    private CouponService couponService;
+
+    @Autowired
     private EmailService emailService;
 
     @PostMapping("/house/housedetails/{houseid}/booking")
-    public String tryOrder(@PathVariable("houseid") int houseid,@ModelAttribute OrderDetail orderDetail, Model model){
+    public String tryOrder(@PathVariable("houseid") int houseid, @ModelAttribute OrderDetail orderDetail, Model model){
         HouseInfo houseInfo = houseService.searchById(houseid);
         model.addAttribute("houseInfo", houseInfo);
         orderDetail.setGuest(new Guest());
@@ -41,10 +46,17 @@ public class OrderController_UI {
 
     @PostMapping("/house/housedetails/{houseid}/checkout")
     @ResponseBody
-    public String createNewOrder(@PathVariable("houseid") int houseid, @ModelAttribute Order order, HttpSession session){
+    public String createNewOrder(@PathVariable("houseid") int houseid, @ModelAttribute Order order, @RequestParam(name = "newOrder_couponNo") String newOrder_couponNo, HttpSession session){
         HouseInfo houseInfo = houseService.searchById(houseid);
         order.getOrderDetail().setHouseInfo(houseInfo);
         Member member = (Member) session.getAttribute("member");
+
+        if (newOrder_couponNo != null && newOrder_couponNo != "") {
+            int couponNo = Integer.parseInt(newOrder_couponNo);
+            Coupon coupon = couponService.findById(couponNo);
+            order.setCoupon(coupon);
+        }
+
         if (member != null){
             order.setMember(member);
             order.setStatus(OrderStatus.UnCheck);
@@ -70,7 +82,7 @@ public class OrderController_UI {
             String title = "您在 HouseShip 上預約 '"+ order.getOrderDetail().getHouseInfo().getH_title() + "' 已完成";
             emailService.sendOrderMail(order, "ui/order/email_order_success", title);
         }
-        return "redirect:/home";
+        return "redirect:/account/myorder/1";
     }
 
     @GetMapping ("order/getMemberData")
@@ -85,7 +97,7 @@ public class OrderController_UI {
     public String viewMyOrders(@PathVariable("pageNo") int pageNo, HttpSession session, Model model){
         Member member = (Member) session.getAttribute("member");
         orderService.orderStatusUpdate();
-        PageRequest pageable = PageRequest.of(pageNo - 1,4);
+        PageRequest pageable = PageRequest.of(pageNo - 1,6);
         Page<Order> checkpage = orderService.findAllByMemberAndStatusOrStatus(member, OrderStatus.Check, OrderStatus.Update, pageable);
         Page<Order> finishpage = orderService.findAllByMemberAndStatusPage(member, OrderStatus.Finish, pageable);
         Page<Order> cancelpage = orderService.findAllByMemberAndStatusPage(member, OrderStatus.Cancel, pageable);
@@ -101,57 +113,68 @@ public class OrderController_UI {
         return "ui/order/account_order";
     }
 
+    //房東查詢訂單
+    @GetMapping("/account/host/order/{pageNo}")
+    public String viewHostOrders(@PathVariable("pageNo") int pageNo, HttpSession session, Model model){
+        Member member = (Member) session.getAttribute("member");
+        orderService.orderStatusUpdate();
+        PageRequest pageable = PageRequest.of(pageNo - 1,6);
+
+        List<HouseInfo> houseInfoList = houseService.searchByAccount(member);
+
+        List<Order> checkOrders = orderService.findAllByHouseAndStatus(houseInfoList, "Check");
+        List<Order> finishOrders = orderService.findAllByHouseAndStatus(houseInfoList, "Finish");
+        List<Order> cancelOrders = orderService.findAllByHouseAndStatus(houseInfoList, "Cancel");
+
+        model.addAttribute("checkOrders", checkOrders);
+        model.addAttribute("finishOrders", finishOrders);
+        model.addAttribute("cancelOrders", cancelOrders);
+
+        return "ui/order/account_house_order";
+    }
+
     //房客編輯入住資料
-    @GetMapping("/order/myorder/edit/{orderId}")
+    @GetMapping("/account/myorder/edit/{orderId}")
     public String myOrderEdit(@PathVariable("orderId") int orderId, Model model){
         Order order = orderService.findById(orderId);
         model.addAttribute("order",order);
         return "/ui/order/account_order_edit";
     }
 
-    @PostMapping("/order/myorder/postedit/{orderId}")
+    @PostMapping("/account/myorder/postedit/{orderId}")
     public String myOrderEditPost(@PathVariable("orderId") int orderId, @ModelAttribute Order order){
         orderService.updateDetail(orderId, order);
-        return "redirect:/order/myorder/1";
+        return "redirect:/account/myorder/1";
     }
 
     //房客取消訂單
-    @GetMapping("/order/myorder/cancel/{orderId}")
+    @GetMapping("/account/myorder/cancel/{orderId}")
     public String myOrderCancel(@PathVariable("orderId") int orderId, Model model){
         Order order = orderService.findById(orderId);
         order.setStatus(OrderStatus.Cancel);
         orderService.update(order);
-        return "redirect:/order/myorder/1";
+        return "redirect:/account/myorder/1";
     }
 
 
-    //以下刪除
+    //日歷
+    @GetMapping("/account/host/calendar")
+    public String calenderView(){
+        return "ui/order/account_house_calendar";
+    }
 
-    @GetMapping("/order/sendEmail")
+    @GetMapping("/account/host/calendar/get")
     @ResponseBody
-    public String trySendEmail() throws MessagingException {
-        Member member = new Member();
-        member.setFirstname("Lucy");
-        emailService.sendMail(member);
-        return "email sent!";
+    public List<Order> calenderGet(Model model, HttpSession session){
+        Member member = (Member) session.getAttribute("member");
+        List<HouseInfo> houseInfoList = houseService.searchByAccount(member);
+        orderService.orderStatusUpdate();
+
+        List<Order> orderList = orderService.findAllByHouse(houseInfoList, "Check", "Finish");
+        return orderList;
     }
 
-    @GetMapping("/order/tryview")
-    public String tryview(Model model){
-       Order order = orderService.findById(34);
-       model.addAttribute("order", order);
-        return "ui/order/email_order_success";
-    }
 
-    @GetMapping("/order/tryview/sendmail")
-    @ResponseBody
-    public String tryviewSend() throws MessagingException {
-        Order order = orderService.findById(44);
-
-        String title = "您在 HouseShip 上預約 '"+ order.getOrderDetail().getHouseInfo().getH_title() + "' 已完成";
-        emailService.sendOrderMail(order, "ui/order/email_order_success", title);
-        return "email sent!";
-    }
 
 
 

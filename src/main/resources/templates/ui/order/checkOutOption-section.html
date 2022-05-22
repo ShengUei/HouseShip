@@ -8,7 +8,7 @@
 <body>
 <div class="col-lg-4" id="sidebar">
     <div class="room-booking sidebar__inner" >
-        <!--        <h4>您的選項</h4>-->
+                <p style="color: red" id="checkNotice"></p>
         <div th:object="${order.orderDetail}">
             <div class="check-date">
                 <label for="inputCheckIn_booking">入住日期</label>
@@ -64,9 +64,10 @@
             </div>
         </div>
         <input type="hidden" id="discount_m" value="1">
-        <input type="hidden" id="couponNO" th:field="*{coupon.couponNo}">
+<!--        <input type="hidden" id="couponNO" th:field="*{coupon.couponNo}">-->
+        <input type="hidden" id="couponNO" name="newOrder_couponNo">
         <input type="hidden" id="payTotalSend" th:field="*{pay}">
-        <button type="submit" class="btn btn-search">結帳</button>
+        <button type="submit" class="btn btn-search" id="checkOutBtn">結帳</button>
     </div>
 </div>
 

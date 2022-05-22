@@ -4,17 +4,17 @@ import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-
+import com.grp4.houseship.coupon.model.CouponService;
 import com.grp4.houseship.forum.model.ForumService;
 import com.grp4.houseship.house.model.HouseService;
 import com.grp4.houseship.member.model.Member;
 import com.grp4.houseship.member.model.MemberService;
 import com.grp4.houseship.member.model.Role;
 import com.grp4.houseship.order.model.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class IndexController {
@@ -30,6 +30,9 @@ public class IndexController {
     
     @Autowired
     private ForumService forumservice;
+
+    @Autowired
+    private CouponService couponService;
     
 //    @GetMapping(path = {"/"})
 //    public String signIn() {
@@ -42,6 +45,7 @@ public class IndexController {
         model.addAttribute("houseNumOfData", houseService.getDataCount());
         model.addAttribute("orderNumOfData", orderService.getDataCount());
         model.addAttribute("forumNumOfData", forumservice.getDataCount());
+        model.addAttribute("couponNumOfData", couponService.getDataCount());
         return "/admin/index";
     }
     

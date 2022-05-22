@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
@@ -129,6 +128,20 @@ public class HouseService {
 
 	public List<HouseInfo> findByPriceBetween(double min, double max) {
 		return houseRepository.findByH_priceBetween(min, max);
+	}
+	
+	//空房查詢
+	public Page<HouseInfo> searchByDateBetween(String date1, String date2, Pageable pageable){
+		return houseRepository.findByDateBetween(date1, date2, pageable);
+	}
+
+	public Page<HouseInfo> searchByDateAndCity(String date1, String date2, String city, Pageable pageable){
+		return houseRepository.findByDateBetweenAndCity(date1, date2, city, pageable);
+	}
+
+	//確認房源與日期可提供
+	public HouseInfo findByDateAndHouseNo(String date1, String date2, int houseNo){
+		return houseRepository.findByDateAndHouseNo(date1, date2, houseNo);
 	}
 	
 }

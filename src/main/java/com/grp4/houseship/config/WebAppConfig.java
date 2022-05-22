@@ -15,6 +15,7 @@ public class WebAppConfig implements WebMvcConfigurer {
 //		registry.addViewController("/logout").setViewName("loginResult");
 		//搭配script.js內的"SignOut"
 		registry.addViewController("/SignOut").setViewName("logout");
+		registry.addViewController("/403").setViewName("ui/member/403page");
 	}
 	
 	//資料夾名字都小寫

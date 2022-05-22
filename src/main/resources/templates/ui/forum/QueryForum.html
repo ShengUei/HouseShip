@@ -9,6 +9,13 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>討論版</title>
 <link rel="stylesheet" href="/houseship/css/style-ui-link.css">
+<style type="text/css">
+.img {
+	width: 450px;
+	height: 360px;
+	margin-right: 10px;
+}
+</style>
 <body>
 	<!-- Page Preloder -->
 	<div th:replace="/ui/page-preloder.html"></div>
@@ -35,14 +42,11 @@
 			</div>
 		</div>
 	</div>
-
-
-	<!-- Breadcrumb Section End -->
-	<div>
-		<a href="#" th:href="@{/forum/create}"
-			style="margin-right: 1px; display: inline"><input
-			class="btn-primary" type="submit" name="new" value="新增"></a>
-
+	<!-- 	<!-- Breadcrumb Section End -->
+	<!-- 	<div> -->
+	<!-- 		<a href="#" th:href="@{/forum/create}" -->
+	<!-- 			style="margin-right: 1px; display: inline"><input -->
+	<!-- 			class="btn-primary" type="submit" name="new" value="新增"></a> -->
 	</div>
 
 	<!-- Blog Section Begin -->
@@ -50,124 +54,34 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-4 col-md-6" th:each="f: ${forumList}">
-					<!-- 					<div class="blog-item set-bg"> -->
-					<img alt="" src="/houseship/images/blog-details/blog-details-1.jpg"
-						th:src="'/houseship/images/forum/' + ${f.image}">
-					<div class="bi-text">
-						<span class="b-tag" th:text="${f.theme}"></span>
-						<h4>
-							<a th:href="@{/forum/{fid}(fid=${f.fid})}" th:text="${f.title}"></a>
-							<!--replace("","")href=" /image"-->
-						</h4>
-						<div class="b-time">
-							<!-- 								<i class="icon_clock_alt" th:text="${f.postTime}"></i> -->
-							<i th:text="${#temporals.format(f.postTime,'yyyy-MM-dd HH:mm')}"></i>
-							<!-- 								<f class="descript-font" th:text="${#temporals.format(info.createTime,'yyyy-MM-dd HH:mm')}"/> -->
-							<!-- 								<td th:text="${#dates.format(sprint.releaseDate, 'dd-MMM-yyyy')}"></td> -->
+					<img id="img" th:src="'/houseship/api/images/'+${f.image}" src="/houseship/images/forum/blog-4.jpg">
+						<div class="bi-text">
+							<span class="b-tag" th:text="${f.theme}"></span>
+							<h4>
+								<a th:href="@{/forum/{fid}(fid=${f.fid})}" th:text="${f.title}"></a>
+							</h4>
+							<div class="b-time">
+								<i th:text="${#temporals.format(f.postTime,'yyyy-MM-dd HH:mm')}"></i>
+							</div>
 						</div>
 					</div>
-
 				</div>
 			</div>
-		</div>
-		<div class="col-lg-12">
-			<div class="load-more">
-				<a href="#" class="primary-btn">Load More</a>
+			<div class="col-lg-12">
+				<div class="load-more">
+					<a href="#" class="primary-btn">顯示更多</a>
+				</div>
 			</div>
 		</div>
 		</div>
 		</div>
 	</section>
-	<!-- Blog Section End -->
-
-
-
-
-	<!-- 						<div class="row"> -->
-	<!-- 							<div class="col-lg-8 mb-5 mb-lg-0"> -->
-	<!-- 								<div class="blog_left_sidebar"> -->
-	<!-- 									<article th:each="f: ${forumList}" class="blog_item"> -->
-	<!-- 										<div class="blog_item_img"> -->
-	<!-- 											<img class="card-img rounded-0" -->
-	<!-- 												th:href="@{/ui/downloadImage/{f.fid}(fid=${f.fid})}"> -->
-	<!-- 											<a href="#" class="blog_item_date"> </a> -->
-	<!-- 										</div> -->
-	<!-- 										<div class="blog_details"> -->
-	<!-- 											<a class="d-inline-block" -->
-	<!-- 												href="/ui/querybyid/{fid}(fid=${f.fid})}"> -->
-	<!-- 												<h2 th:text="${f.title}"></h2> -->
-	<!-- 											</a> -->
-	<!-- 											<div class="row"> -->
-	<!-- 												<div class="col-2 text-truncate"> -->
-	<!-- 													<p th:text="${f.content}"> -->
-	<!-- 														<a class="read-more secondary-link" -->
-	<!-- 															href="single-blog.html">顯示更多</a> -->
-	<!-- 													</p> -->
-	<!-- 												</div> -->
-	<!-- 											</div> -->
-
-	<!-- 											<ul class="blog-info-link"> -->
-	<!-- 												<li><i class="fa fa-user" th:text="${f.account}"></i></li> -->
-	<!-- 												<li><i class="fa fa-comments" th:text="${f.postTime}"></i></li> -->
-
-	<!-- 												<li><i class="fa fa-user" th:text="${f.click}"></i></li> -->
-
-
-	<!-- 											</ul> -->
-	<!-- 										</div> -->
-	<!-- 									</article> -->
-	<!-- 								</div> -->
-	<!-- 							</div> -->
-	<!-- 						</div> -->
-	<!-- 	</div> -->
-	<!-- 	</section> -->
-	<!-- Mobile Menu -->
-
-
-
-
-	<!-- 						<td class="text-center"><a href="#" -->
-	<!-- 							th:href="@{/ui/detail/{fid}(fid=${f.fid})}"><input -->
-	<!-- 								type='submit' class='btn btn-primary' value='修改紀錄'></a></td> -->
-	<!-- 						<td class="text-center"><a href="#" -->
-	<!-- 							th:href="@{/ui/update/{fid}(fid=${f.fid})}"><input -->
-	<!-- 								type='submit' class='btn btn-primary' value='編輯'></a></td> -->
-	<!-- 							th:href="@{/ui/delete/{fid}(fid=${f.fid})}"><input -->
-	<!-- 								type='submit' class='btn btn-danger' value='刪除'></a></td> -->
 	<!--   main end     -->
 	<!-- Footer Section Begin -->
 	<footer th:replace="/ui/footer-section.html"></footer>
 	<!-- Js Plugins -->
 	<div th:replace="/ui/js.html"></div>
-	<!-- All JS Custom Plugins Link Here here -->
-	<script src="./js/forum/vendor/modernizr-3.5.0.min.js"></script>
-	<!-- Jquery, Popper, Bootstrap -->
-	<script src="./js/forum/vendor/jquery-1.12.4.min.js"></script>
-	<script src="./js/forum/vendor/popper.min.js"></script>
-	<script src="./js/forum/vendor/bootstrap.min.js"></script>
-	<!-- Jquery Mobile Menu -->
-	<script src="./js/forum/vendor/jquery.slicknav.min.js"></script>
-	<!-- Jquery Slick , Owl-Carousel Plugins -->
-	<script src="./js/forum/vendor/owl.carousel.min.js"></script>
-	<script src="./js/forum/vendor/slick.min.js"></script>
-	<script src="./js/forum/vendor/price_rangs.js"></script>
-	<!-- One Page, Animated-HeadLin -->
-	<script src="./js/forum/vendor/wow.min.js"></script>
-	<script src="./js/forum/vendor/animated.headline.js"></script>
-	<!-- Scrollup, nice-select, sticky -->
-	<script src="./js/forum/vendor/jquery.scrollUp.min.js"></script>
-	<script src="./js/forum/vendor/jquery.nice-select.min.js"></script>
-	<script src="./js/forum/vendor/jquery.sticky.js"></script>
-	<script src="./js/forum/vendor/jquery.magnific-popup.js"></script>
-	<!-- contact js -->
-	<script src="./js/forum/vendor/contact.js"></script>
-	<script src="./js/forum/vendor/jquery.form.js"></script>
-	<script src="./js/forum/vendor/jquery.validate.min.js"></script>
-	<script src="./js/forum/vendor/mail-script.js"></script>
-	<script src="./js/forum/vendor/jquery.ajaxchimp.min.js"></script>
-	<!-- Jquery Plugins, main Jquery -->
-	<script src="./js/forum/vendor/plugins.js"></script>
-	<script src="./js/forum/vendor/main.js"></script>
+
 </body>
 
 </html>

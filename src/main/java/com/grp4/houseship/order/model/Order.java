@@ -1,8 +1,8 @@
 package com.grp4.houseship.order.model;
 
 import com.grp4.houseship.coupon.model.Coupon;
-
 import com.grp4.houseship.member.model.Member;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -42,6 +42,9 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "COUPONNO", referencedColumnName = "COUPONNO")
     private Coupon coupon;
+
+    @Transient
+    private int couponNo;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
@@ -122,5 +125,29 @@ public class Order {
 
     public void setStatus(OrderStatus status) {
         this.status = status;
+    }
+
+    public int getCouponNo() {
+        return couponNo;
+    }
+
+    public void setCouponNo(int couponNo) {
+        this.couponNo = couponNo;
+    }
+
+    public Date getModifiedTime() {
+        return modifiedTime;
+    }
+
+    public void setModifiedTime(Date modifiedTime) {
+        this.modifiedTime = modifiedTime;
+    }
+
+    public String getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
     }
 }

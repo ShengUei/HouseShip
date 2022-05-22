@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title>HouseShip.com 優惠券管理系統</title>
+    <link rel="stylesheet" href="/houseship/css/style-admin-link.css">
+    <style>
+        .table-name {
+            font-size: 18px;
+        }
+
+        .card .card-footer {
+            background-color: #f7f7f7;
+            text-align: right;
+        }
+
+        .card .card-footer button {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body class="sb-nav-fixed">
+<header th:replace="/admin/header.html"></header>
+
+<div id="layoutSidenav">
+
+    <nav th:replace="/admin/sidebar.html"></nav>
+
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">優惠券管理系統</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item active">Coupon Management</li>
+                </ol>
+                <a href="/houseship/admin/coupon" class="btn btn-secondary" style="margin-bottom: 20px">返回優惠券總覽</a>
+                <form id="setting-form" th:action="@{'/admin/coupon/postEdit/' + ${coupon.couponNo}}"
+                      th:object="${coupon}" method="post">
+                    <div class="card mb-4">
+                        <div class="card-header table-name">
+                            <i class="fas fa-edit me-1"></i> 修改優惠券
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="mb-3 col-md-12">
+                                    <label for="couponCode" class="form-label">優惠碼</label>
+                                    <input class="form-control" type="text" id="couponCode" name="couponCode"
+                                           th:field="*{couponCode}" autofocus/>
+                                </div>
+                                <div class="mb-3 col-md-12">
+                                    <label for="title" class="form-label">標題</label>
+                                    <input class="form-control" type="text" name="title" id="title"
+                                           th:field="*{title}"/>
+                                </div>
+                                <div class="mb-3 col-md-12">
+                                    <label for="discount"
+                                           class="form-label">折扣乘數</label>
+                                    <input type="number" name="discount" class="form-control" id="discount"
+                                           max="1" min="0" step="0.01"
+                                           th:field="*{discount}">
+                                </div>
+                                <div class="mb-3 col-md-12">狀態
+                                    <div class="form-check">
+                                        <input type="radio" name="status" class="form-check-input" id="enable"
+                                               th:field="*{status}" value="Enabled">
+                                        <label for="enable" class="form-check-label">啟用</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="status" class="form-check-input" id="disable"
+                                               th:field="*{status}" value="Disabled">
+                                        <label for="disable" class="form-check-label">停用</label>
+                                    </div>
+                                </div>
+                                <div class="mb-3 col-md-12">
+                                    <label for="inputCheckIn_booking"
+                                           class="form-label">優惠起始時間</label>
+                                    <input type="text" id="inputCheckIn_booking" th:value="${#dates.format(coupon.startDate, 'yyyy年MM月dd日')}"
+                                           required>
+                                    <input type="hidden" id="checkin_send_booking" th:field="${coupon.startDate}">
+                                </div>
+                                <div class="mb-3 col-md-12">
+                                    <label for="inputCheckOut_booking"
+                                           class="form-label">優惠結束時間</label>
+                                    <input type="text" id="inputCheckOut_booking" th:value="${#dates.format(coupon.endDate, 'yyyy年MM月dd日')}"
+                                           required>
+                                    <input type="hidden" id="checkout_send_booking" th:field="${coupon.endDate}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-whitesmoke text-md-right">
+                            <button class="btn btn-primary" id="save-btn">儲存</button>
+                            <a href="/houseship/admin/coupon" style="color: #FFFFFF">
+                                <button class="btn btn-secondary" id="cancel" type="button">取消</button>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </main>
+        <footer th:replace="/admin/footer.html"></footer>
+    </div>
+</div>
+<!-- JS -->
+<div th:replace="/admin/js.html"></div>
+<script>
+
+</script>
+</body>
+</html>

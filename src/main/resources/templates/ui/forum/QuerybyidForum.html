@@ -9,6 +9,49 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>討論版</title>
 <link rel="stylesheet" href="/houseship/css/style-ui-link.css">
+
+<!-- <!-- <script --> 
+<!-- <!-- 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+<!-- <!-- <script type="text/javascript"> -->
+
+<!-- // $(doument).ready(function(){ -->
+<!-- // 	loadmessage(); -->
+<!-- // }); -->
+<!-- // function loadmessage(){ -->
+<!-- // 	$ajax({ -->
+<!-- // 		type:"get", -->
+<!-- // 		url:'/querymessage/{fid}', -->
+<!-- // 		datatype:'json', -->
+<!-- // 		content:'appliction/json', -->
+<!-- // 		success:function(message){ -->
+<!-- // 			$("#moretext").empty(""); -->
+<!-- // 			if(message==null){ -->
+<!-- // 			$("#moretext").empty("no message"); -->
+<!-- // 				}else{ -->
+<!-- // 					var show= $("#moretext"); -->
+<!-- // 					show.append("<h4>筆數<h4>"); -->
+<!-- // 					$.each(message,function(i,m){ -->
+<!-- // 						var querymessage ="<div class='single-comment-item first-comment'>"+"<div class='sc-author'>" -->
+<!-- // 						+`<img th:src="'/houseship/api/images/'+${m.mimage} ==null" src="src='houseship/images/user.png'>` -->
+<!-- <!-- // 						+"</div>"+"<div class='sc-text'>"+"<span th:text='${#temporals.format(fourmById.postTime,`yyyy-MM-dd HH:mm`)}'></span>" -->
+<!-- // 						+"<h5 th:text='*{f.account}'></h5>"+"<p th:text='*{f.content}'></p>"+"</div>"+"</div>" -->
+<!-- // 						show.append(querymessage); -->
+<!-- // 					}); -->
+<!-- // 				} -->
+<!-- // 			} -->
+<!-- // 		}); -->
+<!-- // } -->
+<!-- // $("#createMessagebutton").click(function(){ -->
+<!-- // 	$ajax({ -->
+<!-- // 		type:"get", -->
+<!-- // 		url:'/createmessage', -->
+<!-- // 		content:'appliction/json', -->
+<!-- // 		success:function(createmessage){ -->
+<!-- // 			$("#result").html("新增成功"); -->
+<!-- // 				} -->
+<!-- // 		}); -->
+<!-- // }) -->
+<!-- </script> -->
 <body>
 	<!-- Page Preloder -->
 	<div th:replace="/ui/page-preloder.html"></div>
@@ -40,16 +83,13 @@
 
 	<section class="blog-details-hero set-bg"
 		th:unless="*{forum.image == null} "
-		data-setbg="/houseship/images/forum/17545644.jpg">
-		<!-- 	<section class="blog-details-hero set-bg" th:if="*{forum.image == null} " data-setbg="/houseship/images/forum/17545644.jpg" > -->
+		data-setbg="/houseship/images/forum/96.png">
 		<div class="container">
 			<div class="row">
-				<!-- 				<img > -->
 				<div class="col-lg-10 offset-lg-1">
 					<div class="bd-hero-text">
 						<span th:text="*{forum.theme}"></span>
 					</div>
-
 					<h2 th:text="*{forum.title}"></h2>
 					<ul>
 						<li class="b-time"><i
@@ -68,116 +108,55 @@
 					<div class="blog-details-text">
 						<div class="bd-title">
 							<div class="bd-hero-text">
-								<div class="bd-hero-text">
-									<span th:text="*{forum.category}"></span>
-								</div>
-								<!-- 							<div class="bm-item"> -->
-								<!-- 							<h4 th:text="*{forum.title}"></h4> -->
 								<p th:text="*{forum.content}"></p>
-								<!-- 								<p>In Nepal your overseas adventure travel is going to be -->
-								<!-- 									fascinating. You will get to see the Himalayan Mountains and -->
-								<!-- 									experience all that the rich Nepalese culture has to offer. -->
-								<!-- 									They are an amazing people who have managed to hang on to their -->
-								<!-- 									own culture and beliefs longer than most other countries. When -->
-								<!-- 									overseas adventure travel takes you to Nepal you will have the -->
-								<!-- 									chance to see all of the fantastic and one of a kind lakes and -->
-								<!-- 									forests and you can even spend days or weeks camping out in -->
-								<!-- 									their forests with a specialized guide. And the waterfalls in -->
-								<!-- 									Nepal are to die for, you will never see anything more gorgeous -->
-								<!-- 									in your life as their waterfalls! This should be at the top of -->
-								<!-- 									your overseas adventure travel destination list for sure!</p> -->
 							</div>
+							<div class="bd-more-text" id="moretext">
 
-							<div class="bd-more-text">
-								<!--                             <div class="bm-item">
-						<!--                                 <h4>If you live in New York City</h4>
-						<!--                                 <p>You know all about the traffic there. Getting places is often next to impossible,
-						<!--                                     even with the gazillion yellow cabs. If you’re like me you often look with envy at
-						<!--                                     those shiny limousines with their unformed drivers and wish you could sit in one.
-						<!--                                     Well, you can. New York limo service is more affordable than you think, whether it’s
-						<!--                                     for Newark airport transportation, LaGuardia airport transportation, or to drive
-						<!--                                     wherever you wish to go.</p>
-						<!--                             </div>
-						                        </div>
-						<div class="tag-share">
-							<div class="tags">
-								<i class="bi bi-hand-thumbs-up"></i> <a href="#">Camping</a> <a
-									href="#">Event</a>
+								<!-- 								<div class="tag-share"> -->
+								<!-- 									<div class="tags"> -->
+								<!-- 										<i class="bi bi-hand-thumbs-up"></i> <a href="#">Camping</a> <a -->
+								<!-- 											href="#">Event</a> -->
+								<!-- 									</div> -->
+								<!-- 									<div class="social-share"> -->
+								<!-- 										<span>Share:</span> <a href="#"><i class="fa fa-facebook"></i></a> -->
+								<!-- 										<a href="#"><i class="fa fa-twitter"></i></a> <a href="#"><i -->
+								<!-- 											class="fa fa-tripadvisor"></i></a> <a href="#"><i -->
+								<!-- 											class="fa fa-instagram"></i></a> <a href="#"><i -->
+								<!-- 											class="fa fa-youtube-play"></i></a> -->
+								<!-- 									</div> -->
+								<!-- 								</div> -->
+
+<!-- 								<div id="createmessage" class="leave-comment"> -->
+<!-- 									<h4>加入我們的討論</h4> -->
+<!-- 									<form action="createmessage" class="comment-form"> -->
+<!-- 										<div class="row"> -->
+
+<!-- 																					<div class="col-lg-6"> -->
+<!-- 																						<input type="text" placeholder="Name"> -->
+<!-- 																					</div> -->
+
+<!-- 																					<div class="col-lg-6"> -->
+<!-- 																						<input type="text" placeholder="Email"> -->
+<!-- 																					</div> -->
+
+<!-- 											<div class="col-lg-12 text-center"> -->
+<!-- 												<textarea name="content" placeholder="Messages"></textarea> -->
+<!-- 												<p id="result"></p> -->
+<!-- 												<button type="submit" class="site-btn">送出</button> -->
+<!-- <!-- 												id="createMessagebutton" --> -->
+<!-- 											</div> -->
+
+<!-- 										</div> -->
+
+<!-- 									</form> -->
+<!-- 								</div> -->
+
 							</div>
-							<div class="social-share">
-								<span>Share:</span> <a href="#"><i class="fa fa-facebook"></i></a>
-								<a href="#"><i class="fa fa-twitter"></i></a> <a href="#"><i
-									class="fa fa-tripadvisor"></i></a> <a href="#"><i
-									class="fa fa-instagram"></i></a> <a href="#"><i
-									class="fa fa-youtube-play"></i></a>
-							</div>
-						</div>
-						<div class="comment-option">
-							<h4>2 Comments</h4>
-							<div class="single-comment-item first-comment">
-								<div class="sc-author">
-									<img src="img/blog/blog-details/avatar/avatar-1.jpg" alt="">
-								</div>
-								<div class="sc-text">
-									<span th:text="*{forum.PostTime}">27 Aug 2019</span>
-									<h5>Brandon Kelley</h5>
-									<p>Neque porro qui squam est, qui dolorem ipsum quia dolor
-										sit amet, consectetur, adipisci velit, sed quia non numquam
-										eius modi tempora. incidunt ut labore et dolore magnam.</p>
-									<a href="#" class="comment-btn">Like</a> <a href="#"
-										class="comment-btn">Reply</a>
-								</div>
-							</div>
-							<div class="single-comment-item reply-comment">
-								<div class="sc-author">
-									<img src="img/blog/blog-details/avatar/avatar-2.jpg" alt="">
-								</div>
-								<div class="sc-text">
-									<span>27 Aug 2019</span>
-									<h5>Brandon Kelley</h5>
-									<p>Neque porro qui squam est, qui dolorem ipsum quia dolor
-										sit amet, consectetur, adipisci velit, sed quia non numquam
-										eius modi tempora. incidunt ut labore et dolore magnam.</p>
-									<a href="#" class="comment-btn like-btn">Like</a> <a href="#"
-										class="comment-btn reply-btn">Reply</a>
-								</div>
-							</div>
-							<div class="single-comment-item second-comment ">
-								<div class="sc-author">
-									<img src="img/blog/blog-details/avatar/avatar-3.jpg" alt="">
-								</div>
-								<div class="sc-text">
-									<span>27 Aug 2019</span>
-									<h5>Brandon Kelley</h5>
-									<p>Neque porro qui squam est, qui dolorem ipsum quia dolor
-										sit amet, consectetur, adipisci velit, sed quia non numquam
-										eius modi tempora. incidunt ut labore et dolore magnam.</p>
-									<a href="#" class="comment-btn">Like</a> <a href="#"
-										class="comment-btn">Reply</a>
-								</div>
-							</div>
-						</div>
-						<div class="leave-comment">
-							<h4>Leave A Comment</h4>
-							<form action="#" class="comment-form">
-								<div class="row">
-									<div class="col-lg-6">
-										<input type="text" placeholder="Name">
-									</div>
-									<div class="col-lg-6">
-										<input type="text" placeholder="Email">
-									</div>
-									<div class="col-lg-12 text-center">
-										<input type="text" placeholder="Website">
-										<textarea placeholder="Messages"></textarea>
-										<button type="submit" class="site-btn">Send Message</button>
-									</div>
-								</div>
-							</form>
 						</div>
 					</div>
 				</div>
 			</div>
+		</div>
 		</div>
 	</section>
 	<!-- Blog Details Section End -->
@@ -185,22 +164,22 @@
 
 
 
-								<!-- 						<div class="row"> -->
-								<!-- 							<div class="col-lg-8 mb-5 mb-lg-0"> -->
-								<!-- 								<div class="blog_left_sidebar"> -->
-								<!-- 									<article th:each="f: ${forumList}" class="blog_item"> -->
-								<!-- 										<div class="blog_item_img"> -->
-								<!-- 											<img class="card-img rounded-0" -->
-								<!-- 												th:href="@{/ui/downloadImage/{f.fid}(fid=${f.fid})}"> -->
-								<!-- 											<a href="#" class="blog_item_date"> </a> -->
+	<!-- 						<div class="row"> -->
+	<!-- 							<div class="col-lg-8 mb-5 mb-lg-0"> -->
+	<!-- 								<div class="blog_left_sidebar"> -->
+	<!-- 									<article th:each="f: ${forumList}" class="blog_item"> -->
+	<!-- 										<div class="blog_item_img"> -->
+	<!-- 											<img class="card-img rounded-0" -->
+	<!-- 												th:href="@{/ui/downloadImage/{f.fid}(fid=${f.fid})}"> -->
+	<!-- 											<a href="#" class="blog_item_date"> </a> -->
 
 
 
 
-							</div>
-						</div>
-					</div>
-				</div>
+	</div>
+	</div>
+	</div>
+	</div>
 	</section>
 
 
@@ -241,6 +220,7 @@
 	<!-- Jquery Plugins, main Jquery -->
 	<script src="./js/forum/vendor/plugins.js"></script>
 	<script src="./js/forum/vendor/main.js"></script>
+
 </body>
 
 </html>

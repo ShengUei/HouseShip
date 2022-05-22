@@ -140,10 +140,10 @@ $("#inputCheckOut_booking").click(function () {
 
 
 $(".autoWrite").click(function () {
-    $("#inputCheckIn").val(`${today.getMonth() + 1} 月 ${today.getDate()} 日 (星期${daysOfWeek[today.getDay()]})`);
-    $("#checkin_send").val(`${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`)
-    $("#inputCheckOut").val(`${tomorrow.getMonth() + 1} 月 ${tomorrow.getDate()} 日 (星期${daysOfWeek[tomorrow.getDay()]})`);
-    $("#checkout_send").val(`${tomorrow.getFullYear()}-${tomorrow.getMonth() + 1}-${tomorrow.getDate()}`)
+    $("#inputCheckIn_booking").val(`${today.getMonth() + 1} 月 ${today.getDate()} 日 (星期${daysOfWeek[today.getDay()]})`);
+    $("#checkin_send_booking").val(`${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`)
+    $("#inputCheckOut_booking").val(`${tomorrow.getMonth() + 1} 月 ${tomorrow.getDate()} 日 (星期${daysOfWeek[tomorrow.getDay()]})`);
+    $("#checkout_send_booking").val(`${tomorrow.getFullYear()}-${tomorrow.getMonth() + 1}-${tomorrow.getDate()}`);
 })
 
 function getBookingNight(startDate, endDate) {
@@ -153,6 +153,7 @@ function getBookingNight(startDate, endDate) {
 }
 
 function showPayment() {
+    checkDates();
     let bookPrice = parseInt($("#h_bookPrice_num").val());
     let checkInDate = new Date( $("#checkin_send_booking").val());
     let checkOutDate = new Date( $("#checkout_send_booking").val());
@@ -162,10 +163,12 @@ function showPayment() {
     if ($("#discount_m").val()){
         discount_multiplier = $("#discount_m").val();
     }
-    let discountAmount = total - (total * discount_multiplier);
+    let discountAmount = total - Math.ceil(total * discount_multiplier);
     let totalPay = total - discountAmount;
     $("#payTotalSend").val(totalPay);
     $("#bookingNight").text(bookNight);
+    $("#bookingNight_1").val(bookNight);
+    $("#discount_1").val(discountAmount);
     $("#discount").text(discountAmount.toLocaleString('zh-TW',{
         style: "currency",
         currency: "TWD",
@@ -201,3 +204,28 @@ $(".checkInTime").timepicker({
     dropdown: true, //是否顯示時間條目的下拉列表
     scrollbar: true //是否顯示捲軸
 });
+
+//available check
+function checkDates(){
+    $("#checkNotice").text("");
+    let checkInDateSend = $("#checkin_send_booking").val();
+    let checkOutDateSend = $("#checkout_send_booking").val();
+    let houseNo = $("#thisHouseNo").val();
+
+    let url = "/houseship/checkAvailable/" + checkInDateSend + "/" + checkOutDateSend + "/" + houseNo;
+
+    $.ajax({
+        type: 'get',
+        url: url,
+        contentType:'application/json',
+        success: function (data){
+            if (data == ""){
+                $("#checkNotice").text("您所選的日期已被預訂");
+                $("#checkOutBtn").attr("disabled", true);
+            }else {
+                console.log("house is available!");
+                $("#checkOutBtn").attr("disabled", false);
+            }
+        }
+    })
+}

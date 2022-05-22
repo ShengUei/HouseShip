@@ -14,7 +14,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
+import com.grp4.houseship.member.model.CustomAccessDeniedHandler;
 import com.grp4.houseship.member.model.LoginSuccessHandler;
 import com.grp4.houseship.member.model.OAuthLoginSuccessHandler;
 import com.grp4.houseship.member.model.OAuthMemberService;
@@ -43,6 +45,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        authProvider.setPasswordEncoder(passwordEncoder());
 	         
 	        return authProvider;
+	 }
+	 @Bean
+	 public AccessDeniedHandler accessDeniedHandler(){
+	     return new CustomAccessDeniedHandler();
 	 }
 	 
 	 @Autowired
@@ -98,9 +104,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.headers().frameOptions().sameOrigin()
 		.and()
 		//signIn.html的action必須是"/houseship/signinPage",spring security好像才能順利驗證
-		.formLogin().loginPage("/signinPage")
+		.formLogin()
+			.loginPage("/signinPage")
 		//.defaultSuccessUrl("/welcomePage") 用下面的handler代替了
-		.successHandler(loginSuccessHandler) //上面有為了這邊多一個@Autowired
+				.successHandler(loginSuccessHandler) //上面有為了這邊多一個@Autowired
+				.and()
+				.exceptionHandling().accessDeniedHandler(accessDeniedHandler())
 		.and()
 		//for第三方登入用
 		.oauth2Login()

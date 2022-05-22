@@ -174,3 +174,18 @@
     background: #ffffff;
 }
 
+.accountOption .menu-item .nav-menu .mainmenu li a:after {
+    background: transparent;
+}
+.accountOption .menu-item .nav-menu .mainmenu li a {
+    padding: 10px 5px;
+    width: 75%;
+}
+.accountOption .menu-item .nav-menu .mainmenu li .active{
+    color: white;
+    font-weight: bold;
+}
+.accountOption .menu-item .nav-menu .mainmenu {
+    width: 100%;
+}
+

@@ -23,7 +23,7 @@ public class EcpayPayment {
         //實體化交易物件
         AioCheckOutALL obj = new AioCheckOutALL();
         //填入所需參數
-        obj.setMerchantTradeNo("orderno"+String.valueOf(order.getOrderId()));
+        obj.setMerchantTradeNo("ordernb"+String.valueOf(order.getOrderId()));
         obj.setMerchantTradeDate(dateFormat.format(order.getOrderTime()));
         obj.setTotalAmount(String.valueOf( order.getPay().intValue() ));
         obj.setTradeDesc("Houseship 訂房");

@@ -4,6 +4,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.grp4.houseship.member.model.Member;
+import com.grp4.houseship.member.model.MemberService;
+import com.grp4.houseship.member.model.Role;
+import com.grp4.houseship.member.model.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,13 +18,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-
-import com.grp4.houseship.member.model.Member;
-import com.grp4.houseship.member.model.MemberService;
-import com.grp4.houseship.member.model.Role;
-import com.grp4.houseship.member.model.RoleService;
 
 @Controller
 
@@ -34,19 +31,21 @@ public class MemberController {
 	
 	
 	//-----------------------------------------從這邊開始是後台--------------------------------------
-	@GetMapping
-	public String searchAllMemberMain() {
-	
-		return "/admin/member/member_viewAll";
-		
-	}
-	
+//	@GetMapping
+//	public String searchAllMemberMain() {
+//	
+//		return "/admin/member/member_viewAll";
+//		
+//	}
+
 	//改用ajax寫
-	@GetMapping(path="/findall.controller")
-	@ResponseBody
-	public List<Member> searchAllMember(Model model) {
+	@GetMapping/*(path="/findall.controller")*/
+//	@ResponseBody
+	public String searchAllMember(Model model) {
 		
-		return memberService.findAll();
+		model.addAttribute("memberList", memberService.findAll());
+		
+		return "/admin/member/member_viewAll";
 	}
 	
 	@GetMapping(path = "/insertmember.controller")
@@ -90,8 +89,10 @@ public class MemberController {
 		@PreAuthorize("hasRole('ROLE_ADMIN')")
 	    public String updateMemberConfirm(@PathVariable("memberaccount") String account, Model model) {
 	        //叫出每一列的role物件
+			
 	        List<Role> roleList = roleService.findAll();
 	        model.addAttribute("roleList", roleList);
+	        System.out.println(memberService.findByAccount(account).isEnabled()+"123456");
 	        model.addAttribute("member", memberService.findByAccount(account));
 	        model.addAttribute("account", account);
 	        return "/admin/member/UpdateMemberData";
@@ -104,13 +105,17 @@ public class MemberController {
 	        System.out.println(member.getAccount()+" "+member.getUser_id()+" "+member.getBirthday());
 	        //update匯進來的物件沒有user_id(表單沒這欄),所以要透過account去資料庫撈user_id
 	        member.setUser_id(memberService.findByAccount(member.getAccount()).getUser_id());
+	        System.out.println(member.isEnabled()+"前");
 	        Boolean status = memberService.update(member);
+	        System.out.println(member.isEnabled()+"後");
 	        return "redirect:/admin/member";
 	    }
 	   
 	    @GetMapping(path = "/deletemember.controller/{memberaccount}")
 		@PreAuthorize("hasRole('ROLE_ADMIN')")
 	    public String deleteMemberConfirm(@PathVariable("memberaccount") String account, Model model) {
+	    	List<Role> roleList = roleService.findAll();
+		    model.addAttribute("roleList", roleList);
 	        model.addAttribute("member", memberService.findByAccount(account));
 	        model.addAttribute("account", account);
 	        return "/admin/member/DeleteByAccount";
@@ -129,6 +134,8 @@ public class MemberController {
 	    @GetMapping(path = "/restoremember.controller/{memberaccount}")
 		@PreAuthorize("hasRole('ROLE_ADMIN')")
 	    public String restoreAccount(@PathVariable("memberaccount") String account, Model model) {
+	    	List<Role> roleList = roleService.findAll();
+		    model.addAttribute("roleList", roleList);
 	        model.addAttribute("member", memberService.findByAccount(account));
 	        model.addAttribute("account", account);
 	        return "/admin/member/restoreAccount";
@@ -143,6 +150,35 @@ public class MemberController {
 	        memberService.update(member);
 	        return "redirect:/admin/member";
 	    }
+	    
+//	    private void sendEmailForSuspension(Member member, String siteURL) throws UnsupportedEncodingException, MessagingException {
+//			String toAddress = member.getEmail();
+//		    String fromAddress = "eeit139.grp4@gmail.com";
+//		    String senderName = "HouseShip";
+//		    String subject = "您的帳號已被停權";
+//		    String content = "親愛的使用者,<br>"
+//		            + "基於某種原因,您的Houseship帳號已被停權<br>"
+//		            + "若您使用<br>"
+//		            + "感謝您,<br>"
+//		            + "HouseShip.";
+//		    
+//		    MimeMessage message = mailSender.createMimeMessage();
+//		    MimeMessageHelper helper = new MimeMessageHelper(message);
+//		     
+//		    helper.setFrom(fromAddress, senderName);
+//		    //在這邊設定用戶email
+//		    helper.setTo(toAddress);
+//		    helper.setSubject(subject);
+//		     
+////		    content = content.replace("[[name]]", member.getFirstname()+member.getLastname());
+//		    
+//		     
+//		    content = content.replace("[[URL]]", verifyURL);
+//		     
+//		    helper.setText(content, true);
+//		     
+//		    mailSender.send(message);
+//		}
 	
 	
 	

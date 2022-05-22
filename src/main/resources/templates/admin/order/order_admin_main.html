@@ -9,7 +9,7 @@
     <meta http-equiv="Expires" content="0"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <title>HouseShip.com 訂單管理系統</title>
-    <link rel="icon" href="/houseship/images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
     <link rel="stylesheet" href="/houseship/css/style-admin-link.css">
     <style>
         .dataTable-table > thead > tr > th {
@@ -71,10 +71,25 @@
                 </ol>
 
                 <div class="card mb-4" style="border: 0" id="searchDiv">
-                    <form action="search" method="post">
-                        依入住日期查詢 <input type="date" name="date1">~ <input type="date" name="date2"> <input
-                            type="submit" name="searchDate" value="查詢">
-                    </form>
+<!--                    <form action="search" method="post">-->
+<!--                        依入住日期查詢 <input type="date" name="date1">~ <input type="date" name="date2"> <input-->
+<!--                            type="submit" name="searchDate" value="查詢">-->
+<!--                    </form>-->
+                    <div class="row">
+                        <div class="col-2">
+                            <div class="dropdown" style="display: inline; margin-right: 0">
+                                <a class="nav-link dropdown-toggle" id="viewDropdown" href="#"
+                                   role="button" data-bs-toggle="dropdown" aria-expanded="false">訂單分類
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="viewDropdown">
+                                    <li><a class="dropdown-item" href="/houseship/admin/order/checkOrder">進行中訂單</a></li>
+                                    <li><a class="dropdown-item" href="/houseship/admin/order/finishOrder">已完成訂單</a></li>
+                                    <li><a class="dropdown-item" href="/houseship/admin/order/cancelOrder">已取消訂單</a></li>
+                                    <li><a class="dropdown-item" href="/houseship/admin/order">所有訂單</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="card mb-4">
@@ -89,14 +104,9 @@
                                     <input id="checkAll" type="checkbox" style="margin-left: 10px">
                                     <label for="checkAll">全選</label>
                                 </div>
-                                <!--                                <button class="btn-primary" type="button" name="new" data-bs-toggle="modal"-->
-                                <!--                                        data-bs-target="#new_order1">新增-->
-                                <!--                                </button>-->
                                 <a class="btn btn-outline-primary" id="new" data-bs-toggle="modal"
                                    data-bs-target="#new_order1">新增</a>
                                 <a class="btn btn-outline-warning" id="deleteAll">刪除選中</a>
-                                <!--                                <input style="margin-left: 10px; display: inline" class="btn-warning"-->
-                                <!--                                       type="submit" id="deleteAll" value="刪除選中">-->
                                 <div class="dropdown" style="display: inline; float:right; margin-right: 0">
                                     <a class="nav-link dropdown-toggle" id="downloadDropdown" href="#"
                                        role="button" data-bs-toggle="dropdown" aria-expanded="false">下載選項
@@ -128,14 +138,14 @@
                                                th:value="${order.orderId }">
                                     </td>
                                     <td th:text="${order.orderId}"></td>
-                                    <td th:text="${order.member.account}"></td>
-                                    <td th:text="${#dates.format(order.orderTime, 'yyyy.MM.dd HH:mm')}"></td>
+                                    <td th:text="${order.member.firstname + ' ' + order.member.lastname}"></td>
+                                    <td th:text="${#dates.format(order.orderTime, 'yyyy/MM/dd HH:mm')}"></td>
                                     <td th:text="${#numbers.formatDecimal(order.pay,3,'COMMA',0,'POINT')}"></td>
                                     <td th:text="${order.status.description}"></td>
                                     <td th:if="${order.coupon != null}" th:text="${order.coupon.couponCode}"></td>
                                     <td th:if="${order.coupon == null}">無</td>
                                     <td>
-                                        <div style="justify-content: space-evenly; display: flex">
+                                        <div style="justify-content: start; display: flex">
                                             <a
                                                     class="btn btn-outline-secondary"
                                                     data-bs-toggle="modal"
@@ -146,9 +156,9 @@
                                             >
                                                 檢視
                                             </a>
-                                            <a class="btn btn-outline-primary">修改</a>
+                                            <a class="btn btn-outline-primary" th:href="@{'/admin/order/edit/' + ${order.orderId}}" th:if="${#strings.equals(order.status,'Check')}">修改</a>
                                             <a class="btn btn-outline-danger"
-                                               th:if="${!#strings.equals(order.status,'Cancel')}"
+                                               th:if="${!#strings.equals(order.status,'Cancel') and !#strings.equals(order.status,'Finish')}"
                                                th:href="@{'/admin/order/cancelOrder/' + ${order.orderId}}"
                                                onclick="cancelOrder(event)">取消</a>
                                             <a class="activeOption btn btn-outline-success"
@@ -226,7 +236,7 @@
                                                         <hr>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <a th:href="@{'/admin/order/edit/' + ${order.orderId}}"
+                                                        <a th:href="@{'/admin/order/edit/' + ${order.orderId}}" th:if="${#strings.equals(order.status,'Check')}"
                                                            class="btn btn-primary"
                                                            style="margin-left:10px;cursor:pointer;">編輯入住資料</a>
                                                         <a type="submit" class="" data-bs-dismiss="modal"
@@ -246,156 +256,15 @@
         </main>
         <!--   main end     -->
 
-        <!-- new Modal -->
-        <div class="modal fade" id="new_order1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <!-- <form> -->
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel1">新增訂單</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="col-lg-12 col-md-12">
-                            <div class="form-group">
-                                <label for="inputAccount" class="form-label"
-                                       aria-describedby="account_status">會員帳號</label>
-                                <input type="text" name="account" class="form-control" id="inputAccount"
-                                       value="">
-                                <div id="account_status" class=""></div>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputAccount" class="form-label"
-                                       aria-describedby="house_status">房屋編號</label>
-                                <input type="text" name="house" class="form-control" id="inputHouse"
-                                       value="">
-                                <div id="house_status" class=""></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="#" id="writeAccount" style="margin-left:10px;cursor:pointer;">自動輸入</a>
-                        <button type="submit" class="btn btn-primary" id="next" data-bs-toggle="modal"
-                                data-bs-target="#new_order2" data-bs-dismiss="modal" disabled>下一步
-                        </button>
-                        <a type="submit" class="" data-bs-dismiss="modal"
-                           style="margin-left:10px;cursor:pointer;">取消</a>
-                    </div>
-                    <!-- </form> -->
-                </div>
-            </div>
-        </div>
-
-        <!-- new Modal2 -->
-        <div class="modal fade" id="new_order2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
-            <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title model_center" id="myModalLabel2">新增訂單</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form novalidate>
-                            <div class="col-lg-12 col-md-12">
-                                <div class="form-group">
-                                    <label for="">會員帳號</label>
-                                    <input type="text" name="memberid" class="form-control" id="memberid"
-                                           disabled>
-                                </div>
-                                <div class="form-group">
-                                    <label for="">房屋編號</label>
-                                    <input type="text" name="houseid" class="form-control" id="houseid"
-                                           required=required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="">入住日期</label>
-                                    <input type="text" name="chkindate" class="form-control"
-                                           id="inputCheckIn" required>
-                                    <input type="hidden" id="checkin_send" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="">退房日期</label>
-                                    <input type="text" name="chkoutdate" class="form-control"
-                                           id="inputCheckOut" required>
-                                    <input type="hidden" id="checkout_send" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="">優惠序號</label>
-                                    <input type="text" name="vid" class="form-control" id="vid">
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="#" id="writeOrder" class="autoWrite"
-                           style="margin-left:10px;cursor:pointer;">自動輸入</a>
-                        <button type="submit" class="btn btn-secondary" id="back" data-bs-toggle="modal"
-                                data-bs-target="#new_order1" data-bs-dismiss="modal">上一步
-                        </button>
-                        <button type="submit" class="btn btn-primary" id="neworder_send"
-                        >完成
-                        </button>
-                        <a class="" data-bs-dismiss="modal" style="margin-left:10px;cursor:pointer;">取消</a>
-                    </div>
-
-                </div>
-            </div>
-        </div>
+        <div th:replace="/admin/order/order_admin_new_modal"></div>
 
         <footer th:replace="/admin/footer.html"></footer>
     </div>
 </div>
 <!-- JS -->
 <div th:replace="/admin/js.html"></div>
-<script>
-    function cancelOrder(e) {
-        console.log('click');
-        e.preventDefault();
-        let msg = "是否取消該筆預訂?";
-        if (confirm(msg) == true) {
-            window.location = e.target.getAttribute("href");
-        }
-    }
+<script type="text/javascript" src="/houseship/js/order/order_admin_script.js"></script>
 
-    //帳號確認
-    $("#inputAccount").keyup(checkAccount);
-
-    function checkAccount() {
-        $("#next").attr('disabled', true);
-        var account = $("#inputAccount").val();
-        if (account == "") {
-            $("#inputAccount").attr('class', 'form-control is-invalid')
-            $("#account_status").attr('class', 'invalid-feedback')
-            $("#account_status").html("請輸入會員帳號");
-            return
-        }
-
-        $.ajax({
-            type: 'post',
-            url: '/houseship/admin/order/checkAccount/' + account,
-            dataType: 'text',
-            // contentType: 'application/json',
-            success: function (msg) {
-                console.log("msg: " + msg);
-                $("#account_status").empty("");
-                if (msg == "") {
-                    console.log("error");
-                    $("#inputAccount").attr('class', 'form-control is-invalid')
-                    $("#account_status").attr('class', 'invalid-feedback')
-                    $("#account_status").html("帳號不存在");
-                } else {
-                    $("#inputAccount").attr('class', 'form-control is-valid')
-                    $("#account_status").attr('class', 'valid-feedback')
-                    $("#account_status").html("ok");
-                    $("#memberid").val(account);
-                    $("#next").attr('disabled', false);
-                }
-            }
-        });
-    }
-</script>
 
 </body>
 </html>

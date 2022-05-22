@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
@@ -74,150 +74,49 @@ textarea {
 
 			<div class="divForm">
 				<table class="table table-striped">
-					<!-- 					<div class="input-group mb-3"> -->
-					<!-- 						<button type="button" -->
-					<!-- 							class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" -->
-					<!-- 							data-bs-toggle="dropdown" aria-expanded="false"> -->
-					<!-- 							<span class="visually-hidden">Toggle Dropdown</span> -->
-					<!-- 						</button> -->
-					<!-- 						<ul class="dropdown-menu"> -->
-					<!-- 							<li><a class="dropdown-item" href="#">標題</a></li> -->
-					<!-- 							<li><a class="dropdown-item" href="#">內容</a></li> -->
-					<!-- 							<li><a class="dropdown-item" href="#">Something else -->
-					<!-- 									here</a></li> -->
-					<!-- 							<li><hr class="dropdown-divider"></li> -->
-					<!-- 							<li><a class="dropdown-item" href="#">Separated link</a></li> -->
-					<!-- 						</ul> -->
-					<!-- 						<input type="text" class="form-control" -->
-					<!-- 							aria-label="Text input with segmented dropdown button"> -->
-					<!-- 					</div> -->
-
-
 					<tbody>
-						<!-- 						<tr> -->
-						<!-- 							<td><label for="title">大標題:</label></td> -->
-						<!-- 							<td><input id="title" size="100" name="title" required -->
-						<!-- 								placeholder="必填" /></td> -->
-						<!-- 						</tr> -->
-						<!-- 						<tr id="fileTr"> -->
-						<!-- 							<td><label for="file">圖片:</label></td> -->
-						<!-- 							<td><input type="file" name="myfile" id="file" /><br> -->
-						<!-- 								<img id="demo" class="img-thumbnail" -->
-						<!-- 								style="max-width: 150px; max-height: 300px;" /><br></td> -->
-						<!-- 						</tr> -->
-						<!-- 						<tr> -->
-						<!-- 							<td><label for="account">帳號:</label></td> -->
-						<!-- 							<td><input id="account" required placeholder="必填" -->
-						<!-- 								name="account" size="30" /></td> -->
-						<!-- 						</tr> -->
-						<!-- 												<tr> -->
-						<!-- 													<td><label for="posttime">建立時間:</label></td> -->
-						<!-- 													<td><input id="posttime" size="30" th:field="*{posttime}" /></td> -->
-						<!-- 												</tr> -->
-						<!-- 												<tr> -->
-						<!-- 													<td><label for="updatetime">最後修改時間:</label></td> -->
-						<!-- 													<td><input id="updatetime" size="30" -->
-						<!-- 														th:field="*{updatetime}" /></td> -->
-						<!-- 												</tr> -->
-
 						<div class="input-group mb-3">
 							<label class="input-group-text" for="title">大標題:</label> <input
 								id="title" size="100" name="title" class="form-select" required
 								placeholder="必填" />
 						</div>
-
-
-						<!-- 						<div class="input-group mb-3"> -->
-						<!-- 							<label class="input-group-text" for="title">段落:</label> 				</div> -->
-
-
-
 						<div id="image" class="input-group mb-3">
 							<label class="input-group-text" for="file">圖片:</label> <input
 								type="file" name="myfile" id="demo" /> <img id="demo"
 								class="img-thumbnail"
 								style="max-width: 300px; max-height: 150px;" />
-
 						</div>
 						<div class="input-group mb-3">
 							<label class="input-group-text" for="account">帳號:</label>
 							<div id="account" name="account" th:text=${session_account.account}></div>
 						</div>
-
 						<div class="input-group mb-3">
 							<label class="input-group-text" for="theme">主題:</label> <select
 								class="form-select" id="theme" name="theme">
 								<option selected>請選擇主題:</option>
 								<option id="discuss" value="討論">討論</option>
-								<option id="discuss" value="文章">文章</option>
+								<option id="article" value="文章">文章</option>
 								<option id="insight" value="心得">心得</option>
 							</select>
 						</div>
-
-						<div class="input-group mb-3">
-							<label class="input-group-text" for="category">類別:</label> <select
-								class="form-select" id="category" name="category">
-								<option selected>請選擇類別:</option>
-								<option id="food and beverage" value="餐飲">餐飲</option>
-								<option id="family travel" value="家庭旅遊">家庭旅遊</option>
-								<option id="sport and exercise" value="運動與健身">運動與健身</option>
-								<option id="brach" value="海灘">海灘</option>
-							</select>
-						</div>
+<!-- 						<div class="input-group mb-3"> -->
+<!-- 							<label class="input-group-text" for="category">類別:</label>  -->
+<!-- 							<select -->
+<!-- 								class="form-select" id="category" name="category"> -->
+<!-- 								<option selected>請選擇類別:</option> -->
+<!-- 								<option id="food and beverage" value="餐飲">餐飲</option> -->
+<!-- 								<option id="family travel" value="家庭旅遊">家庭旅遊</option> -->
+<!-- 								<option id="sport and exercise" value="運動與健身">運動與健身</option> -->
+<!-- 								<option id="brach" value="海灘">海灘</option> -->
+<!-- 							</select> -->
+<!-- 						</div> -->
 						</br>
-
-
-						<!-- 						<div class="input-group mb-3"> -->
-						<!-- 							<label class="input-group-text" for="smalletitle">小標題:</label> <input -->
-						<!-- 								type="text" id="content" class="form-select" size="100" /> -->
 						<div class="input-group mb-3">
 							<label class="input-group-text" for="content">內容:</label>
 							<textarea id="content" name="content" required placeholder="必填"
 								cols="73" rows="10"></textarea>
 						</div>
-
-						<!-- 						<div class="input-group mb-3"> -->
-						<!-- 							<button class="btn btn-outline-secondary dropdown-toggle" -->
-						<!-- 								type="button" data-bs-toggle="dropdown" aria-expanded="false">標題</button> -->
-						<!-- 							<ul class="dropdown-menu"> -->
-						<!-- 								<li><a class="dropdown-item" href="#">小標題</a></li> -->
-						<!-- 								<li><a class="dropdown-item" href="#">子段落</a></li> -->
-						<!-- 								<li><hr class="dropdown-divider"></li> -->
-						<!-- 																<li><a class="dropdown-item" href="#">Separated link</a></li> -->
-						<!-- 							</ul> -->
-						<!-- 							<textarea id="content" type="text" class="form-select" -->
-						<!-- 								name="content" cols="10" rows="3"></textarea> -->
-						<!-- 						</div> -->
-
-						<!-- 						<div class="input-group mb-3"> -->
-						<!-- 							<button class="btn btn-outline-secondary dropdown-toggle" -->
-						<!-- 								type="button" data-bs-toggle="dropdown" aria-expanded="false">內容</button> -->
-						<!-- 							<ul class="dropdown-menu"> -->
-						<!-- 								<li><a class="dropdown-item" href="#">一般文字</a></li> -->
-						<!-- 								<li><a class="dropdown-item" href="#">段落文字</a></li> -->
-						<!-- 								<li><hr class="dropdown-divider"></li> -->
-						<!-- 																<li><a class="dropdown-item" href="#">Separated link</a></li> -->
-						<!-- 							</ul> -->
-						<!-- 							<textarea id="content" class="form-select" name="content" -->
-						<!-- 								type="text" cols="10" rows="3"></textarea> -->
-						<!-- 						</div> -->
-
-
-						<!-- 						<tr> -->
-						<!-- 							<td><label for="click">點擊數:</label></td> -->
-						<!-- 							<td><input id="click" size="100" th:field="*{click}" /></td> -->
-						<!-- 						</tr> -->
-						<!-- 						<tr> -->
-						<!-- 							<td><label for="grade">評分:</label></td> -->
-						<!-- 							<td><input id="grade" size="100" th:field="*{grade}" /></td> -->
-						<!-- 						</tr> -->
-						<!-- 						<div class="divInput"> -->
-						<!-- 							</tr> -->
-						<!-- 							</th> -->
-						<!-- 							</tr> -->
 					</tbody>
-					<!-- 					<div class="divInput"> -->
-					<!-- 					<input class="btn btn-primary" type="button" onclick="addcontent()" value="增加"/> -->
 				</table>
 				<div class="divInput">
 					<button class="btn btn-primary">確認</button>
@@ -229,13 +128,10 @@ textarea {
 	<div class="divInput">
 		<a th:href="@{/forum}" class="btn btn-primary" role="button">取消</a>
 	</div>
-
-
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript">
 		$("#file").change(function (){
-// 			$("#image").empty(" ")
 			  var file = $('#file')[0].files[0];
 			  var reader = new FileReader;
 			  reader.onload = function(e) {
@@ -243,18 +139,6 @@ textarea {
 			  };
 			  reader.readAsDataURL(file);
 		});
-
-// 		function addcontent(){
-// 			$("form").addpend(
-// 					"<div class='input-group mb-3'>
-// 								+"<textarea id='content' name='content' required placeholder='必填' cols='73' rows='10'></textarea>"
-// 						+"</div>"
-// 			)
-				
-		
 	</script>
-
-
-
 </body>
 </html>

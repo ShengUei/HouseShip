@@ -1,13 +1,10 @@
 package com.grp4.houseship.order.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.grp4.houseship.house.model.HouseInfo;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
-import javax.validation.constraints.*;
 
 @Entity
 @Table(name = "orderdetail")

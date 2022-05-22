@@ -1,5 +1,6 @@
 package com.grp4.houseship.email.service;
 
+import com.grp4.houseship.coupon.model.Coupon;
 import com.grp4.houseship.house.model.HouseInfo;
 import com.grp4.houseship.member.model.Member;
 import com.grp4.houseship.order.model.Order;
@@ -12,7 +13,6 @@ import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.File;
 
 @Service
 public class EmailService {
@@ -65,6 +65,32 @@ public class EmailService {
 
         javaMailSender.send(mimeMessage);
         return "Sent";
+    }
+
+    public Boolean sendCouponMail(Coupon coupon, Member member, String template, String title){
+        Context context = new Context();
+        context.setVariable("coupon", coupon);
+        context.setVariable("member", member);
+
+        String process = templateEngine.process(template, context);
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = null;
+        try {
+            helper = new MimeMessageHelper(mimeMessage,true);
+            helper.setSubject(title);
+            helper.setText(process,true);
+//        helper.setTo(member.getEmail());
+            helper.setTo("p26074101@gs.ncku.edu.tw");
+            //靜態資源
+            FileSystemResource file = new FileSystemResource( "src/main/resources/static/images/logo.png" );
+            helper.addInline("logo", file);
+
+            javaMailSender.send(mimeMessage);
+            return true;
+
+        } catch (MessagingException e) {
+            return false;
+        }
     }
 
     public String sendHouseMail(HouseInfo houseInfo, String template, String title) throws MessagingException{

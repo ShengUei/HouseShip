@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html> -->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
@@ -64,14 +64,14 @@ textarea {
 }
 
 img {
-	width: 80px;
-	height: 80px;
+	width: 120px;
+	height: 100px;
 	margin-right: 10px;
 }
 
 imgth {
-	width: 83px;
-	height: 83px;
+	width: 123px;
+	height: 103px;
 	margin-right: 13px;
 }
 </style>
@@ -110,8 +110,8 @@ imgth {
 								<!--                 </tr> -->
 								<tr>
 									<td><label for="file">圖片:</label></td>
-									<td size="100" th:text="*{create_forum.image}"></td>
-								</tr>
+									<td><img th:src="'/houseship/api/images/'+${create_forum.image}" src="/houseship/images/forum/noimage_s.jpg" alt="forum image"></td>
+							    </tr>
 								<tr>
 									<td><label for="theme">主題:</label></td>
 									<td size="100" th:text="*{create_forum.theme}"></td>
@@ -142,7 +142,7 @@ imgth {
 				</form>
 			</div>
 			<div class="divInput">
-				<a th:href="@{/forum}" class="btn btn-primary" role="button">取消</a>
+				<a th:href="@{/admin/forum}" class="btn btn-primary" role="button">取消</a>
 			</div>
 			<footer th:replace="admin/footer.html"></footer>
 		</div>

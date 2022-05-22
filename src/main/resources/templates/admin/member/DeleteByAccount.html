@@ -59,14 +59,14 @@
 		<tbody>
 		<tr>
 			<td><label for="account">會員:</label></td>
-			<td><input id="account" size="30" readonly th:field="*{account}"/></td>
+			<td><input id="account" size="30" readonly th:field="*{account}" /></td>
 		</tr>
 		<tr>
 			<td><label for="hashed_pwd">密碼:</label></td>
-			<td><input id="hashed_pwd" size="30" readonly th:field="*{hashed_pwd}"/></td>
+			<td><input id="hashed_pwd" size="30" readonly th:field="*{hashed_pwd}" /></td>
 		</tr>
 			<td><label for="firstname">姓:</label></td>
-			<td><input id="firstname" size="30"  readonly th:field="*{firstname}"/></td>
+			<td><input id="firstname" size="30"  readonly th:field="*{firstname}" /></td>
 		</tr>
 		<tr>
 			<td><label for="lastname">名:</label></td>
@@ -79,7 +79,7 @@
 
 		<tr>
 			<td><label for="email">e-mail</label></td>
-			<td><input id="email" size="30"  th:field="*{email}"/></td>
+			<td><input id="email" size="30"  th:field="*{email}" readonly/></td>
 		</tr>
 		<tr>
 			<td><label for="m_address">地址:</label></td>
@@ -87,12 +87,22 @@
 		</tr>
 		<tr>
 			<td><label for="phone">聯絡電話:</label></td>
-			<td><input id="phone" size="30" th:field="*{phone}"/></td>
+			<td><input id="phone" size="30" th:field="*{phone}" readonly /></td>
 		</tr>
 		<tr>
 			<td><label for="mempic">頭像:</label></td>
 			<td><input id="mempic" size="30" readonly th:field="*{mempic}"/></td>
 		</tr>	
+		<tr style="display:none">
+			<td><label for="roles">權限:</label></td>
+			 <!-- role是每一列的資料物件 -->
+			<td id="auth_td">
+				<th:block th:each="role:${roleList}">
+					<input type="checkbox" th:name="roles" th:field="*{roles}"  th:text="'&nbsp'+${role.name}" th:value="${role.id}"  style="width:20px;height:10px">
+				</th:block>
+<!-- 					th:text="'&nbsp'+${role.name}" -->
+			</td>
+		</tr> 
 		</tbody>		
 	</table>
 	<div class="divInput">

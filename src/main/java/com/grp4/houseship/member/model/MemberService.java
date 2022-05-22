@@ -102,12 +102,12 @@ public class MemberService {
 		String toAddress = member.getEmail();
 	    String fromAddress = "eeit139.grp4@gmail.com";
 	    String senderName = "HouseShip";
-	    String subject = "Please verify your registration";
-	    String content = "Dear [[name]],<br>"
-	            + "Please click the link below to verify your registration:<br>"
-	            + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFY</a></h3>"
-	            + "Thank you,<br>"
-	            + "Your company name.";
+	    String subject = "請協助我們完成您的註冊流程";
+	    String content = "親愛的使用者,<br>"
+	            + "請點擊下方連結進行驗證:<br>"
+	            + "<h3><a href=\"[[URL]]\" target=\"_self\">驗證</a></h3>"
+	            + "感謝您,<br>"
+	            + "HouseShip.";
 	    
 	    MimeMessage message = mailSender.createMimeMessage();
 	    MimeMessageHelper helper = new MimeMessageHelper(message);
@@ -117,7 +117,7 @@ public class MemberService {
 	    helper.setTo(toAddress);
 	    helper.setSubject(subject);
 	     
-	    content = content.replace("[[name]]", member.getFirstname()+member.getLastname());
+//	    content = content.replace("[[name]]", member.getFirstname()+member.getLastname());
 	    String verifyURL = siteURL + "/ui/member/verifymember.controller?code=" + member.getVerificationCode();
 	     
 	    content = content.replace("[[URL]]", verifyURL);

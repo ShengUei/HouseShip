@@ -1,9 +1,7 @@
 package com.grp4.houseship.order.model;
 
-import com.grp4.houseship.coupon.model.Coupon;
-import com.grp4.houseship.coupon.model.CouponStatus;
+import com.grp4.houseship.house.model.HouseInfo;
 import com.grp4.houseship.member.model.Member;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -83,20 +81,47 @@ public class OrderService {
         return ordersRepo.findAllByMemberAndStatusOrStatus(member, status1, status2, pageable);
     }
 
+    //房東查詢訂單
+    public List<Order> findAllByHouseAndStatus(List<HouseInfo> houseInfoList, String status){
+        return ordersRepo.findAllByHouseAndStatus(houseInfoList, status);
+    }
+
+    public List<Order> findAllByHouse(List<HouseInfo> houseInfoList, String status1, String status2){
+        return ordersRepo.findAllByHouse(houseInfoList, status1, status2);
+    }
+
+    //查詢全部，invalid除外
+    public List<Order> findAllValid(){
+        return ordersRepo.findAllByStatusOrStatusOrStatus(OrderStatus.Check, OrderStatus.Finish, OrderStatus.Cancel);
+    }
+
+    public List<Order> findAllByStatus(OrderStatus status){
+        return ordersRepo.findAllByStatus(status);
+    }
+
+    public List<Order> findAllByOrderId(List<Integer> listid){
+        return ordersRepo.findAllById(listid);
+    }
+
     //更新訂單狀態
     public void orderStatusUpdate(){
         List<Order> allOrder = findAll();
-        Date today = new Date();
         for (Order order : allOrder){
+            if (order.getStatus() == OrderStatus.UnCheck){
+                order.setStatus(OrderStatus.Invalid);
+            }
+        }
+        saveAll(allOrder);
+
+        List<Order> checkedOrders = ordersRepo.findAllByStatus(OrderStatus.Check);
+        Date today = new Date();
+        for (Order order : checkedOrders){
             Date checkOutDate = new Date( order.getOrderDetail().getCheckOutDate().getTime() + (1000*60*60*24) );
             if (today.after(checkOutDate)){
                 order.setStatus(OrderStatus.Finish);
             }
-            if (order.getStatus() == OrderStatus.UnCheck){
-                order.setStatus(OrderStatus.Cancel);
-            }
         }
-        saveAll(allOrder);
+        saveAll(checkedOrders);
     }
 
 }

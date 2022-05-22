@@ -1,6 +1,9 @@
 package com.grp4.houseship.house.controller;
 
 import com.grp4.houseship.email.service.EmailService;
+import com.grp4.houseship.house.model.HouseInfo;
+import com.grp4.houseship.house.model.HouseService;
+import com.grp4.houseship.member.model.Member;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -10,10 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import com.grp4.houseship.house.model.HouseInfo;
-import com.grp4.houseship.house.model.HouseService;
-import com.grp4.houseship.member.model.Member;
 
 import javax.mail.MessagingException;
 

@@ -12,14 +12,18 @@
         <form action="#" th:action="@{'/house/housedetails/'+ ${houseInfo.houseNo}+ '/booking'}" th:object="${orderDetail}" method="post">
             <div class="check-date">
                 <label for="inputCheckIn_booking">入住日期</label>
-                <input name="check-in" type="text" class="form-control" id="inputCheckIn_booking" required>
-                <input type="hidden" id="checkin_send_booking" th:name="checkInDate" th:value="*{#dates.format(checkInDate, 'yyyy-MM-dd')}">
+                <input name="check-in" type="text" class="form-control" id="inputCheckIn_booking" required th:if="${session.thisDate1 == null}">
+                <input type="hidden" id="checkin_send_booking" th:name="checkInDate" th:value="*{#dates.format(checkInDate, 'yyyy-MM-dd')}" th:if="${session.thisDate1 == null}" required>
+                <input name="check-in" type="text" class="form-control" id="inputCheckIn_booking" required th:if="${session.thisDate1 != null}" th:value="${session.thisDate1}" >
+                <input type="hidden" id="checkin_send_booking" th:name="checkInDate"  th:if="${session.thisDate1 != null}" th:value="${session.thisDate1}" required>
                 <i class="icon_calendar"></i>
             </div>
             <div class="check-date">
                 <label for="inputCheckOut_booking">退房日期</label>
-                <input name="check-out" type="text" class="form-control" id="inputCheckOut_booking" required>
-                <input type="hidden" id="checkout_send_booking" th:name="checkOutDate" th:value="*{#dates.format(checkOutDate, 'yyyy-MM-dd')}">
+                <input name="check-out" type="text" class="form-control" id="inputCheckOut_booking" required th:if="${session.thisDate2 == null}">
+                <input type="hidden" id="checkout_send_booking" th:name="checkOutDate" th:value="*{#dates.format(checkOutDate, 'yyyy-MM-dd')}" required th:if="${session.thisDate2 == null}">
+                <input name="check-out" type="text" class="form-control" id="inputCheckOut_booking" required th:if="${session.thisDate2 != null}" th:value="${session.thisDate2}">
+                <input type="hidden" id="checkout_send_booking" th:name="checkOutDate" required th:if="${session.thisDate2 != null}" th:value="${session.thisDate2}">
                 <i class="icon_calendar"></i>
             </div>
             <div class="check-date">

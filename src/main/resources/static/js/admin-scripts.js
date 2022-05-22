@@ -32,7 +32,7 @@ var page = {
     member: "/houseship/admin/member",
     house: "/houseship/admin/house",
     order: "/houseship/admin/order",
-    coupon: "workInProgress.html",
+    coupon: "/houseship/admin/coupon",
     forum: "/houseship/admin/forum",
 };
 

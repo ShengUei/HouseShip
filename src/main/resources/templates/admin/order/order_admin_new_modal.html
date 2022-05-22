@@ -1,0 +1,201 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<!-- new Modal start-->
+<div>
+    <form th:action="@{'/admin/order/adminInsert'}" th:object="${order}" method="post">
+        <!-- Modal 1-->
+        <div class="modal fade" id="new_order1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <!-- <form> -->
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel1">新增訂單</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="form-group">
+                                <label for="inputAccount" class="form-label"
+                                       aria-describedby="account_status">會員帳號</label>
+                                <input type="text" name="inputAccount" class="form-control" id="inputAccount"
+                                       value="">
+                                <div id="account_status" class=""></div>
+                            </div>
+                            <div class="form-group" style="margin-top: 20px">
+                                <label for="inputHouse" class="form-label"
+                                       aria-describedby="house_status">房屋編號</label>
+                                <input type="number" name="newOrder_house" class="form-control" id="inputHouse"
+                                       value="">
+                                <div id="house_status" class=""></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" id="writeAccount" style="margin-left:10px;cursor:pointer;">一鍵輸入</a>
+                        <button type="submit" class="btn btn-primary" id="next" data-bs-toggle="modal"
+                                data-bs-target="#new_order2" data-bs-dismiss="modal" disabled>下一步
+                        </button>
+                        <a type="submit" class="" data-bs-dismiss="modal"
+                           style="margin-left:10px;cursor:pointer;">取消</a>
+                    </div>
+                    <!-- </form> -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 2 -->
+        <div class="modal fade" id="new_order2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title model_center" id="myModalLabel2">新增訂單</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-group mb-2">
+                                    <label>會員帳號</label>
+                                    <input type="text" name="memberid" class="form-control" id="memberid"
+                                           th:field="${order.member.account}"
+                                           disabled>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label>房屋編號</label>
+                                    <input type="text" name="houseid" class="form-control" id="houseid"
+                                           th:field="${order.orderDetail.houseInfo.houseNo}"
+                                           required=required disabled>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label>入住日期</label>
+                                    <input type="text" name="chkindate" class="form-control"
+                                           id="inputCheckIn_booking" required>
+                                    <input type="hidden" id="checkin_send_booking" required
+                                           th:field="*{orderDetail.checkInDate}">
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label>退房日期</label>
+                                    <input type="text" name="chkoutdate" class="form-control"
+                                           id="inputCheckOut_booking" required>
+                                    <input type="hidden" id="checkout_send_booking" required
+                                           th:field="*{orderDetail.checkOutDate}">
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label>房客人數</label>
+                                    <input type="number" name="guestNum" class="form-control" id="guestNum"
+                                           th:field="*{orderDetail.guestNum}">
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label>優惠碼</label>
+                                    <input type="text" name="couponCode" class="form-control" id="couponCode">
+                                    <input type="hidden" id="coupon_send" name="newOrder_couponNo">
+                                    <span id="couponDetail"></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <h5>帳單</h5>
+                                <div class="form-group mb-3">
+                                    <label>每晚單價</label>
+                                    <input type="text" name="housePrice" class="form-control" id="h_bookPrice_num"
+                                           th:field="*{orderDetail.housePrice}">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label>入住天數</label>
+                                    <input type="text" name="housePrice" class="form-control" id="bookingNight_1">
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label>折扣金額</label>
+                                    <input type="text" id="discount_1" class="form-control">
+                                    <input type="hidden" name="discount_m" class="form-control" id="discount_m">
+                                </div>
+                                <div class="form-group" mb-3>
+                                    <label>總額</label>
+                                    <input type="text" name="pay" class="form-control" id="payTotalSend"
+                                           th:field="${order.pay}">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" id="writeOrder" class="autoWrite"
+                           style="margin-left:10px;cursor:pointer;">一鍵輸入</a>
+                        <button type="submit" class="btn btn-secondary" id="back" data-bs-toggle="modal"
+                                data-bs-target="#new_order1" data-bs-dismiss="modal">上一步
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="next2" data-bs-toggle="modal"
+                                data-bs-target="#new_order3" data-bs-dismiss="modal" disabled>下一步
+                        </button>
+                        <a class="" data-bs-dismiss="modal" style="margin-left:10px;cursor:pointer;">取消</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 3 -->
+        <div class="modal fade" id="new_order3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title model_center" id="myModalLabel3">新增訂單 輸入房客資料</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="col-lg-12 col-md-12">
+                            <div class="form-group mb-2">
+                                <label>姓氏</label>
+                                <input type="text" name="firstname" class="form-control" id="firstname"
+                                       th:field="${order.orderDetail.guest.firstname}">
+                            </div>
+                            <div class="form-group mb-2">
+                                <label>名字</label>
+                                <input type="text" name="lastname" class="form-control" id="lastname"
+                                       th:field="${order.orderDetail.guest.lastname}">
+                            </div>
+                            <div class="form-group mb-2">
+                                <label>email</label>
+                                <input type="email" class="form-control" id="email"
+                                       th:field="${order.orderDetail.guest.email}" required>
+                            </div>
+                            <div class="form-group mb-2">
+                                <label>聯絡電話</label>
+                                <input type="text" class="form-control mb-3" id="phone"
+                                       th:field="${order.orderDetail.guest.phone}" required>
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="checkInTime">預計抵達時間</label>
+                                <input type="time" class="form-control mb-3" id="checkInTime"
+                                       th:field="${order.orderDetail.checkInTime}">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" id="writeOrder2" class="autoWrite"
+                           style="margin-left:10px;cursor:pointer;">一鍵輸入</a>
+                        <button type="submit" class="btn btn-secondary" id="back2" data-bs-toggle="modal"
+                                data-bs-target="#new_order2" data-bs-dismiss="modal">上一步
+                        </button>
+                        <!--                    <button type="submit" class="btn btn-primary" id="next2" data-bs-toggle="modal"-->
+                        <!--                            data-bs-target="#new_order2" data-bs-dismiss="modal" disabled>下一步</button>-->
+                        <button type="submit" class="btn btn-primary" id="neworder_send"
+                        >完成
+                        </button>
+                        <a class="" data-bs-dismiss="modal" style="margin-left:10px;cursor:pointer;">取消</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- new Modal end-->
+
+</html>

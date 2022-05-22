@@ -6,8 +6,8 @@ import com.google.maps.errors.ApiException;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.Geometry;
 import com.grp4.houseship.email.service.EmailService;
-import com.grp4.houseship.house.model.*;
 import com.grp4.houseship.member.model.Member;
+import com.grp4.houseship.house.model.*;
 import com.grp4.houseship.order.model.OrderDetail;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,25 +45,65 @@ public class HouseUserInterfaceController {
     public String search() {
         return "/ui/house/searchResults";
     }
-
+    
+    //改寫方法
     @GetMapping(path = "/search/{city}")
     public String searchByCity(@PathVariable("city") String city, HttpSession session) {
         session.setAttribute("locationCity", city);
+        
+        session.setAttribute("thisCity", city);
+        session.removeAttribute("thisDate1");
+        session.removeAttribute("thisDate2");
+        return "/ui/house/searchResults";
+    }
+    
+    //新增方法
+    @GetMapping(path = "/search/{city}/{date1}/{date2}")
+    public String searchByCityAndDate(@PathVariable("city") String city, @PathVariable("date1") String date1, @PathVariable("date2") String date2, HttpSession session) {
+        session.setAttribute("locationCity", city);
+        session.setAttribute("date1", date1);
+        session.setAttribute("date2", date2);
+
+        session.setAttribute("thisCity", city);
+        session.setAttribute("thisDate1", date1);
+        session.setAttribute("thisDate2", date2);
         return "/ui/house/searchResults";
     }
 
+    //新增方法
+    @GetMapping(path = "/search/{date1}/{date2}")
+    public String searchByDate(@PathVariable("date1") String date1, @PathVariable("date2") String date2, HttpSession session) {
+        session.setAttribute("date1", date1);
+        session.setAttribute("date2", date2);
+
+        session.setAttribute("thisDate1", date1);
+        session.setAttribute("thisDate2", date2);
+        session.removeAttribute("thisCity");
+        return "/ui/house/searchResults";
+    }
+    
+    //改寫方法
     @GetMapping(path = "/api/house/search-result/{page}")
     @ResponseBody
     public ResponseEntity<List<HouseInfo>> searchAllHouses(HttpSession session, @PathVariable("page") Integer page) {
         List<HouseInfo> houseList;
         Pageable pageable = PageRequest.of(page - 1, 5);
         String locationCity = (String) session.getAttribute("locationCity");
+        String date1 = (String) session.getAttribute("date1");
+        String date2 = (String) session.getAttribute("date2");
+        
+        
         Page<HouseInfo> houseInfoPage;
-        if(locationCity != null) {
+        if(locationCity != null & date1 == null & date2 == null) {      //目的地
             houseInfoPage = houseService.searchAllByCity(locationCity, pageable);
+        } else if (locationCity == null & date1 != null & date2 != null) {        //日期
+        	houseInfoPage = houseService.searchByDateBetween(date1, date2, pageable);
+        } else if (locationCity != null & date1 != null & date2 != null) {        //目的地+日期
+        	houseInfoPage = houseService.searchByDateAndCity(date1, date2, locationCity, pageable);
         } else {
             houseInfoPage = houseService.searchAll(pageable);
         }
+        
         session.setAttribute("totalPages", houseInfoPage.getTotalPages());
         session.setAttribute("totalElements", houseInfoPage.getTotalElements());
         session.setAttribute("currentPage", page);
@@ -71,6 +111,8 @@ public class HouseUserInterfaceController {
         session.setAttribute("houseList", houseList);
 
         session.removeAttribute("locationCity");
+        session.removeAttribute("date1");
+        session.removeAttribute("date2");
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setContentType(MediaType.APPLICATION_JSON);

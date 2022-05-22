@@ -64,14 +64,14 @@ textarea {
 }
 
 img {
-	width: 80px;
-	height: 80px;
+	width: 120px;
+	height: 100px;
 	margin-right: 10px;
 }
 
 imgth {
-	width: 83px;
-	height: 83px;
+	width: 123px;
+	height: 103px;
 	margin-right: 13px;
 }
 </style>
@@ -106,9 +106,7 @@ imgth {
 								</tr>
 								<tr>
 									<td><label for="theme">主題:</label></td>
-									<td><input id="theme" size="100" name="theme"
-										list="customization" required placeholder="必填" /> <select
-										class="form-select" id="theme" name="theme">
+									<td><select class="form-select" id="theme" name="theme">
 											<!-- 									<option selected>請選擇主題:</option> -->
 											<option id="discuss" value="討論">討論</option>
 											<option id="article" value="文章">文章</option>
@@ -116,18 +114,17 @@ imgth {
 									</select>
 								</tr>
 
-								<tr>
-									<td><label for="category">類別:</label></td>
-									<td><input id="category" size="100" name="category"
-										list="customization" required placeholder="必填" /> <select
-										class="form-select" id="category" name="category">
-											<!-- 									<option selected>請選擇主題:</option> -->
-											<option id="food and beverage" value="餐飲">餐飲</option>
-											<option id="family travel" value="家庭旅遊">家庭旅遊</option>
-											<option id="sport and exercise" value="運動與健身">運動與健身</option>
-											<option id="brach" value="海灘">海灘</option>
-											</select>
-								</tr>
+<!-- 								<tr> -->
+<!-- 									<td><label for="category">類別:</label></td> -->
+<!-- 									<td><select class="form-select" id="category" -->
+<!-- 										name="category"> -->
+<!-- 																				<option selected>請選擇主題:</option> -->
+<!-- 											<option id="food and beverage" value="餐飲">餐飲</option> -->
+<!-- 											<option id="family travel" value="家庭旅遊">家庭旅遊</option> -->
+<!-- 											<option id="sport and exercise" value="運動與健身">運動與健身</option> -->
+<!-- 											<option id="brach" value="海灘">海灘</option> -->
+<!-- 									</select> -->
+<!-- 								</tr> -->
 
 								<tr>
 									<td><label for="title">標題:</label></td>
@@ -151,9 +148,9 @@ imgth {
 				<a th:href="@{/admin/forum}" class="btn btn-primary" role="button">取消</a>
 			</div>
 
-			<footer th:replace="admin/footer.html"></footer>
 		</div>
 	</div>
+			<footer th:replace="admin/footer.html"></footer>
 	<!-- JS -->
 	<div th:replace="/admin/js.html"></div>
 	<script

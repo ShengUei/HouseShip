@@ -99,6 +99,7 @@
                                                                 <a th:href="@{'/house/housedetails/'+ ${order.orderDetail.houseInfo.houseNo}}">
                                                                     <img class="mr-3"
                                                                          src="/houseship/images/house/room-details.jpg"
+                                                                         th:src="'/houseship/api/images/' + ${order.orderDetail.houseInfo.housePhotos[0].photoPath}"
                                                                          alt="房屋圖片">
                                                                 </a>
                                                                 <!-- <img class="mr-3" src='/houseship/images/house/" + value.housePhotos[0].photoPath + "' alt='house image'> -->
@@ -139,6 +140,18 @@
                                                             </div>
                                                             <hr>
                                                             <div>
+                                                                <span class="descp">預計抵達時間:&nbsp;&nbsp;</span>
+                                                                <span class="right"
+                                                                      th:text="${#dates.format(order.orderDetail.checkInTime, 'a hh:mm')}">到達時間</span>
+                                                            </div>
+                                                            <hr>
+                                                            <div th:if="${order.orderDetail.note != ''}">
+                                                                <span class="descp">備註:&nbsp;&nbsp;</span>
+                                                                <span class="right"
+                                                                      th:text="${order.orderDetail.note}">備註</span>
+                                                            </div>
+                                                            <hr th:if="${order.orderDetail.note != ''}">
+                                                            <div>
                                                                 <span class="descp">付款狀態:&nbsp;&nbsp;<b
                                                                         th:text="${order.status.description}"></b></span>
                                                             </div>
@@ -157,8 +170,8 @@
                                                             </div>
                                                             <hr>
                                                             <div class="action">
-                                                                <a th:href="@{'/order/myorder/edit/' + ${order.orderId}}"><i class="icon_pencil-edit"></i>&nbsp;編輯入住資料</a>
-                                                                <a th:href="@{'/order/myorder/cancel/' + ${order.orderId}}" class="cancelBooking"><i class=" icon_close_alt2"></i>&nbsp;取消行程</a>
+                                                                <a th:href="@{'/account/myorder/edit/' + ${order.orderId}}"><i class="icon_pencil-edit"></i>&nbsp;編輯入住資料</a>
+                                                                <a th:href="@{'/account/myorder/cancel/' + ${order.orderId}}" class="cancelBooking"><i class=" icon_close_alt2"></i>&nbsp;取消行程</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -166,12 +179,12 @@
                                             </ul>
                                             <div class="col-lg-12">
                                                 <div class="room-pagination">
-                                                    <a th:href="@{/order/myorder/1}" title="第一頁"><i class="arrow_carrot-2left"></i></a>
-                                                    <a th:if="${not checkpage.isFirst()}" th:href="@{'/order/myorder/'+ ${checkpage.number}}">
+                                                    <a th:href="@{/account/myorder/1}" title="第一頁"><i class="arrow_carrot-2left"></i></a>
+                                                    <a th:if="${not checkpage.isFirst()}" th:href="@{'/account/myorder/'+ ${checkpage.number}}">
                                                         上一頁 </a>
-                                                    <a th:if="${not checkpage.isLast()}" th:href="@{'/order/myorder/'+ ${checkpage.number + 2}}">
+                                                    <a th:if="${not checkpage.isLast()}" th:href="@{'/account/myorder/'+ ${checkpage.number + 2}}">
                                                         下一頁 </a>
-                                                    <a th:href="@{'/order/myorder/'+ ${checkpage.totalPages}}" title="最後一頁"><i class="arrow_carrot-2right"></i></a>
+                                                    <a th:href="@{'/account/myorder/'+ ${checkpage.totalPages}}" title="最後一頁"><i class="arrow_carrot-2right"></i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -189,6 +202,7 @@
                                                                 <a th:href="@{'/house/housedetails/'+ ${order.orderDetail.houseInfo.houseNo}}">
                                                                     <img class="mr-3"
                                                                          src="/houseship/images/house/room-details.jpg"
+                                                                         th:src="'/houseship/api/images/' + ${order.orderDetail.houseInfo.housePhotos[0].photoPath}"
                                                                          alt="房屋圖片">
                                                                 </a>
                                                                 <!-- <img class="mr-3" src='/houseship/images/house/" + value.housePhotos[0].photoPath + "' alt='house image'> -->
@@ -267,6 +281,7 @@
                                                                 <a th:href="@{'/house/housedetails/'+ ${order.orderDetail.houseInfo.houseNo}}">
                                                                     <img class="mr-3"
                                                                          src="/houseship/images/house/room-details.jpg"
+                                                                         th:src="'/houseship/api/images/' + ${order.orderDetail.houseInfo.housePhotos[0].photoPath}"
                                                                          alt="房屋圖片">
                                                                 </a>
                                                                 <!-- <img class="mr-3" src='/houseship/images/house/" + value.housePhotos[0].photoPath + "' alt='house image'> -->

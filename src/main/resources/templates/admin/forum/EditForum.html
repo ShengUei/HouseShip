@@ -64,13 +64,13 @@ textarea {
 }
 
 img {
-	width: 80px;
+	width: 100px;
 	height: 80px;
 	margin-right: 10px;
 }
 
 imgth {
-	width: 83px;
+	width: 103px;
 	height: 83px;
 	margin-right: 13px;
 }
@@ -88,33 +88,41 @@ imgth {
 
 				<form action="#"
 					th:action="@{/admin/updateforum.controller/{fid}(fid=${forum.fid})}"
-					method="post">
+					method="post" enctype="multipart/form-data">
 
 					<div class="divForm">
 						<table class="table table-striped">
 							<tbody>
 								<tr>
 									<td><label for="fid">編號:</label></td>
-									<td><input id="fid" name="fid" readonly
-										th:field="*{forum.fid}" /></td>
+									<td th:text="*{forum.fid}" /></td>
 								</tr>
 								<tr>
 									<td><label for="account">帳號:</label></td>
-									<td><input id="account" name="account" size="30" readonly
-										th:field="*{forum.account}" /></td>
+									<td th:text="*{forum.account}" /></td>
 								</tr>
 								<tr>
 									<td><label for="posttime">建立時間:</label></td>
-									<td th:field="*{forum.postTime}"></td>
+									<td id="posttime"
+										th:text="${#temporals.format(forum.postTime,'yyyy-MM-dd HH:mm')}" /></td>
 								</tr>
 								<!-- 						<tr> -->
 								<!-- 							<td><label for="updatetime">最後修改時間:</label></td> -->
 								<!-- 							<td th:if="${forum.updateTime} == null">暫無紀錄</td> -->
 								<!-- 						</tr> -->
-								<tr id="fileTr">
+								<tr>
 									<td><label for="file">圖片:</label></td>
-									<td th:text="*{forum.image}"></td>
+									<td><input type="file" name="myfile" id="file" /> <img
+										id="demo" class="img-thumbnail"
+										style="max-width: 150px; max-height: 300px;" /><br></td>
 								</tr>
+								<!-- 								<tr id="fileTr"> -->
+								<!-- 									<td><label for="file">圖片:</label></td> -->
+								<!-- 									<td><input type="file" name="myfile" id="file" -->
+								<!-- 										th:src="'/houseship/api/images/'+${forum.image}" /><br> <img -->
+								<!-- 										id="demo" class="img-thumbnail" -->
+								<!-- 										style="max-width: 150px; max-height: 300px;" /><br></td> -->
+								<!-- 								</tr> -->
 								<tr>
 									<td><label for="theme">主題:</label></td>
 									<td><input id="theme" size="100" list="customization"
@@ -125,10 +133,34 @@ imgth {
 											<option id=discuss value="討論"></option>
 											<option id="insight" value="心得"></option></td>
 								</tr>
-								<tr>
-									<td><label for="title">標題:</label></td>
-									<td><input id="title" size="100" name="title"
-										th:field="*{forum.title}" /></td>
+
+								<!-- 								<tr> -->
+								<!-- 									<td><label for="theme">主題:</label></td> -->
+								<!-- 									<td><input id="theme" size="100" list="customization" -->
+								<!-- 										name="theme" th:field="*{forum.theme}" /> <datalist -->
+								<!-- 											id="customization"> -->
+								<!-- 											<opvalue="請輸入類別:"> -->
+								<!-- 											</option> -->
+								<!-- 											<option id=discuss value="討論"></option> -->
+								<!-- 											<option id="insight" value="心得"></option></td> -->
+								<!-- 								</tr> -->
+								<!-- 								<tr> -->
+								<!-- 									<td><label for="category">類別:</label></td> -->
+								<!-- 									<td><input id="category" size="100" list="customization" -->
+								<!-- 										name="theme" th:field="*{forum.theme}" /> <datalist -->
+								<!-- 											id="customization"> -->
+								<!-- 											<opvalue="category"> -->
+								<!-- 											</option> -->
+								<!-- 											<option id="food and beverage" value="餐飲">餐飲</option> -->
+								<!-- 								<option id="family travel" value="家庭旅遊">家庭旅遊</option> -->
+								<!-- 								<option id="sport and exercise" value="運動與健身">運動與健身</option> -->
+								<!-- 								<option id="brach" value="海灘">海灘</option> -->
+								<!-- 								</opvalue>											 -->
+								<!-- 								</tr> -->
+								<!-- 								<tr> -->
+								<td><label for="title">標題:</label></td>
+								<td><input id="title" size="100" name="title"
+									th:field="*{forum.title}" /></td>
 								</tr>
 								<tr>
 									<td><label for="content">內容:</label></td>

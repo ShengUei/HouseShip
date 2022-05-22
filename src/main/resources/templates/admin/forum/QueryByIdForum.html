@@ -64,14 +64,14 @@ textarea {
 }
 
 img {
-	width: 80px;
-	height: 80px;
+	width: 120px;
+	height: 100px;
 	margin-right: 10px;
 }
 
 imgth {
-	width: 83px;
-	height: 83px;
+	width: 123px;
+	height: 103px;
 	margin-right: 13px;
 }
 </style>
@@ -100,7 +100,7 @@ imgth {
 							</tr>
 							<tr>
 								<td><label for="posttime">建立時間:</label></td>
-								<td><input id="posttime" size="30" readonly
+								<td id="posttime"
 									th:text="${#temporals.format(fourmById.postTime,'yyyy-MM-dd HH:mm')}" /></td>
 							</tr>
 							<!-- 						                <tr> -->
@@ -109,7 +109,10 @@ imgth {
 							<!-- 						                </tr> -->
 							<tr>
 								<td><label for="file">圖片:</label></td>
-								<td th:text="*{fourmById.image}"></td>
+								<td><img
+									th:src="'/houseship/api/images/'+${fourmById.image}"
+									src="/houseship/images/forum/noimage_s.jpg" alt="forum image"></td>
+
 							</tr>
 							<tr>
 								<td><label for="theme">主題:</label></td>

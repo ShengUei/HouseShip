@@ -5,9 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.mail.MessagingException;
@@ -15,6 +13,10 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.grp4.houseship.member.model.Member;
+import com.grp4.houseship.member.model.MemberService;
+import com.grp4.houseship.member.model.Role;
+import com.grp4.houseship.member.model.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -25,19 +27,12 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.grp4.houseship.member.model.Member;
-import com.grp4.houseship.member.model.MemberService;
-import com.grp4.houseship.member.model.Role;
-import com.grp4.houseship.member.model.RoleService;
 
 
 import net.bytebuddy.utility.RandomString;
@@ -96,8 +91,11 @@ public class UserMemberController {
 	
 	//接收user註冊資料(帳號、密碼、email),新增至資料庫
 	@PostMapping(path="/ui/member/register.controller")
-	public String Register(Member member, Model model, HttpServletRequest request) throws UnsupportedEncodingException, MessagingException {
+	@ResponseBody
+	public ResponseEntity<String> Register(@RequestBody Member member, HttpServletRequest request) throws UnsupportedEncodingException, MessagingException {
 		//如果資料庫沒有該帳號
+		System.out.println("123");
+		System.out.println(member.getAccount()+"456456456456456456546");
         if(memberService.findByAccount(member.getAccount())==null) {
 			//密碼加密
         	String bcEncode1 = new BCryptPasswordEncoder().encode(member.getHashed_pwd());
@@ -116,15 +114,17 @@ public class UserMemberController {
 			boolean statu = memberService.register(member,getSiteURL(request));
 			
 			if(statu==true) {	
-				return "redirect:/";
+				return new ResponseEntity<String>("Y", HttpStatus.OK);
 			}else {
 				//待更改(如果註冊失敗要導到哪)
-				return "/member/ErrorPage";
+				return new ResponseEntity<String>("N", HttpStatus.OK);
 			}
-        }else {
-        	//待更改(如果已有該帳號要導到哪)
-        	return "此帳號已被註冊";
         }
+//			else {
+//        	//待更改(如果已有該帳號要導到哪)
+//        	return "此帳號已被註冊";
+//        }
+		return null;
     }
 	
 	private String getSiteURL(HttpServletRequest request) {
@@ -235,11 +235,12 @@ public class UserMemberController {
 	//進入頁面
 	@GetMapping("/forgotpassword")
     public String showForgotPasswordForm() {
-		return "ui/member/forgotPassword";
+		return "/ui/member/forgotPassword";
     }
 	//接收mail,製造驗證碼並隨附在信件中,call方法sendResetPasswordEmail(email, resetPasswordLink)把信件寄出
     @PostMapping("/ui/member/forgotpassword.controller")
-    public String processForgotPassword(HttpServletRequest request, Model model) throws UnsupportedEncodingException, MessagingException {
+    @ResponseBody
+    public ResponseEntity<String> processForgotPassword(/*@RequestParam("email") String email,*/HttpServletRequest request, Model model) throws UnsupportedEncodingException, MessagingException {
     	//取得user輸入的email
     	String email = request.getParameter("email");
     	System.out.println(email);
@@ -261,7 +262,7 @@ public class UserMemberController {
 //            model.addAttribute("error", "Error while sending email");
 //        }
              
-            return "redirect:/";
+            return new ResponseEntity<String>("Y", HttpStatus.OK);
     }
     //信件在這裡寫
     public void sendResetPasswordEmail(String recipientEmail, String link) throws UnsupportedEncodingException, MessagingException{
@@ -271,15 +272,14 @@ public class UserMemberController {
     	    helper.setFrom("eeit139.grp4@gmail.com", "HouseShip");
     	    helper.setTo(recipientEmail);
     	     
-    	    String subject = "Here's the link to reset your password";
+    	    String subject = "重設密碼驗證流程";
     	     
-    	    String content = "<p>Hello,</p>"
-    	            + "<p>You have requested to reset your password.</p>"
-    	            + "<p>Click the link below to change your password:</p>"
-    	            + "<p><a href=\"" + link + "\">Change my password</a></p>"
+    	    String content = "<p>您好,</p>"
+    	            + "<p>系統已收到您重設密碼的請求</p>"
+    	            + "<p>點擊連結重設密碼:</p>"
+    	            + "<p><a href=\"" + link + "\">重設密碼</a></p>"
     	            + "<br>"
-    	            + "<p>Ignore this email if you do remember your password, "
-    	            + "or you have not made the request.</p>";
+    	            + "<p>若您已重設密碼或無此需求,請忽略這封信件</p>";
     	     
     	    helper.setSubject(subject);
     	     
@@ -307,7 +307,8 @@ public class UserMemberController {
     }
     //更新密碼
     @PostMapping("/ui/member/resetpassword.controller")
-    public String processResetPassword(HttpServletRequest request, Model model) {
+    @ResponseBody
+    public ResponseEntity<String> processResetPassword(HttpServletRequest request, Model model) {
     	 //透過token再次取得member物件
     	 String token = request.getParameter("token");
     	 Member member = memberService.getByResetPasswordToken(token);
@@ -322,16 +323,20 @@ public class UserMemberController {
 //    	        model.addAttribute("message", "Invalid Token");
 //    	        return "message";
     	        System.out.println("沒有成功透過token取得member物件");
+    	        return new ResponseEntity<String>("N", HttpStatus.OK);
     	 }else {           
     		 	member.setHashed_pwd(encodedPassword);
     		 	//完成驗證且更新密碼跑完整個流程後,就能把忘記密碼驗證碼了欄位值去掉
     	        member.setResetPasswordToken(null);
-    	        memberService.update(member);
+    	        boolean statu = memberService.update(member);
+    	        if(statu) {
+    	        	return new ResponseEntity<String>("Y", HttpStatus.OK);
+    	        }
     	         
     	       // model.addAttribute("message", "You have successfully changed your password.");
     	 }
     	     
-    	    return "redirect:/";
+    	 		return new ResponseEntity<String>("N", HttpStatus.OK);
     }
 
 }
