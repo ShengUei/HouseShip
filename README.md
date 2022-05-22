@@ -18,17 +18,18 @@
 
 ![image](https://github.com/ShengUei/HouseShip/blob/master/src/main/resources/static/images/demo/2.png)
 
+------
+
 - 查詢房屋畫面:
 
 ![image](https://github.com/ShengUei/HouseShip/blob/master/src/main/resources/static/images/demo/3.png)
 
 ![image](https://github.com/ShengUei/HouseShip/blob/master/src/main/resources/static/images/demo/4.png)
 
+------
 
 - 房屋詳情畫面:
 
 ![image](https://github.com/ShengUei/HouseShip/blob/master/src/main/resources/static/images/demo/5.png)
 
 ![image](https://github.com/ShengUei/HouseShip/blob/master/src/main/resources/static/images/demo/6.png)
-
-<img src="https://github.com/ShengUei/Qcat/blob/ReatJS_test/image/Qcat-Home-1.png" width="1200">
